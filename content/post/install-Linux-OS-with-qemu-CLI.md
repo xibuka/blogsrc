@@ -35,9 +35,19 @@ $ qemu-img create -f qcow2 disk.qcow2 10G
 Formatting 'disk.qcow2', fmt=qcow2 size=10737418240 cluster_size=65536 lazy_refcounts=off refcount_bits=16
 $ qemu-system-x86_64 -cdrom ubuntu-18.04.4-desktop-amd64.iso \
                      -hda disk.qcow2                         \
-                     -m 4096                                 \
+                     -m 4096
 ```
-Then we can have a GUI to install the OS.
+But only use QEMU to run a instance will be very slow. You need to add
+`-enable-kvm` option to let QEMU to run in KVM mode. To use this option you
+need to make sure KVM is supported by your processor and kernel.
+
+So, try below command and you can have a GUI to install the OS.
+```
+$ qemu-system-x86_64 -cdrom ubuntu-18.04.4-desktop-amd64.iso \
+                     -hda disk.qcow2                         \
+                     -m 4096                                 \
+                     -kvm-enable
+```
 
 ![install screen](/img/2020-04-15_13-57.png)
 
