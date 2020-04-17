@@ -140,34 +140,34 @@ Type "https://<OpenShift Hostname>:8443" to access the web control. Ignore the
 warning message of security and you will see the login page. Input username 
 and password by "dev" to login.
 
-![openshift login](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/login.png)
+![openshift login](/img/openshift-install/login.png)
 
 ## Create a new project
 
 Click "New Project"
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods1.png)
+![create pods](/img/openshift-install/createpods1.png)
 
 For the first test project, input the Name, Display Name and Description and click "Create".
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods2.png)
+![create pods](/img/openshift-install/createpods2.png)
 
 At the next screen, click "Deploy Image" and select "Image Name". Input the
 image name as "openshift/hello-openshift" and click the "find" icon at right to
 find images.
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods3.png)
+![create pods](/img/openshift-install/createpods3.png)
 
 After a while(depends on your network speed), the image will be downloaded,
 click "Create" at the end of the page to create a pod.
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods4.png)
+![create pods](/img/openshift-install/createpods4.png)
 
 OpenShift will start to deploy the pod, at first you will see a gray circle with a
 number "1" in it. When the deployment is done, the circle will turn to blue,
 it mean the pod is ready to use. 
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods5.png)
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods6.png)
+![create pods](/img/openshift-install/createpods5.png)
+![create pods](/img/openshift-install/createpods6.png)
 
 Click the circle to see the detail information of your pods. You can find an "IP"
 is attached to the pod. Following example shows the IP address of the pod is "172.17.0.3".
-![create pods](https://raw.githubusercontent.com/xibuka/git_pics/master/openshift-install/createpods7.png)
+![create pods](/img/openshift-install/createpods7.png)
 
 Back to the OpenShift server and run under command to check the hello-openshift container. 
 The hello-openshift service will return a string "Hello OpenShift!" to each

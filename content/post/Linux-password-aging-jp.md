@@ -6,7 +6,7 @@ tags:
 ---
 Linuxのユーザパスワードの有効期限(aging)の管理について説明する。
 
-![password aging](https://raw.githubusercontent.com/xibuka/git_pics/master/passaging.png)
+![password aging](/img/master/passaging.png)
 
 <!-- more -->
 

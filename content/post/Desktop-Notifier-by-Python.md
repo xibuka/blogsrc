@@ -6,7 +6,7 @@ tags:
 ---
 This article show how to send desktop notice using Python
 
-![simpleNotification](https://raw.githubusercontent.com/xibuka/git_pics/master/simpleNotification.png)
+![simpleNotification](/img/simpleNotification.png)
 
 # Install requirments
 

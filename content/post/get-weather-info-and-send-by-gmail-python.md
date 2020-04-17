@@ -20,7 +20,7 @@ tags:
 
 <!-- more -->
 
-![tenki web](https://raw.githubusercontent.com/xibuka/git_pics/master/weatherbeijing.png)
+![tenki web](/img/weatherbeijing.png)
 
 代码如下
 注：soup.find之后需要将内容转换为string格式，不然python2环境下无法发送邮件

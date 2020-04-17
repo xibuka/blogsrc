@@ -398,15 +398,15 @@ tasks:
 
 最初に実行する時に、TASKの状態がchangedになっている。
 
-![servers](https://raw.githubusercontent.com/xibuka/git_pics/master/ansible_3.png)
+![servers](/img/ansible/ansible_3.png)
 
 2回目実行すると、コピー元とコピー先のファイルが同じのめ、コピー作業が必要ないと判断し実行されていない。TASKの状態がOKになっている。
 
-![servers](https://raw.githubusercontent.com/xibuka/git_pics/master/ansible_4.png)
+![servers](/img/ansible/ansible_4.png)
 
 リモートノードvm-rhel7-1上の/etc/hostsファイルを変更した後、もう一度実行すると、vm-rhel7-1のみファイルがコピーされ、TASKの状態がchangedになる。
 
-![servers](https://raw.githubusercontent.com/xibuka/git_pics/master/ansible_5.png)
+![servers](/img/ansible/ansible_5.png)
 
 ### イベントハンドラ(handler)
 

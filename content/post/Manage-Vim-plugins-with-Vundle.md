@@ -113,6 +113,6 @@ Vimを起動し、`:PluginInstall`を実行
 これでプラグインのインストールが完了した。
 Vimを再起動して、`:NERDTreeToggle`を実行してプラグインの確認をしましょう
 
-![vim with NERDTree](https://raw.githubusercontent.com/xibuka/git_pics/master/vim_NERDTree.png)
+![vim with NERDTree](/img/vim_NERDTree.png)
 
 これで確認が完成！

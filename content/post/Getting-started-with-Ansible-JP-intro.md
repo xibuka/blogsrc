@@ -46,12 +46,12 @@ Ansibleでは、SSHなどを利用し管理ノードからリモートノード�
 ## SSH接続
 
 管理者ノードでAnsibleをインストールし、スクリプトの編集を行う。管理者ノードでAnsibleのコマンドやスクリプトを実行する時に、管理対象のサーバにSSHで接続する。管理対象のサーバの上にパッケージをインストールする必要がない。
-![ansible ssh connection](https://raw.githubusercontent.com/xibuka/git_pics/master/ansible_0.png)
+![ansible ssh connection](/img/ansible/ansible_0.png)
 
 ## 多種類のサーバに対応
 
 AnsibleはRedHat系、Debian系のLinuxと、Windows系のサーバを同時に管理することができる。管理者ノードはスクリプトを実行する時のみリモートサーバに接続するため、他の同期処理がない。そのため、通常の状態では、停電などの異常状態はAnsibleを影響しない。
-![servers](https://raw.githubusercontent.com/xibuka/git_pics/master/ansible_1.png)
+![servers](/img/ansible/ansible_1.png)
 
 ## Ansible Towerのアーキテクチャ
 
@@ -73,4 +73,4 @@ Ansible Towerは企業ユーザ向けに開発されている、集中管理や�
 
 下記の図でAnsible Towerのアーキテクチャを示している。
 
-![Ansible Tower](https://raw.githubusercontent.com/xibuka/git_pics/master/ansible_2.png)
+![Ansible Tower](/img/ansible/ansible_2.png)
