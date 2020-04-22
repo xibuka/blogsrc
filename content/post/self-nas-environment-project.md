@@ -1,19 +1,27 @@
 ---
 title: "Self Nas Environment Project"
 date: 2020-04-05T15:22:58+09:00
-draft: true
+draft: false
 ---
+This artcle is a note for myself to build a private NAS station using Ubuntu
+20.04. The main usage of my NAS is to store photoes.
+For other services, run webmin to control machine via WebUI, and run Emby/
+Jellyfin for multi media. Above 2 will run in docker so I also run portainer 
+to manage them.
 
-# Samba
+# Overview
+Use Samba to share storage, and use `PhotoSync` to upload photoes from iPhone
+to NAS. Use smartctl to check the disk condition, if anything need attention
+send a mail to me. 
 
-Install Samba by following command
 
+# File share (Samba)
+Install Samba by the following:
 ```
 sudo apt-get install samba smbfs
 ```
 
-Configure samba settings by opening `/etc/samba/smb.conf`
-
+Configure samba settings by opening `/etc/samba/smb.conf`,
 If needed, change your workgroup
 
 ```
@@ -21,7 +29,7 @@ If needed, change your workgroup
    workgroup = WORKGROUP
 ```
 
-Next is to set your share folders, input something like this at the end of the
+Next is to set your share folder, input something like this at the end of the
 file.
 
 ```
@@ -70,8 +78,203 @@ $ sudo mkdir /share
 $ sudo chmod 0777 /share
 ```
 
-# Mail
-## sendEmail(CLI)
+# Disk Check - SMART
+The NAS system will be 24x7 running so we need some script to monitor its
+health. SMART is a good tool for monitoring HDD,SSD and eMMC drives.
+
+## Installation
+```
+$ sudo apt-get install smartmontools
+```
+
+## Confirm SMART status
+
+Scan hard disk,
+
+```
+$ sudo smartctl --scan     
+/dev/sda -d scsi # /dev/sda, SCSI device
+/dev/sdb -d sat # /dev/sdb [SAT], ATA device
+/dev/nvme0 -d nvme # /dev/nvme0, NVMe device
+```
+
+Ensure the hard disk support SMART and is enable
+```
+$ sudo smartctl -i /dev/sda  
+smartctl 7.1 2019-12-30 r5022 [x86_64-linux-5.4.0-25-generic] (local build)
+Copyright (C) 2002-19, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF INFORMATION SECTION ===
+Model Family:     Western Digital Green
+Device Model:     WDC WD20EARX-00PASB0
+Serial Number:    WD-WCAZAE607205
+LU WWN Device Id: 5 0014ee 20713dc7e
+Firmware Version: 51.0AB51
+User Capacity:    2,000,398,934,016 bytes [2.00 TB]
+Sector Sizes:     512 bytes logical, 4096 bytes physical
+Device is:        In smartctl database [for details use: -P show]
+ATA Version is:   ATA8-ACS (minor revision not indicated)
+SATA Version is:  SATA 3.0, 6.0 Gb/s (current: 6.0 Gb/s)
+Local Time is:    Tue Apr 21 10:58:05 2020 JST
+SMART support is: Available - device has SMART capability.
+SMART support is: Enabled
+```
+
+The last 2 lines show whether SMART support is available and enabled.
+
+## Show SMART infomation
+
+```
+$ sudo smartctl -A /dev/sda
+smartctl 7.1 2019-12-30 r5022 [x86_64-linux-5.4.0-25-generic] (local build)
+Copyright (C) 2002-19, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART Attributes Data Structure revision number: 16
+Vendor Specific SMART Attributes with Thresholds:
+ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE
+  1 Raw_Read_Error_Rate     0x002f   200   200   051    Pre-fail  Always       -       1
+  3 Spin_Up_Time            0x0027   165   157   021    Pre-fail  Always       -       6716
+  4 Start_Stop_Count        0x0032   100   100   000    Old_age   Always       -       665
+  5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       0
+  7 Seek_Error_Rate         0x002e   200   200   000    Old_age   Always       -       0
+  9 Power_On_Hours          0x0032   098   098   000    Old_age   Always       -       1946
+ 10 Spin_Retry_Count        0x0032   100   100   000    Old_age   Always       -       0
+ 11 Calibration_Retry_Count 0x0032   100   100   000    Old_age   Always       -       0
+ 12 Power_Cycle_Count       0x0032   100   100   000    Old_age   Always       -       616
+192 Power-Off_Retract_Count 0x0032   200   200   000    Old_age   Always       -       39
+193 Load_Cycle_Count        0x0032   196   196   000    Old_age   Always       -       13842
+194 Temperature_Celsius     0x0022   127   099   000    Old_age   Always       -       23
+196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       0
+197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
+198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       0
+199 UDMA_CRC_Error_Count    0x0032   200   200   000    Old_age   Always       -       0
+200 Multi_Zone_Error_Rate   0x0008   200   200   000    Old_age   Offline      -       0
+```
+
+## Available Tests for the disk(SCSI)
+There are 2 types of tests:
+
+### Short Test
+This test is the rapid identification of a defective hard drive.
+There fore, a maximum run time is 2 min. This test checks the disk by
+dividing it into 3 different segments. The following areas are tested.
+ - Electrical Properties: The controller tests its own electronics, and since this is specific to each manufacturer, it cannot be explained exactly what is being tested. It is conceivable, for example, to test the internal RAM, the read/write circuits or the head electronics.
+ - Mechanical Properties: The exact sequence of the servos and the positioning mechanism to be tested is also specific to each manufacturer.
+ - Read/Verify: It will read a certain area of the disk and verify certain data, the size and position of the region that is read is also specific to each manufacturer.
+
+### Long Test
+This test is designed as the final test in production. There is no time restriction and the entire disk is checked and not just a section.
+
+There are also other test which only available for ATA hard drive.
+Conveyance Test and Select Test.
+
+## Perform a test
+Before performing a test, you can use following command to show the time 
+duration of the various tests
+
+```
+$ sudo smartctl -c /dev/sdc
+```
+
+Example output
+```
+...
+Short self-test routine 
+recommended polling time:        (   2) minutes.
+Extended self-test routine
+recommended polling time:        ( 353) minutes.
+Conveyance self-test routine
+recommended polling time:        (   5) minutes.
+...
+```
+
+The following command starts the desired test (in Background Mode)
+```
+$ sudo smartctl -t <short|long|conveyance|select> /dev/sda
+```
+
+For example,
+
+```
+$ sudo smartctl -t short /dev/sda
+smartctl 7.1 2019-12-30 r5022 [x86_64-linux-5.4.0-25-generic] (local build)
+Copyright (C) 2002-19, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF OFFLINE IMMEDIATE AND SELF-TEST SECTION ===
+Sending command: "Execute SMART Short self-test routine immediately in off-line mode".
+Drive command "Execute SMART Short self-test routine immediately in off-line mode" successful.
+Testing has begun.
+Please wait 2 minutes for test to complete.
+Test will complete after Tue Apr 21 11:25:01 2020 JST
+Use smartctl -X to abort test.
+```
+
+The test will run in background and the priority of the test is low, which means
+the normal instructions continue to be processed by the hard disk. If the hard 
+drive is busy, the test is paused and then continues at a lower load speed, so 
+there is no interruption of the operation.
+
+There is another `Foreground` mode which all commands will be answered during 
+the test with a "CHECK CONDITION" status. Therefore, this mode is only 
+recommended when the hard disk is not used. In principle, the background mode 
+is the preferred mode.
+
+To perform the tests in Foreground Mode a `-C` must be added to the command. 
+
+```
+$ sudo smartctl -t short -C /dev/sda
+```
+
+## Verify the test result
+The test results are included in the output of the following:
+
+```
+$ sudo smartctl -a /dev/sda
+```
+Example output
+```
+...
+SMART Self-test log structure revision number 1
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Short offline       Completed without error       00%      1946         -
+...
+```
+
+Or use the following, if only the test results should are displayed:  
+```
+$ sudo smartctl -l selftest /dev/sda
+smartctl 7.1 2019-12-30 r5022 [x86_64-linux-5.4.0-25-generic] (local build)
+Copyright (C) 2002-19, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART Self-test log structure revision number 1
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Short offline       Completed without error       00%      1946         -
+```
+
+## Force stop the test
+Use `-X` if you want to stop the test when performing.
+```
+$ sudo smartctl -X /dev/sda
+smartctl 7.1 2019-12-30 r5022 [x86_64-linux-5.4.0-25-generic] (local build)
+Copyright (C) 2002-19, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF OFFLINE IMMEDIATE AND SELF-TEST SECTION ===
+Sending command: "Abort SMART off-line mode self-test routine".
+Self-testing aborted!
+```
+
+We can use this tool to check the disk status and send us email if anything 
+need our attention.
+
+## refer
+
+[https://mekou.com/linux-magazine/smartctl-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%A7%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E6%B4%BB%E5%8B%95%E3%81%AE%E8%A9%B3%E7%B4%B0%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%8E%E9%9B%86/](smartctl コマンドでディスク活動の詳細情報を収集)
+
+[https://www.thomas-krenn.com/en/wiki/SMART_tests_with_smartctl#ATA.2FSCSI_Tests](SMART tests with smartctl)
+
+# Mail - sendEmail(CLI)
 The NAS system will be 24x7 running so we need some script to monitor its
 health. If anything is not good it's necessary to inform me by sending a mail.
 SendEmail is a lightweight, completely command line-based SMTP email delivery 
@@ -126,11 +329,7 @@ Re-run the command and we can send email from CLI. :-)
 Apr 06 15:17:28 nuc sendEmail[25507]: Email was sent successfully!
 ```
 
-# health check
-## smartctl
-
-# docker management
-## portainer
+# docker management - portainer
 There are a lot of docker image for a better NAS life, so let's install and
 setup Portainer first.
 Portainer gives you a detailed overview of your Docker environments and allows 
@@ -153,8 +352,7 @@ can see something as follows.
 
 ![protainer_dashboard](/img/2020-04-06_11-38.png)
 
-# multi-media
-## Emby server
+# multi-media -  Emby server
 
 Emby is a media server designed to organize, play, and stream audio and video 
 to a variety of devices.
@@ -205,8 +403,7 @@ There is one important setting about the subtitles, you need to create a new
 account at https://www.opensubtitles.org/, and set your username/password in
 Emby. Then you should download subtitle in Emby, this is super helpful.
 
-# Web control pannel
-## webmin
+# Web control pannel - webmin
 
 Webmin is a web-based interface for system administration for Unix. Using any
 modern web browser, you can setup user accounts, Apache, DNS, file sharing and
