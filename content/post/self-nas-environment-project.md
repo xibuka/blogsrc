@@ -14,7 +14,6 @@ Use Samba to share storage, and use `PhotoSync` to upload photoes from iPhone
 to NAS. Use smartctl to check the disk condition, if anything need attention
 send a mail to me. 
 
-
 # File share (Samba)
 Install Samba by the following:
 ```
