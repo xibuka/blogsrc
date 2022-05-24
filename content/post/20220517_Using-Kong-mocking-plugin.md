@@ -2,7 +2,11 @@
 title: "Kongの Mocking Plugingを使ってみる"
 date: 2022-05-17T13:58:39+09:00
 draft: false
-tag: Kong, Kong Gateway, Mocking, Api Gateway
+tags: 
+- Kong
+- Kong Gateway
+- Mocking
+- Api Gateway
 ---
 ## 紹介
 
