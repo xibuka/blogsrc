@@ -1,10 +1,10 @@
 ---
-title: "20220906_GettingKongManagerToWork"
+title: "Kong Managerをホストネームでデプロイための設定"
 date: 2022-09-07T00:40:42+09:00
 draft: false
 ---
 
-https://svenwal.de/blog/20210316_kong_manager_install/ より翻訳
+> **_NOTE:_** https://svenwal.de/blog/20210316_kong_manager_install/ より翻訳
 
 TL;DR: Kong Managerが動作しない場合は、`KONG_ADMIN_API_URI`と`KONG_ADMIN_GUI_URL`の設定を確認してください。
 
