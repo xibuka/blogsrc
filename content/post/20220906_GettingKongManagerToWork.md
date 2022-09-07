@@ -8,13 +8,13 @@ draft: false
 
 TL;DR: Kong Managerが動作しない場合は、`KONG_ADMIN_API_URI`と`KONG_ADMIN_GUI_URL`の設定を確認してください。
 
-## The Kong Manager
+## Kong Managerの紹介
 
 2021年2月より、Kong Manager（長年Kong Enterpriseの機能でした）はKongの無料版の一部となりました。
 
 私は長い間Kong Managerを使用しており、多くのユーザーが正しくセットアップするのを助けてきましたので、幾つの典型的な設定の問題を共有したいと思います。
 
-## Works out of the box
+## Kong Managerは利用しやすい
 
 Kong Managerはout of the boxでありすぐに使えます。ローカル マシンに Kong (Free または Enterprise) をインストールし、有効にすると、 <http://localhost:8002>でKong Managerをすぐアクセスできます。
 
@@ -65,7 +65,7 @@ KONG_ADMIN_GUI_URL = https://kong-manager.my-company.example.com
 
 ![image](https://svenwal.de/img/Kong_Manager_working.jpeg)
 
-## Enabling RBAC and logging in not possible
+##  RBACとロギングを有効に
 
 Kong Enterpriseを使用する場合、通常、RBACを使用してAdmin-APIとKong Managerを保護する必要があります。Basic-authに対しすべてをセットアップし、`Kong-Admin-Token` headerがadmin APIでうまく機能すると仮定してみましょう。しかし、ブラウザを開いてログインすると（ヒント：起動時にパスワードを設定した場合、標準のユーザ名はkong_adminです）、うまくいきません。
 
@@ -89,7 +89,7 @@ KONG_ADMIN_GUI_SESSION_CONF = {"cookie_domain": "my-company.example.com", "secre
 
 > **_NOTE:_** 特定のドメイン、特にクラウドプロバイダーからのドメイン（例えば`.amazonaws.com`）は、ブラウザ内でcookieがブロックされています。cookieに問題がある場合は、[StackOverflow](https://stackoverflow.com/questions/43520667/cookies-are-not-being-set-for-amazonaws-com-in-chrome-57-and-58-browsers)のこの投稿を参照してください。
 
-## Developer Portal
+## Developer Portalも
 
 API ベースのユーザーインターフェースの主要な原則について多くを学んだので、Developer Portal(開発者ポータル)についても同じ原則（ウェブベースのユーザーインターフェースと API）を共有しています。そのため、これを動作させるために同様のことをしなければならないです。
 
