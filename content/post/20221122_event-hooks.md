@@ -52,7 +52,7 @@ curl -k -X POST 'http://localhost:31001/event-hooks' \
     --data "config.method=POST" \
     --data "config.headers.content-type=application/json" \
     --data "config.payload.text=Rate limit exceeded by username '{{ consumer.username }}' on service ' {{ service.name }}' (on server owned by $USER) " \
-    --data "config.url=https://hooks.slack.com/services/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"
+    --data "config.url=https://hooks.slack.com/services/TTTTTTTTT/YYYYYYYYYYY/xxxxxxxxxxxxxxxxxx"
 ```
 
 これでRate LimitのEventが発生するときに、以下のようなメッセージがSlackチャンネルに送信されます。
