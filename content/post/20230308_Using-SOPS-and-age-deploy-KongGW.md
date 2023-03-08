@@ -1,6 +1,7 @@
 ---
+title: "20230308_Using SOPS and Age Deploy KongGW"
 title: "Mozila SOPS+ageで実現するKong Gatewayセキュアデプロイメント"
-date: 2023-03-08T16:56:34+09:00
+date: 2023-03-08T16:41:18+09:00
 draft: false
 tags:
 - Kong
