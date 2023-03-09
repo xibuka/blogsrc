@@ -102,7 +102,7 @@ After decrypt the config file, we can use is via helm to install to a Kubernetes
 Next, let's combian above steps and setup it up into the CI/CD workflow. The configuration file can be deployed without disclosing the plain text configuration file to the user. The decrypted configuration file also exists only in the CI/CD workflow and will be deleted when the CI/CD is finished.
 
 The workflow is as follows.
-! [workflow](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/assets/workflow.png)
+![workflow](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/assets/workflow.png)
 
 1. creation of Public/Private
 1. encrypt the configuration file
