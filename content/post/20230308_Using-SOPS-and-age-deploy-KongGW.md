@@ -1,5 +1,4 @@
 ---
-title: "20230308_Using SOPS and Age Deploy KongGW"
 title: "Mozila SOPS+ageで実現するKong Gatewayセキュアデプロイメント"
 date: 2023-03-08T16:41:18+09:00
 draft: false
@@ -117,4 +116,8 @@ env:
 
 1から3は全てローカル環境で実施できます。気をつけたいのは、4-2 Private Key取得のところです。Github ActionのSecrets機能でPrivate Keyを事前に登録したら、CI/CD workflowで直接参照できますので、平文で表示される心配もなくなります。また、利用するPublic/Privateはペアじゃなかったら復号する時にエラーになりますのでご注意ください。
 
-書いていたCI/CD workflowは、[main.yml](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/.github/workflows/main.yaml) から参照できます。暗号化した設定ファイルをコミットしたら、無事にKong Gatewayのインストールができますのでぜひみなさん試してみてください。
+書いていたCI/CD workflowは、[main.yml](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/.github/workflows/main.yaml) から参照できます。暗号化した設定ファイルをコミットしたら、無事にKong Gatewayのインストールができました。
+
+## まとめ
+
+CI/CDを使えば、Kong Gatewayをデプロイした後、serviceやRouteを作成したり、バックアップしたに設定をリストアしたり、可能性はまだたくさんあります。同じくもし設定の中に伏せたい機密情報があったら、上記と同じ手法で暗号化にすることができます。ぜひみなさん試してみてください。
