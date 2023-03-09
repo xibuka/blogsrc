@@ -43,6 +43,7 @@ params:
   hideSummary: true
   showtoc: true
   tocopen: true
+  disqusShortname: xibuka
 
   assets:
     # disableHLJS: true # to disable highlight.js
@@ -70,6 +71,8 @@ params:
     buttons:
       - name: Posts
         url: post
+      - name: Archives
+        url: "/archives"
       - name: Tags
         url: tags
 
@@ -117,21 +120,22 @@ params:
     distance: 1000
     threshold: 0.4
     minMatchCharLength: 0
-    keys: ["title", "permalink", "summary", "content"]
+    #keys: ["title", "permalink", "summary", "content"]
+    keys: ["title", "summary", "content"]
 menu:
   main:
-#    - identifier: categories
-#      name: categories
-#      url: /categories/
-#      weight: 10
+    - identifier: archives
+      name: Archives
+      url: /archives/
+      weight: 10
     - identifier: tags
-      name: tags
+      name: Tags
       url: /tags/
       weight: 20
-#    - identifier: example
-#      name: example.org
-#      url: https://example.org
-#      weight: 30
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
@@ -147,3 +151,9 @@ sitemap:
   changefreq: monthly
   filename: sitemap.xml
   priority: 0.5
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON # is necessary
