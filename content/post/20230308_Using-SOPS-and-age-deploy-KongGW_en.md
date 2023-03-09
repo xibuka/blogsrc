@@ -105,14 +105,14 @@ The workflow is as follows.
 ![workflow](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/assets/workflow.png)
 
 1. creation of Public/Private
-1. encrypt the configuration file
-1. Commit configuration file
-1. GitHub Action
-    4-1. install tools
-    4-2. Getting Private key
-    4-3. Decrypt the Configuration File
-    4-4. Deploy Kong Gateway with helm using the configuration file.
-    4-5. (Optional) Deploy the license key via Kong Admin API
+2. encrypt the configuration file
+3. Commit configuration file
+4. GitHub Action
+    1. install tools
+    2. Getting Private key
+    3. Decrypt the Configuration File
+    4. Deploy Kong Gateway with helm using the configuration file.
+    5. (Optional) Deploy the license key via Kong Admin API
 
 All steps 1-3 can be done in the local environment. The point is 4-2, Private Key acquisition. If you register the Private Key in advance using the Secrets function of Github Action, you can refer to it directly in the CI/CD workflow. That means you do not have to worry about it being displayed in plain text. Also, please remember that if the Public/Private you use is not a pair, you will get an error when decrypting.
 
