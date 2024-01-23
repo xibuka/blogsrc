@@ -14,14 +14,11 @@ KongのOIDCプラグインはとてもパワフルで複雑なので（200近く
 
 なお、私はKong Gateway (Enterprise)の最新バージョン2.4.1.1を使用しています。
 
-:::note
-前提条件
+> 前提条件  
+> - Kong Gateway (Enterprise)  
+> - OIDCサーバーが稼動していること。(私の例ではKeycloak) もしKeycloakの使い方がわからない場合は、以前の投稿をご覧ください。  
 
-- Kong Gateway (Enterprise)
-- OIDCサーバーが稼動していること。(私の例ではKeycloak) もしKeycloakの使い方がわからない場合は、以前の投稿をご覧ください。
-:::
-
-### IDPトークンからデータを抽出しヘッダへの追加
+## IDPトークンからデータを抽出しヘッダへの追加
 
 IDPトークンからアップストリームヘッダーに値をマッピングしたい場合は、`config.upstream_headers_names`と`config.upstream_headers_claims`を使用できます。
 
@@ -98,7 +95,7 @@ curl --request POST \
 ]
 ```
 
-### トークンを受け取る確認
+## トークンを受け取る確認
 
 時々、OIDCプラグインのセットアップに問題があるかもしれませんが、ログから必要な情報を見ることはできません。例えば、ログに kong failed to find the consumer for consumer mapping とありますが、token にはこの情報があるはずです。(これはリクエストにスコープを入れ忘れたときにclaimが追加されないために起こる可能性があります)。
 
@@ -122,7 +119,7 @@ curl --request POST \
 1. ブラウザを使って `https://<kong_proxy>/<oidc_protected_route>` にアクセスする。
 1. ログインすると、IDPからのトークンが表示されます。
 
-### 必要なClaimsが複数
+## 必要なClaimsが複数
 
 アプリケーションが、IDPから送信されたJWTトークンに特定の値を持つ特定のclaimを要求する場合、以下の4つのペアを使用してJWTトークンを検証できます。
 
@@ -152,7 +149,7 @@ curl --request POST \
 }
 ```
 
-#### claim配列全確認
+### claim配列全確認
 好きな飲み物がコーヒーの従業員だけにアクセス権を与えたい場合、以下のようにOIDCプラグインを有効にすることができる。
 
 ```
@@ -172,7 +169,7 @@ curl --request POST \
 
 ご覧のように、`"scopes_claim":["employee", "favorites", "beverage"]`を配列として設定し、`config.scopes_required=coffee`としている。KongはJWT claimを全部確認し、`beverage`が`coffee`と等しいかどうかを検証します。返されたJWTが`beverage=coffee`でない場合、ユーザーは`HTTP/1.1 403 Forbidden`を受け取ります。
 
-#### 特定のclaimについて複数の値を検証
+### 特定のclaimについて複数の値を検証
 
 - AND
 `default`と`it`グループの両方に属しているユーザーにアクセス権を与えたい場合は、以下のようにOIDCプラグインを有効にします。
