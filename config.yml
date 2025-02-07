@@ -68,7 +68,7 @@ params:
     imageTitle: wenhan
     buttons:
       - name: Posts
-        url: post
+        url: posts
       - name: Archives
         url: "/archives"
       - name: Tags
