@@ -1,9 +1,9 @@
 baseURL: "https://wenhan.blog/"
 languageCode: en-us
 title: Wenhan blog
-
+ignoreLogs: ['warning-goldmark-raw-html']
 theme: "PaperMod"
-paginate: 10
+pagination.pagerSize: 10
 
 enableRobotsTXT: true
 buildDrafts: false
@@ -17,6 +17,7 @@ minify:
   minifyOutput: true
 
 params:
+  social: true
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Wenhan blog
   description: "尘归尘，土归土"
@@ -81,6 +82,8 @@ params:
     Title: "Hi there \U0001F44B"
     Content: Welcome to the dack side
 
+  Social: 
+    twitter: "shi_wenhan"    # Add your Twitter handle without @
   socialIcons:
     - name: email
       url: "mailto:shibunkan@gmail.com"
@@ -156,3 +159,42 @@ outputs:
         - HTML
         - RSS
         - JSON # is necessary
+
+defaultContentLanguage: ja
+defaultContentLanguageInSubdir: true
+
+languages:
+  en:
+    contentDir: content/post/en
+    disabled: false
+    languageCode: en-US
+    languageDirection: ltr
+    languageName: English
+    params:
+      subtitle: Hi there \U0001F44B, Welcome to the dack side
+    title: Wenhan Blog
+    weight: 2
+
+  ja:
+    contentDir: content/post/ja
+    disabled: false
+    languageCode: ja-JP
+    languageDirection: ltr
+    languageName: 日本語
+    params:
+      subtitle: Hi there \U0001F44B, Welcome to the dack side
+    title: Wenhan Blog
+    weight: 1
+
+  zh:
+    contentDir: content/post/zh
+    disabled: false
+    languageCode: zh-CN
+    languageDirection: ltr
+    languageName: 中文
+    params:
+      subtitle: \U0001F44B, 今天你学废了吗？
+    title: Wenhan Blog
+    weight: 3
+
+renderer.unsafe: true
