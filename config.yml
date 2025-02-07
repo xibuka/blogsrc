@@ -3,7 +3,7 @@ baseURL: "https://wenhan.blog/"
 languageCode: en-us
 title: Wenhan blog
 
-theme: "hugo-book"
+theme: "PaperMod"
 
 enableRobotsTXT: true
 buildDrafts: false
