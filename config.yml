@@ -1,15 +1,14 @@
+googleAnalytics: UA-87273435-2
 baseURL: "https://wenhan.blog/"
 languageCode: en-us
 title: Wenhan blog
 
-theme: "PaperMod"
+theme: "hugo-book"
 
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-
-googleAnalytics: UA-87273435-2
 
 minify:
   disableXML: true
