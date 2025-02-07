@@ -1,9 +1,8 @@
 baseURL: "https://wenhan.blog/"
 languageCode: en-us
 title: Wenhan blog
-ignoreLogs: ['warning-goldmark-raw-html']
+
 theme: "PaperMod"
-pagination.pagerSize: 10
 
 enableRobotsTXT: true
 buildDrafts: false
@@ -17,48 +16,47 @@ minify:
   minifyOutput: true
 
 params:
-  social: true
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Wenhan blog
-  description: "尘归尘，土归土"
-  keywords: [Blog, Portfolio, PaperMod]
-  author: Me
+  #description: "尘归尘，土归土"
+  #keywords: [Blog, Portfolio, PaperMod]
+  #author: Me
   # author: ["Me", "You"] # multiple authors
-  images: ["<link or path of image for opengraph, twitter-cards>"]
+  #images: ["<link or path of image for opengraph, twitter-cards>"]
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
 
-  ShowReadingTime: true
+  #ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
-  ShowWordCount: true
+  #ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
   comments: true
-  hidemeta: false
+  hidemeta: true
   hideSummary: true
   showtoc: true
   tocopen: true
   disqusShortname: xibuka
 
-  assets:
+  # assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "https://media.licdn.com/dms/image/C4D03AQHsFHxbDCgPsA/profile-displayphoto-shrink_400_400/0/1517015003915?e=1683763200&v=beta&t=PR0k2MbOHcJjtozRAQipgSz2CGprYxywDGgXInkOXmo"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
-    apple_touch_icon: "<link / abs url>"
-    safari_pinned_tab: "<link / abs url>"
+    # favicon: "https://github.com/xibuka/blogsrc/blob/master/static/img/me.jpg"
+    # favicon16x16: "<link / abs url>"
+    # favicon32x32: "<link / abs url>"
+    # apple_touch_icon: "<link / abs url>"
+    # safari_pinned_tab: "<link / abs url>"
 
-  label:
-    text: "Home"
-    icon: /apple-touch-icon.png
-    iconHeight: 35
+  # label:
+  #   text: "Home"
+  #   icon: /apple-touch-icon.png
+  #   iconHeight: 35
 
   # profile-mode
   profileMode:
@@ -82,8 +80,6 @@ params:
     Title: "Hi there \U0001F44B"
     Content: Welcome to the dack side
 
-  Social: 
-    twitter: "shi_wenhan"    # Add your Twitter handle without @
   socialIcons:
     - name: email
       url: "mailto:shibunkan@gmail.com"
@@ -96,23 +92,23 @@ params:
     - name: zhihu
       url: "https://www.zhihu.com/people/xibuka"
 
-  analytics:
-    google:
-      SiteVerificationTag: "XYZabc"
-    bing:
-      SiteVerificationTag: "XYZabc"
-    yandex:
-      SiteVerificationTag: "XYZabc"
+  #analytics:
+  #  google:
+  #    SiteVerificationTag: "XYZabc"
+  #  bing:
+  #    SiteVerificationTag: "XYZabc"
+  #  yandex:
+  #    SiteVerificationTag: "XYZabc"
 
   cover:
     hidden: true # hide everywhere but not in structured data
     hiddenInList: true # hide on list pages and home
     hiddenInSingle: true # hide on single page
 
-  editPost:
-    URL: "https://github.com/<path_to_repo>/content"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
+  #editPost:
+  #  URL: "https://github.com/<path_to_repo>/content"
+  #  Text: "Suggest Changes" # edit text
+  #  appendFilePath: true # to append file path to Edit link
 
   # for search
   # https://fusejs.io/api/options.html
@@ -161,40 +157,26 @@ outputs:
         - JSON # is necessary
 
 defaultContentLanguage: ja
-defaultContentLanguageInSubdir: true
+defaultContentLanguageInSubdir: false
 
 languages:
   en:
-    contentDir: content/post/en
     disabled: false
     languageCode: en-US
     languageDirection: ltr
     languageName: English
-    params:
-      subtitle: Hi there \U0001F44B, Welcome to the dack side
-    title: Wenhan Blog
     weight: 2
 
   ja:
-    contentDir: content/post/ja
     disabled: false
     languageCode: ja-JP
     languageDirection: ltr
     languageName: 日本語
-    params:
-      subtitle: Hi there \U0001F44B, Welcome to the dack side
-    title: Wenhan Blog
     weight: 1
 
   zh:
-    contentDir: content/post/zh
     disabled: false
     languageCode: zh-CN
     languageDirection: ltr
     languageName: 中文
-    params:
-      subtitle: \U0001F44B, 今天你学废了吗？
-    title: Wenhan Blog
     weight: 3
-
-renderer.unsafe: true
