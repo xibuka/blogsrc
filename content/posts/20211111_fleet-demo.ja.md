@@ -23,8 +23,6 @@ Rancher serverが1分程度で立ち上がりますので、rancherノードのI
 
 初回アクセスの時パスワードの初期設定が必要です。画面のガイドに従って設定してください。
 
-
-
 ## Step 2: Deploy k3s Kubernetes Cluster
 
 次はk3sクラスタをデプロイします。手順はとても簡単で、以下のコマンドをk3s-1とk3s-2ノードで実行するだけです。
@@ -45,13 +43,11 @@ sudo curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.19.15+k3s2 sh -
 
 デプロイが完了したら、以下のコマンドでクラスタを確認してください。
 
-```
+```bash
 sudo kubectl get node
 ```
 
 Note: K3sは`root`ユーザの操作を想定しているので`sudo` 権限が必要です。
-
-
 
 ## Step 3: Add k3s cluster to Rancher
 
@@ -147,11 +143,9 @@ spec:
 
 修正内容が反映されました。
 
-![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lqvplo3j31s20i0dj4.jpg) 
+![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lqvplo3j31s20i0dj4.jpg)
 
-
-
-## Step 6: Deploy Application 
+## Step 6: Deploy Application
 
 このステップでは、Git Repoの登録からRancherのアップリケーションをデプロイします。
 
@@ -162,11 +156,9 @@ spec:
 
 `Create`をクリックしたら定義したアップリケーションがデプロイされます。
 
-![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lsbl6bnj31sc0nkaem.jpg) ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lsl6bt5j31si0gaq4v.jpg) 
+![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lsbl6bnj31sc0nkaem.jpg) ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lsl6bt5j31si0gaq4v.jpg)
 
-
-
-## Step 7: Upgrade 
+## Step 7: Upgrade
 
 このステップでは、Git Repoの登録から二つのk3sクラスタをアップグレードします。アップグレードを実現するために、以下のAutomated Upgrades機能を利用します。
 
@@ -188,4 +180,3 @@ Git ReposにあるPlanのファイルを変更し、versionを`1.22.2+k3s1`に�
 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0luf74qvj31sk0qqtdd.jpg) ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lugbm2yj31ry0i4q5w.jpg)
 
 FleetのDemoはここまでですが、まだまだ使える機能はたくさんありますので探してみてください。
-
