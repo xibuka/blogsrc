@@ -8,7 +8,7 @@ tags:
 Linux will detects SSD automatically.
 Since kernel version 2.6.29, you can check `/dev/sda` with following command
 
-```
+```bash
 # cat /sys/block/sda/queue/rotational
 ```
 
@@ -17,7 +17,7 @@ Note that this command may not work when your disk is created by hardware RAID.
 
 Another way is to use `lsblk` command, a part of the util-linux package.
 
-```
+```bash
 # lsblk -d -o name,rota
 NAME ROTA
 sda     0
@@ -28,5 +28,3 @@ sdb     1
 This command report the same information as in `/sys/block/.../queue/rotational`
 
 Ref : [How to know if a disk is an SSD or an HDD](https://unix.stackexchange.com/questions/65595/how-to-know-if-a-disk-is-an-ssd-or-an-hdd)
-
-

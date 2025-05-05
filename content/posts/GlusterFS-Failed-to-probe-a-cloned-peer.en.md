@@ -8,10 +8,11 @@ If you want to save some time for setup each gluster system, you can just setup 
 But you may in trouble for probe a peer from another node.
 When you try to run the command, you could get the following error messages:
 
-```
+```bash
 [root@node1 ~]# gluster peer probe node2
 peer probe: failed: Peer uuid (host node2) is same as local uuid
 ```
+
 this is because when glusterfs-server package is first installed, a node UUID
 file will be created at /var/lib/glusterd/glusterd.info. So after you cloned
 the vm that has installed glusterfs, the glusterd.info with same UUID will be

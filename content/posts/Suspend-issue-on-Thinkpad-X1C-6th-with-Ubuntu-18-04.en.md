@@ -6,7 +6,8 @@ tags:
 - ThinkPad
 ---
 
-# S3 Suspend not supported by default
+## S3 Suspend not supported by default
+
 There is an issue about suspend on Thinkpad X1 Carbon when using Ubuntu 18.04.
 When you close the lid suspend does not works well. It will continue cose some
 power and get you laptop hot.
@@ -14,20 +15,21 @@ power and get you laptop hot.
 The root cause is the 6th gen X1 Carbon supports S0i3(Which is also known as
 Windows Modern Standby) but does not support the S3 sleep state.
 
-# S0i3 sleep support
+## S0i3 sleep support
 
 After some researching, the workaround can be this:
 
 1. add below kernel parameter to enable s0i3 sleep support
-   This disables wakeup/resume via lid open
-```
-acpi.ec_no_wakeup=1
-```
+  This disables wakeup/resume via lid open
 
-2. enable Thunderbolt BIOS Assist Mode in BIOS configure
-   It is in `Config -> Thunderbolt BIOS Assist Mode - Set to "Enabled"`
+  ```conf
+  acpi.ec_no_wakeup=1
+  ```
 
-3. disable SD card reader
+1. enable Thunderbolt BIOS Assist Mode in BIOS configure
+  It is in `Config -> Thunderbolt BIOS Assist Mode - Set to "Enabled"`
+
+1. disable SD card reader
 
 More details about this issue can be found at
 
@@ -37,10 +39,9 @@ More details about this issue can be found at
 
 I will test this work around later and update result.
 
-Another workaround is at https://delta-xi.net/#056, but I haven't test for it.
+Another workaround is at [https://delta-xi.net/#056](https://delta-xi.net/#056), but I haven't test for it.
 
-
-# Test Update:
+## Test Update
 
 Over 8 hours sleep, battery only costed from 99% to 91%, which I think is OK.
 Also the temperature is low, so I think the workaround is useful.

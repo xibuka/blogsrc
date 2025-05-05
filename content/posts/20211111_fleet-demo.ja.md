@@ -2,6 +2,9 @@
 title: RancherのContinuous Delivery機能で簡単GitOpsを実現できる
 date: 2021-11-11T16:18:38+09:00
 draft: false
+tags: 
+- Rancher
+- Fleet
 ---
 
 この記事では、Single nodeのRancher server と二つのk3sクラスタ環境を構築し、 そRancherのContinuous Delivery機能で、二つのk3sクラスタをGitOpsで操作します。
@@ -83,7 +86,7 @@ Note: K3sは`root`ユーザの操作を想定しているので`sudo` 権限が�
 
 ## Step 5: Git Repos
 
-このステップでは、参照する`Git Repo`の設定を行います。左側の`Git Repos`に入り、画面右側にある`Create`をクリックし、`Git Repos`作成画面に入ります。 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lna46oqj31lm0j4mzo.jpg) 名前を入力した後、各自のGithubのアカウントで https://github.com/rancher/fleet-examples をfolkし、Repository URL(e.g. https://github.com/xibuka/fleet-examples.git )に設定してください。 また、`Paths`に今回利用する`guest-book`の定義ファイルが置いてあった `/single-cluster/manifests` を設定して ください。 次はこの`Git Repos`をどこにデプロイするのかを設定します。`Deploy To`のメニューから、さっき作成した`Cluster Group`を選択し、`Create`をクリックしてください。
+このステップでは、参照する`Git Repo`の設定を行います。左側の`Git Repos`に入り、画面右側にある`Create`をクリックし、`Git Repos`作成画面に入ります。 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lna46oqj31lm0j4mzo.jpg) 名前を入力した後、各自のGithubのアカウントで `https://github.com/rancher/fleet-examples` をfolkし、Repository URL(e.g. `https://github.com/xibuka/fleet-examples.git` )に設定してください。 また、`Paths`に今回利用する`guest-book`の定義ファイルが置いてあった `/single-cluster/manifests` を設定して ください。 次はこの`Git Repos`をどこにデプロイするのかを設定します。`Deploy To`のメニューから、さっき作成した`Cluster Group`を選択し、`Create`をクリックしてください。
 
 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lnq6olrj30u010jdiu.jpg)
 
@@ -149,7 +152,7 @@ spec:
 
 このステップでは、Git Repoの登録からRancherのアップリケーションをデプロイします。
 
-まずはRepository URLに、https://github.com/xibuka/core-bundles.gitを設定し、`Add Path`で以下の二つのパスを追加します。
+まずはRepository URLに、`https://github.com/xibuka/core-bundles.git`を設定し、`Add Path`で以下の二つのパスを追加します。
 
 - /longhorn
 - /longhorn-crd![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lrrgmr1j30zz0u0gog.jpg)
@@ -162,7 +165,7 @@ spec:
 
 このステップでは、Git Repoの登録から二つのk3sクラスタをアップグレードします。アップグレードを実現するために、以下のAutomated Upgrades機能を利用します。
 
-https://rancher.com/docs/k3s/latest/en/upgrades/automated/
+[https://rancher.com/docs/k3s/latest/en/upgrades/automated/](https://rancher.com/docs/k3s/latest/en/upgrades/automated/)
 
 まずはこの機能に必要なリソースを準備します。以下のコマンドを一回ずつクリックし各クラスタで実行させてください。
 
@@ -171,7 +174,7 @@ sudo kubectl apply -f https://github.com/rancher/system-upgrade-controller/relea
 sudo kubectl apply -f https://github.com/rancher/system-upgrade-controller/releases/download/v0.6.2/system-upgrade-controller.yaml
 ```
 
-次は https://github.com/xibuka/k3s-upgrade-plan をfolkし、Git reposを設定してください。Branch Nameを`Main`にして、`Create`をクリックしてください。 `/` 以下が対象なので`path`の追加が必要ないです。 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lt2yhh2j313l0u077f.jpg)
+次は `https://github.com/xibuka/k3s-upgrade-plan` をfolkし、Git reposを設定してください。Branch Nameを`Main`にして、`Create`をクリックしてください。 `/` 以下が対象なので`path`の追加が必要ないです。 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lt2yhh2j313l0u077f.jpg)
 
 現在のk3sのバージョンは　1.21.5+k3s2　であることを確認します。 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gw0lu2ele4j31s00hmwhk.jpg)
 

@@ -10,17 +10,17 @@ As we Install the OpenShift by Ansible method, identity provider is set to *Deny
 OpenShift has several identity providers which can help you to manager user authentication. I will use **HTPasswd** this time. You can find more information in
 [Configuring Authentication and User Agent](https://docs.openshift.com/container-platform/3.5/install_config/configuring_authentication.html)
 
-# Install package
+## Install package
 
 The htpasswd utility is provided in httpd-tools package.
 
-```
-# yum install httpd-tools
+```bash
+yum install httpd-tools
 ```
 
-# configure the master configuration file
+## configure the master configuration file
 
-```
+```yaml
 oauthConfig:
   ...
   identityProviders:
@@ -36,17 +36,17 @@ oauthConfig:
 
 Need to restart `atomic-openshift-master` to make the change to take effect.
 
-```
-# systemctl restart atomic-openshift-master
+```sh
+systemctl restart atomic-openshift-master
 ```
 
-# Setup username and password
+## Setup username and password
 
 HTPasswd use a flat file to manager the username and the password, in which the
 password is hashed. Run following command to create the file with *username*,
 and it will ask you to input the password for *username*.
 
-```
+```sh
 $ htpasswd -c </path/to/users.htpasswd> user1
 New password:
 Re-type new password:
@@ -55,8 +55,8 @@ Adding password for user user1
 
 You can also include the password by adding the `-b` option
 
-```
-$ htpasswd -c -b user1 <password>
+```sh
+htpasswd -c -b user1 <password>
 ```
 
 After add a user, you can use it to access OpenShift Container Platform.
@@ -65,14 +65,14 @@ After add a user, you can use it to access OpenShift Container Platform.
 
 To add or update an username, run following command
 
-```
-$ htpasswd </path/to/users.htpasswd> <user_name>
+```sh
+htpasswd </path/to/users.htpasswd> <user_name>
 ```
 
 ## delete an user
 
 To delete an username, run following command
 
-```
-$ htpasswd -D </path/to/users.htpasswd> <user_name>
+```sh
+htpasswd -D </path/to/users.htpasswd> <user_name>
 ```

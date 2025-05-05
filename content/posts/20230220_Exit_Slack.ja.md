@@ -2,6 +2,10 @@
 title: "Kong Gatewayで実装！リクエストが失敗したらSlackWebhookで通知"
 date: 2023-02-20T14:21:23+09:00
 draft: false
+tags: 
+- Kong Gateway
+- WebHook
+- plugin
 ---
 ## 背景
 
@@ -14,15 +18,15 @@ Kong Gatewayを使ってAPIにアクセスする時には、もしリクエス�
 
 ### サービスとルートを作成
 
-```
-$ http :8001/services name=example.com host=mockbin.org
-$ http -f :8001/services/example.com/routes hosts=example.com
+```bash
+http :8001/services name=example.com host=mockbin.org
+http -f :8001/services/example.com/routes hosts=example.com
 ```
 
 ### 失敗させるため key auth プラグインを実装
 
-```
-$ http :8001/services/example.com/plugins name=key-auth
+```bash
+http :8001/services/example.com/plugins name=key-auth
 ```
 
 ### Luaスクリプトを作成
@@ -30,7 +34,7 @@ $ http :8001/services/example.com/plugins name=key-auth
 以下のコードでは、`x-some-header`のヘッダーを追加し、メッセージの最後に`, arr`を追加した。
 この内容をtransform.luaとして保存する。
 
-```
+```lua
     -- transform.lua
     return function(status, body, headers)
       if not body or not body.message then
@@ -50,16 +54,17 @@ $ http :8001/services/example.com/plugins name=key-auth
 
 ### スクリプトを使ってプラグインをデプロイ
 
-```
-   http -f :8001/services/example.com/plugins \
+```bash
+http -f :8001/services/example.com/plugins \
      name=exit-transformer \
      config.functions=@transform.lua
 ```
 
 ### 動作確認
+
 ここまで設定したらアクセスしてみましょう。ヘッダーと最後のメッセージarrがちゃんとレスポンスに追加されました。
 
-```
+```bash
 ❯ http :8000 Host:example.com
 HTTP/1.1 401 Unauthorized
 Connection: keep-alive
@@ -82,7 +87,7 @@ x-some-header: some value
 
 今回はSlackのWebhookを利用します。メッセージに内容を追加した後にWebhookをキックする実装にします。
 
-```
+```lua
 ...
       local httpc = require("resty.http").new()
 
@@ -106,7 +111,8 @@ x-some-header: some value
 リクエストを送るために、[lua-resty-http](https://github.com/ledgetech/lua-resty-http)を利用しています。一般的には`require`を利用してリクエストを出しますが、nginx イベント ループでうまく機能するとは思わない心配があります。つまり、hooks.slack.com からの応答を待機している間、nginx が他のリクエストを処理できなくなる可能性があります。
 
 もう一つ注意すべきところは、外部のライブラリを呼び出しているため、[untrusted_lua](https://docs.konghq.com/gateway/latest/reference/configuration/#untrusted_lua)パラメータをOnにする必要があります。これをしないと以下のようなエラーが出ます。
-```
+
+```log
 2023/02/10 02:19:13 [error] 2175#0: *15812 lua entry thread aborted: runtime error: /usr/local/share/lua/5.1/kong/tools/sandbox.lua:88: require 'ssl.https' not allowed within sandbox
 ```
 
@@ -114,7 +120,7 @@ x-some-header: some value
 
 さてさっきのAPIにもう一度アクセスしてSlackのメッセージを確認しましょう！
 
-```
+```bash
 ❯ http :8000 Host:example.com
 HTTP/1.1 401 Unauthorized
 Connection: keep-alive
@@ -132,8 +138,7 @@ x-some-header: some value
     "status": 401
 }
 ```
+
 ![iShot_2023-02-13_22.29.31.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2679136/1ec6a8fc-bbe2-550a-9fe9-190aa2c34b73.png)
 
 きたーーーーーーーーーーーーー！
-
-

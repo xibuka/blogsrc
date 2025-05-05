@@ -36,7 +36,7 @@ Options:
 
 ## keyの生成
 
-```
+```bash
 $ age-keygen -o sops-key.txt
 Public key: age1hhpnj4ylj5z7qwaek0ncrq882ygmvnv4unup78u3djgmlezrmgkqshyatc
 

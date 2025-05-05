@@ -5,7 +5,7 @@ tags:
 - Hexo
 ---
 ここのURLを参考しながら、HexoのBlogを設定した。
-	https://liginc.co.jp/web/programming/server/104594
+[https://liginc.co.jp/web/programming/server/104594](https://liginc.co.jp/web/programming/server/104594)
 
 Install の途中で、以下のエラーが出た。
 
@@ -13,17 +13,18 @@ Install の途中で、以下のエラーが出た。
 % hexo deploy
 ERROR Deployer not found: github
 ```
-https://github.com/hexojs/hexo/issues/1040 を参考にして、直した。
+
+[https://github.com/hexojs/hexo/issues/1040](https://github.com/hexojs/hexo/issues/1040) を参考にして、直した。
 
 ``` bash
 % npm install hexo-deployer-git --save
 ```
 
 _config.ymlのtypeもgitに変更
+
 ``` _config.yml
 deploy:
   type: git
 ```
-
 
 MarkDownの文法も勉強せねばな。。。やることが多い〜

@@ -11,6 +11,7 @@ tags:
 [Kong Konnect](https://konghq.com/kong-konnect/) のData Planeとして、AWS ECS（Elastic Container Service）Fargate を使ってマイクロサービスをデプロイし、API Gateway環境の構築方法を紹介します。
 
 ## 準備するもの
+
 - AWSアカウント
 - Kong Konnectアカウント
 

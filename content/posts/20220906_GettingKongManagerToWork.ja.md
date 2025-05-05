@@ -2,9 +2,11 @@
 title: "Kong Managerをホストネームでデプロイための設定"
 date: 2022-09-07T00:40:42+09:00
 draft: false
+tags: 
+- Kong Gateway
 ---
 
-> **_NOTE:_** https://svenwal.de/blog/20210316_kong_manager_install/ より翻訳
+> **_NOTE:_** `https://svenwal.de/blog/20210316_kong_manager_install/` より翻訳
 
 TL;DR: Kong Managerが動作しない場合は、`KONG_ADMIN_API_URI`と`KONG_ADMIN_GUI_URL`の設定を確認してください。
 
@@ -31,7 +33,7 @@ Kong Managerはout of the boxでありすぐに使えます。ローカル マ�
 
 ![image](https://svenwal.de/img/Kong_Manager_broken.jpeg)
 
-KongのすべてがAPIであり、Kong Managerのユーザーインターフェイス全体が、ローカルのブラウザで動作するブラウザベースのアプリケーションであリます。そして、設定を変更していない場合、デフォルトのAdmin-APIアドレス（http://localhost:8001）への呼び出しが開始されます。
+KongのすべてがAPIであり、Kong Managerのユーザーインターフェイス全体が、ローカルのブラウザで動作するブラウザベースのアプリケーションであリます。そして、設定を変更していない場合、デフォルトのAdmin-APIアドレス（`http://localhost:8001`）への呼び出しが開始されます。
 
 KongはAdmin-APIの外部URLを知ることができないため、設定でそれを指定する必要があります。例えば、8001-Portを`https://kong-admin.my-company.example.com` のようにマッピングしたとすると、次のように設定する必要があります。
 
@@ -65,7 +67,7 @@ KONG_ADMIN_GUI_URL = https://kong-manager.my-company.example.com
 
 ![image](https://svenwal.de/img/Kong_Manager_working.jpeg)
 
-##  RBACとロギングを有効に
+## RBACとロギングを有効に
 
 Kong Enterpriseを使用する場合、通常、RBACを使用してAdmin-APIとKong Managerを保護する必要があります。Basic-authに対しすべてをセットアップし、`Kong-Admin-Token` headerがadmin APIでうまく機能すると仮定してみましょう。しかし、ブラウザを開いてログインすると（ヒント：起動時にパスワードを設定した場合、標準のユーザ名はkong_adminです）、うまくいきません。
 

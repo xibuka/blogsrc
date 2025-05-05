@@ -6,7 +6,8 @@ tags:
 - Linux
 ---
 
-# Install Linux OS and confirm network setting.
+## Install Linux OS and confirm network setting
+
 You need to create a Linux OS machine to install OpenShift. The minimum
 requirement is
 
@@ -34,7 +35,7 @@ use. The following example shows the IP address at eth0 is "192.168.122.45"
        valid_lft forever preferred_lft forever
 ```
 
-OpenShift need a hostname to provide the service. Use "hostnamectl set-hostname" 
+OpenShift need a hostname to provide the service. Use "hostnamectl set-hostname"
 to set a hostname. And use "hostname" to confirm your setting. The following
 example show the hostname is "openshift.example.com"
 
@@ -44,7 +45,7 @@ example show the hostname is "openshift.example.com"
 openshift.example.com
 ```
 
-# Install docker
+## Install docker
 
 Openshift use docker as a container engine. Install docker by following
 command.
@@ -82,11 +83,11 @@ serving on 8080
 
 After the test, push "Ctrl+c" to stop this image.
 
-# Install OpenShift
+## Install OpenShift
 
-There are several methods to install OpenShift. For better understand we will 
+There are several methods to install OpenShift. For better understand we will
 download the binaries of OpenShift server and deploy it manually.
-You can find the download link at [Download OpenShift Origin](https://www.openshift.org/download.html). For now the latest version is [v1.5.1-7b451fc-linux-64bit.tar.gz](https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-server-v1.5.1-7b451fc-linux-64bit.tar.gz). 
+You can find the download link at [Download OpenShift Origin](https://www.openshift.org/download.html). For now the latest version is [v1.5.1-7b451fc-linux-64bit.tar.gz](https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-server-v1.5.1-7b451fc-linux-64bit.tar.gz).
 
 Download the file and untar it to /opt/
 
@@ -101,11 +102,13 @@ Download the file and untar it to /opt/
 ```
 
 Add Openshift path to $PATH by add following text to the end of /etc/profile.
-```
+
+```conf
 PATH=$PATH:/opt/openshift
 ```
 
 Run source command to make the configuration enable,
+
 ```bash
 [root@openshift ~]# source /etc/profile
 ```
@@ -121,7 +124,8 @@ kubernetes v1.5.2+43a9be4
 etcd 3.1.0
 ```
 
-# Start OpenShift
+## Start OpenShift
+
 Just type "openshift start" to start openshift. There will be a lot of logs
 output in the terminal. OpenShift will started when the logs output is stopped.
 
@@ -130,17 +134,17 @@ output in the terminal. OpenShift will started when the logs output is stopped.
 <snip>
 ```
 
-# Access OpenShift
+## Access OpenShift
 
-## Open web control UI and login
+### Open web control UI and login
 
-Type `https://<OpenShift Hostname>:8443` to access the web control. Ignore the 
-warning message of security and you will see the login page. Input username 
+Type `https://<OpenShift Hostname>:8443` to access the web control. Ignore the
+warning message of security and you will see the login page. Input username
 and password by "dev" to login.
 
 ![openshift login](/img/openshift-install/login.png)
 
-## Create a new project
+### Create a new project
 
 Click "New Project"
 ![create pods](/img/openshift-install/createpods1.png)
@@ -159,7 +163,7 @@ click "Create" at the end of the page to create a pod.
 
 OpenShift will start to deploy the pod, at first you will see a gray circle with a
 number "1" in it. When the deployment is done, the circle will turn to blue,
-it mean the pod is ready to use. 
+it mean the pod is ready to use.
 ![create pods](/img/openshift-install/createpods5.png)
 ![create pods](/img/openshift-install/createpods6.png)
 
@@ -167,7 +171,7 @@ Click the circle to see the detail information of your pods. You can find an "IP
 is attached to the pod. Following example shows the IP address of the pod is "172.17.0.3".
 ![create pods](/img/openshift-install/createpods7.png)
 
-Back to the OpenShift server and run under command to check the hello-openshift container. 
+Back to the OpenShift server and run under command to check the hello-openshift container.
 The hello-openshift service will return a string "Hello OpenShift!" to each
 request from the 8080 or 8888 port.
 
@@ -180,4 +184,3 @@ Above is a simple test of how to install Openshift and create a project/pod.
 The IP will not be accessible outside the OpenShift server because it's only a
 local IP address. To deploy a real useful pod and provide it, you need to do
 more settings. I will update it in the further. #TODO
-

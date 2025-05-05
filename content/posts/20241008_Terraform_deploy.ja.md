@@ -4,7 +4,7 @@ date: 2024-10-08T23:49:19+09:00
 draft: false
 tags:
 - Terraform
-- kong
+- Kong Gateway
 ---
 
 [Terraformを使ったKonnect環境の構築](https://qiita.com/ipppppei/items/573b90e8c42684653db8
@@ -13,9 +13,9 @@ tags:
 
 今回使うterraformのプロバイダは以下になります。
 
-https://github.com/Kong/terraform-provider-kong-gateway
+[https://github.com/Kong/terraform-provider-kong-gateway](https://github.com/Kong/terraform-provider-kong-gateway)
 
-https://registry.terraform.io/providers/Kong/kong-gateway/latest/docs
+[https://registry.terraform.io/providers/Kong/kong-gateway/latest/docs](https://registry.terraform.io/providers/Kong/kong-gateway/latest/docs)
 
 Kongやterraformのインストールなどは割愛
 
@@ -280,7 +280,7 @@ resource "kong-gateway_basic_auth" "my_basicauth" {
 }
 ```
 
-### 動作確認
+### もう一度動作確認
 
 同じく`terraform apply`した後、以下のように認証情報を設定しないとアクセスが失敗になる
 
@@ -361,7 +361,8 @@ Destroy complete! Resources: 5 destroyed.
 - deckと異なり、設定内容を環境に適用しても、既存の設定への影響はない
 - deckと異なり、ServiceとRouteを分けて管理できる
 - 執筆した時点で`kong-admin-token`が設定できないため、RBAC有効環境では利用不可
-  - Issueあり：https://github.com/Kong/terraform-provider-kong-gateway/issues/4
+  - Issueあり：[https://github.com/Kong/terraform-provider-kong-gateway/issues/4](https://github.com/Kong/terraform-provider-kong-gateway/issues/4)
 
- * (20250403 Update)Issueが解決され、RBAC環境でも利用することができるようになりました！ *
-https://github.com/Kong/terraform-provider-kong-gateway/pull/7
+***(20250403 Update)Issueが解決され、RBAC環境でも利用することができるようになりました！***
+
+[https://github.com/Kong/terraform-provider-kong-gateway/pull/7](https://github.com/Kong/terraform-provider-kong-gateway/pull/7)

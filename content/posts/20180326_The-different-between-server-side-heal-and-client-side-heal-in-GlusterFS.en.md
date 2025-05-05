@@ -13,18 +13,21 @@ Client side heal is different, it will triggers heal for the particular file whe
 Client-side heal is enable by default, and can be turned off by below command
 
 File data
-```
-# gluster volume set <volume name> cluster.data-self-heal off
+
+```sh
+gluster volume set <volume name> cluster.data-self-heal off
 ```
 
 Entry data (contents/entries of a directory)
-```
-# gluster volume set <volume name> cluster.entry-self-heal off
+
+```sh
+gluster volume set <volume name> cluster.entry-self-heal off
 ```
 
 Meta data
-```
-# gluster volume set <volume name> cluster.metadata-self-heal off
+
+```sh
+gluster volume set <volume name> cluster.metadata-self-heal off
 ```
 
 Note that turn off client side healing doesn't mean to compromise data

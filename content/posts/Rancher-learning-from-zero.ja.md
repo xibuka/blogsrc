@@ -4,19 +4,19 @@ date: 2020-06-09T16:12:08+09:00
 draft: false
 ---
 
-# 紹介
+## 紹介
 
 Rancherは`rancher-server` と`rancher-agent`、そして一つ以上の`kubernetes cluster`によって構成されている。この中、`rancher-agent`は管理された`kubernetes`に実行され、`rancher-server`と通信し、クラスタの情報を送信する。
 
  `rancher-server`は`kubernetes`を管理するためのWebUIとAPIを提供している。`rancher-server`はHTTPSのみアクセスできる。
 
-# インストール
+## インストール
 
-## シングルノード
+### シングルノード
 
 シングルノードの構築は以下二つの方法があります。
 
--  `docker`で直接`rancher-server`を実行
+- `docker`で直接`rancher-server`を実行
 - `rke`で一つのノードに全ての`role`を有効
 
 `rke`の方法は後でも出てくるので割愛、ここでは`docker`の方法を示す。
@@ -31,13 +31,13 @@ docker run -d --restart=unless-stopped \
 
 これでシングルノードの`rancher-server`を起動した。`http://<IP Address>`でアクセスできる。
 
-## マルチノード
+### マルチノード
 
 `rke`を使ってHA環境の`rancher-server`を構築する。
 
 `rke(rancher k8s engine)`は`kubernetes`を構築するためのコマンドで、環境を用意すればコマンド一つでクラスターを構築できる。
 
-### マシンの用意
+#### マシンの用意
 
 今回は`multipass` でマシンを準備する。以下のコマンドで６台の仮想マシンを作成する。
 
@@ -108,7 +108,7 @@ runcmd:
 
 最終的に以下ようにな６台のマシンができた
 
-```
+```bash
 $ multipass list
 Name                    State             IPv4             Image
 kmaster1                Running           10.131.158.97    Not Available
@@ -119,7 +119,7 @@ kworker2                Running           10.131.158.247   Not Available
 kworker3                Running           10.131.158.166   Not Available
 ```
 
-### rkeでKubernetes環境作成
+#### rkeでKubernetes環境作成
 
 [rke](https://rancher.com/products/rke/)で説明した通り、バイナリをダウンロードし実行権限を追加する。
 
@@ -163,15 +163,13 @@ ingress:
 
 `rke`コマンドにこの`Yamlファイルをパラメータにして実行すると、Kubernetes環境が作成できる。
 
-```
+```sh
 rke_linux-amd64 up --config ./rancher_cluster.yaml
 ```
 
-
-
 無事クラスタが作成された後、元のYamlファイル以外に、新しいファイルが二つ生成されます。
 
-```
+```bash
 $ ll
 total 132K
 -rw-r----- 1 wshi wshi 5.3K Jun  8 17:04 kube_config_rancher_cluster.yaml
@@ -192,7 +190,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 10.131.158.97    Ready    controlplane,etcd,worker   21h   v1.17.4
 ```
 
-### kubenetes環境でRancherをインストール
+#### kubenetes環境でRancherをインストール
 
 [rancherのドキュメント](https://rancher.com/docs/rancher/v2.x/en/installation/k8s-install/helm-rancher/) に従ってインストールします。ここではインストールの手順だけ抽出し、詳しい設定はドキュメントを参照してください。
 
@@ -200,7 +198,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 
    [helmのホームページ](https://helm.sh/docs/intro/install/)を参考にして`helm`をインストールする
 
-   ```
+   ```bash
    sudo snap install helm --classic
    ```
 
@@ -208,7 +206,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 
    今回は`stable`を選択する
 
-   ```
+   ```bash
    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
    ```
 
@@ -216,7 +214,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 
    `namespace`の名前は必ず`cattle-system`にする
 
-   ```
+   ```bash
    kubectl create namespace cattle-system
    ```
 
@@ -224,7 +222,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 
    他にも証明書作成の方法はありますが、今回は`rancher`に生成してもらう
 
-   ```
+   ```bash
    # Install the CustomResourceDefinition resources separately
    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.0/cert-manager.crds.yaml
 
@@ -246,7 +244,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 
    `cert-manager`の状態を確認
 
-   ```
+   ```bash
    $ kubectl get pods --namespace cert-manager
    NAME                                       READY   STATUS    RESTARTS   AGE
    cert-manager-766d5c494b-9cmcq              1/1     Running   0          15s
@@ -254,13 +252,11 @@ NAME             STATUS   ROLES                      AGE   VERSION
    cert-manager-webhook-68d464c8b-5bmjt       1/1     Running   0          15s
    ```
 
-
-
 5. `rancher-server`をインストール
 
    Rancher-generated certificatesを利用して、`rancher-server`をインストール
 
-   ```
+   ```bash
    helm install rancher rancher-stable/rancher \
      --namespace cattle-system \
      --set hostname=rancher.my.org
@@ -268,7 +264,7 @@ NAME             STATUS   ROLES                      AGE   VERSION
 
    `rancher-server`の状態を確認
 
-   ```
+   ```bash
    $ kubectl get pod -n cattle-system -o wide
    NAME                       READY   STATUS    RESTARTS   AGE   IP          NODE             NOMINATED NODE   READINESS GATES
    rancher-756b996499-fjnt9   1/1     Running   0          35m   10.42.0.4   10.131.158.247   <none>           <none>
@@ -278,4 +274,3 @@ NAME             STATUS   ROLES                      AGE   VERSION
    ```
 
    それぞれのノード上にPodが`Running`状態であり、インストールは成功した。
-

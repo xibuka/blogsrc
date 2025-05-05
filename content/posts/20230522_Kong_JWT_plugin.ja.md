@@ -2,9 +2,13 @@
 title: "Kong Gatewayの JWT Pluginを使ってみる"
 date: 2023-05-22T00:33:31+09:00
 draft: false
+tags:
+- Kong Gateway
+- plugin
+- JWT
 ---
 
-(https://tech.aufomm.com/how-to-use-jwt-plugin/ より翻訳)
+([https://tech.aufomm.com/how-to-use-jwt-plugin/](https://tech.aufomm.com/how-to-use-jwt-plugin/) より翻訳)
 
 Kongにはたくさんの認証プラグインがあります。今回はJWT Pluginの使い方についてお話したいと思います。
 
@@ -12,7 +16,7 @@ Kongにはたくさんの認証プラグインがあります。今回はJWT Plu
 
 ### サービスを作成
 
-```
+```bash
 curl -X POST http://localhost:8001/services \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, */*" \
@@ -21,7 +25,7 @@ curl -X POST http://localhost:8001/services \
 
 ### Routeを作成
 
-```
+```bash
 curl -X POST http://localhost:8001/services/jwt-service/routes \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, */*" \
@@ -36,7 +40,7 @@ curl -X POST http://localhost:8001/services/jwt-service/routes \
 このプラグインは、Service単位またはグローバル全体に有効化することも可能です。
 :::
 
-```
+```bash
 curl --request POST \
   --url http://localhost:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -46,9 +50,10 @@ curl --request POST \
 上記のルートをもう一度アクセスすると、`HTTP/1.1 401 Unauthorized` となるはずです。
 
 ### consumerを作成
+
 JWTの認証情報を持つためのconsumerを作成
 
-```
+```bash
 curl --request POST \
   --url http://localhost:8001/consumers \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -56,19 +61,20 @@ curl --request POST \
 ```
 
 ### JWTの認証情報を作成
+
 JWTプラグインは5つのアルゴリズムに対応しています。主な違いは、Keyの共有方法です。RS256を使用する場合、作成される鍵は非対称である。一方、HS256はトークンに署名するために対称鍵を使用します。以下、HS256とRS256のデモを行います。アルゴリズムの違いについては、[Auth0ドキュメント](https://community.auth0.com/t/rs256-vs-hs256-jwt-signing-algorithms/58609)を参照してください。
 
 #### HS256
 
 - KongでkeyとSecretを生成
 
-```
+```bash
 curl -X POST http://localhost:8001/consumers/jwt-user/jwt
 ```
 
 デフォルトでは、Kongは`HS256`アルゴリズムを使用して、`Key`と`Secret`を生成します。
 
-```
+```json
 {
   "algorithm": "HS256",
   "id": "a5f72a73-daa6-440d-8257-a40c37d34ec8",
@@ -87,13 +93,14 @@ curl -X POST http://localhost:8001/consumers/jwt-user/jwt
 
 pwgenでパスワードを二つ生成します。
 
-```
+```bash
 pwgen -sBv 32 2
 Mt4RTRWJk9pfWJpgthP4sHhcqR4hFKzK J3NKsJgt79tcLRfLWwVMJvVnTFk7WskW
 ```
 
 1つ目を`key`、2つ目を`Secret`として使用します。同じConsumerで複数のキーペアを作成することができます。
-```
+
+```bash
 curl --request POST \
   --url http://localhost:8001/consumers/jwt-user/jwt \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -102,7 +109,8 @@ curl --request POST \
 ```
 
 以下が表示されるはずです。
-```
+
+```json
 {
   "algorithm": "HS256",
   "id": "711c7b54-5551-4803-abc6-cb7ff86b0858",
@@ -119,7 +127,7 @@ curl --request POST \
 
 次は、[JWT debugger](https://jwt.io/)か[JWT CLI](https://github.com/mike-engel/jwt-cli)を使ってtokenを作成することができます。payloadにiss: ${key}が含まれていることを確認してください。tokenを取得したら、Authentication BearerヘッダとしてJWT tokenを渡すことで、再びAPIにアクセスできるようになるはずです。
 
-```
+```bash
 curl http://localhost:8000/jwt \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNdDRSVFJXSms5cGZXSnBndGhQNHNIaGNxUjRoRkt6SyJ9.pCV1wm3VixWkZ_Nh24v4RSQjvYhpb5vJp_LeTRZnF2o"
 ```
@@ -130,17 +138,18 @@ curl http://localhost:8000/jwt \
 
   - プライベートkeyとパブリックKeyを作成
 
-  ```
+  ```bash
   openssl genrsa -out jwt-private.pem 2048 2>/dev/null &&\
   openssl rsa -in jwt-private.pem -outform PEM -pubout -out jwt-public.pem 2>/dev/null &&\
   echo -e 'Your private key is \033[1;4mjwt-private.pem\033[0m and public key is 
   \033[1;4mjwt-public.pem\033[0m'
   ```
+
   これで、上記コマンドを実行したフォルダに、`jwt-private.pem`と`jwt-public.pem`があるはずです。
 
   - jwt-userのためJWT認証を作成
 
-  ```
+  ```bash
   curl -X POST http://localhost:8001/consumers/jwt-user/jwt \
     -F rsa_public_key=@jwt-public.pem \  
     -F algorithm=RS256 \
@@ -149,7 +158,7 @@ curl http://localhost:8000/jwt \
 
 次は、さっきと同じく[JWT debugger](https://jwt.io/)か[JWT CLI](https://github.com/mike-engel/jwt-cli)を使ってtokenを作成することができます。payloadにiss: ${key}が含まれていることを確認してください。tokenを取得したら、Authentication BearerヘッダとしてJWT tokenを渡すことで、再びAPIにアクセスできるようになるはずです。
 
-```
+```bash
 curl http://localhost:8000/jwt \
 "Accept: application/json, */*" \
 -H "Authorization:Bearer eyJhbGciOiJSUzI1NiIsInR5cGUiOiJKV1QifQ.eyJpYXQiOiIxNjA3MTc2NDM4IiwiZXhwIjoiMTYwNzE3Njk3OCIsImlzcyI6InRlc3Qta2V5In0.uLrS8T1j7nrEBYRZgZHYALDH2uhg81emRyv5K0bJi3eOwZj45I0ZXU9Lsz7MqryGwbHtP2dwyAQ9u9WXCuU-KSiwpL0L8fjBBjd339BwinQkevwjcr6QuFvch8hD0grYmS9z09jDJ7its0FrO-P0dIEvKhQ23ihADJiFMgTukgNyk3m76nNPkR22vQdJu-OATKVVp9iGpx7tRqZnPeCZAdlGrUJuiACPuqwxdrfithswnAbFg5AjzwB2K9BXiAl76PVYzo15s5KcPCQWJwJ0JY7MgMIEQ0xyifVBZLq__V3B5GgoWy-HEr9Bkd8Dc7ZkImxmJacpLUveWbuqXZ9JFg"
@@ -161,7 +170,7 @@ Auth0での認証は、上記のRS256の手順と同様ですが、`key`の値�
 
 - Auth0の認証ファイルをダウンロード
 
-```
+```bash
 curl -o auth0.pem https://{COMPANYNAME}.{REGION-ID}.auth0.com/pem
 ```
 
@@ -171,7 +180,7 @@ URLに{REGION-ID}を使用する必要がないユーザーもいます。Auth0�
 
 - 公開鍵の保存
 
-```
+```bash
 openssl x509 -pubkey -noout -in auth0.pem > auth0-pub.pem
 ```
 
@@ -179,7 +188,7 @@ openssl x509 -pubkey -noout -in auth0.pem > auth0-pub.pem
 
 - jwt-userのためJWT認証を作成
 
-```
+```bash
 curl -X POST http://localhost:8001/consumers/jwt-user/jwt \
   -F rsa_public_key=@auth0-pub.pem \
   -F algorithm=RS256 \
@@ -188,7 +197,7 @@ curl -X POST http://localhost:8001/consumers/jwt-user/jwt \
 
 - auth0 からAccess _tokenを取得
 
-```
+```bash
 curl --request POST \
   --url https://{YOUR_AUTH0_URL}/oauth/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -200,7 +209,7 @@ curl --request POST \
 
 以下のようなレスポンスになるはずです。
 
-```
+```json
 {
   "access_token": "<YOUR_TOKEN>",
   "expires_in": 86400,
@@ -210,7 +219,8 @@ curl --request POST \
 ```
 
 Kongにトークンを渡すことで、apiリソースにアクセスできるようになるはずです。
-```
+
+```bash
 curl http://localhost:8000/jwt \
 "Accept: application/json, */*" \
 -H "Authorization: Bearer <YOUR_TOKEN>"
@@ -222,7 +232,7 @@ curl http://localhost:8000/jwt \
 
 以下の内容を `kong.yaml` に保存し、DBless のデプロイメント構成にロードしてください。以下の例では、jwt-userに対して3種類のJWTクレデンシャルを作成しています。要件に合わせて変更してください。
 
-```
+```yaml
 _format_version: "2.1"
 _transform: true
 
@@ -267,6 +277,7 @@ keyとSecretの値を変更し、ご自分のPublic keyに置き換えてくだ�
 :::
 
 以下の例では、こちらがデプロイされます。
+
 - Echo deployment
 - Echo Service
 - JWT Plugin
@@ -274,10 +285,9 @@ keyとSecretの値を変更し、ご自分のPublic keyに置き換えてくだ�
 - Ingress rule to use jwt plugin
 - 3 JWT credentials for HS256, RS256, Auth0.
 
-
 下記を`jwt.yaml`に保存して、`kubectl apply -f jwt.yaml`で適用してください。
 
-```
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:

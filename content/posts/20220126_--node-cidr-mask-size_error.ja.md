@@ -2,6 +2,9 @@
 title: "--node-cidr-mask-sizeエラーの原因と修正"
 date: 2022-01-26T11:33:00+09:00
 draft: false
+tags: 
+- Rancher
+- RKE
 ---
 rkeクラスタのcidrを弄ったら、以下のようなエラーが出てクラスタの作成が失敗した。
 
@@ -53,4 +56,4 @@ services:
 ```
 
 参考まで
-https://cloud.google.com/kubernetes-engine/docs/how-to/flexible-pod-cidr
+[https://cloud.google.com/kubernetes-engine/docs/how-to/flexible-pod-cidr](https://cloud.google.com/kubernetes-engine/docs/how-to/flexible-pod-cidr)

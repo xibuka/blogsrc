@@ -26,15 +26,13 @@ tags:
 1. スクリプトによるサーバー管理(スクリプト言語 Playbook)
 1. モジュール
 
-
-
-# インストール
+## インストール
 
 ここでは Red Hat 系 Linux でのインストールを前提に解説にする。他のOSに関していAnsibleのWebページをご参照ください。
 
-## 管理者ノード
+### 管理者ノード
 
-### Ansible パッケージをインストール
+#### Ansible パッケージをインストール
 
 ``` bash
 # Redhat/CentOS Linuxの場合, epolリポジトリをインストールする必要がある。
@@ -43,7 +41,7 @@ sudo yum install epel-release
 sudo yum install ansible -y
 ```
 
-### 管理者ノードからリモートノードの接続設定
+#### 管理者ノードからリモートノードの接続設定
 
 SSH keyによる認証パスワードレス）方式を設定する。
 
@@ -56,7 +54,7 @@ ssh-copy-id remoteuser@remoteserver
 ssh-keyscan remote_servers >> ~/.ssh/known_hosts
 ```
 
-### 設定確認
+#### 設定確認
 
 管理者ノードで下記コマンドを実行し、パスワードの入力とSSH keyの保存確認がなかったら設定完了。
 
@@ -64,20 +62,20 @@ ssh-keyscan remote_servers >> ~/.ssh/known_hosts
 ssh remoteuser@remoteserver
 ```
 
-## リモートノード
+### リモートノード
 
 Python 2.4以上が必要だが、通常はデフォルトでインストールされている。そのため、別途パッケージのインストールは必要ない。
 
-# 管理対象のサーバー（サーバーリストの管理）
+## 管理対象のサーバー（サーバーリストの管理）
 
-## サーバリスト（Host Inventory）とは
+### サーバリスト（Host Inventory）とは
 
 Host InventoryはAnsibleの設定ファイルであり、管理対象となるリモートノードの一覧をAnsibleに教える。
 また、下記のように状況に応じてリモートノードのカテゴリ化もできる。
 使い道によってカテゴリ化する：データベースノード、サービスノード。
 ロケーションによってカテゴリ化する：中部データセンター、西部データセンター
 
-## Host Inventoryファイル
+### Host Inventoryファイル
 
 デフォルトのファイルパス： `/etc/ansible/hosts`
 
@@ -108,7 +106,7 @@ two.example.com
 three.example.com
 ```
 
-# コマンドラインによるサーバー管理(Ad-hoc command)
+## コマンドラインによるサーバー管理(Ad-hoc command)
 
 Ansibleではコマンドラインツールを提供していて、オフィシャルドキュメントでは Ad-Hoc Commandsと名付けている。ansibleコマンドのフォーマットを以下に示す。
 
@@ -116,11 +114,11 @@ Ansibleではコマンドラインツールを提供していて、オフィシ�
 ansible <host-pattern> [options]
 ```
 
-## Ansible コマンドができること
+### Ansible コマンドができること
 
 コマンドの構文の詳細を置いといて、"命令”モジュールの説明が終わったら構文の理解が深まりにいく。ここでは、下記のコマンドの例を通して、ansibleコマンドの役割を体感しましょう
 
-### 環境を確認する
+#### 環境を確認する
 
 ansible管理者ノードからユーザ bruce で各リモートノードをアクセスすることを確認する。
 
@@ -128,7 +126,7 @@ ansible管理者ノードからユーザ bruce で各リモートノードをア
 ansible all -m ping -u bruce
 ```
 
-### コマンド実行
+#### コマンド実行
 
 現在bash ユーザと同名のユーザがすべてのリモートノードに対し"echo”コマンドを実行する。
 
@@ -136,7 +134,7 @@ ansible all -m ping -u bruce
 ansible all -a "/bin/echo hello"
 ```
 
-### ファイルコピー
+#### ファイルコピー
 
 `/etc/hosts` ファイル を全リモートノードのweb グループにコピーし、コピー先は`/tmp/hosts`
 
@@ -144,7 +142,7 @@ ansible all -a "/bin/echo hello"
 ansible web -m copy -a "src=/etc/hosts dest=/tmp/hosts"
 ```
 
-### パッケージインストール
+#### パッケージインストール
 
 全リモートノードのweb グループのマシンにyum でacmeパッケージをインストール
 
@@ -152,25 +150,25 @@ ansible web -m copy -a "src=/etc/hosts dest=/tmp/hosts"
 ansible web -m yum -a "name=acme state=present"
 ```
 
-### ユーザ追加
+#### ユーザ追加
 
 ```bash
 ansible all -m user -a "name=foo password=<crypted password here>"
 ```
 
-### パッケージダウンロード
+#### パッケージダウンロード
 
 ```bash
 ansible web -m git -a "repo=git://foo.example.org/repo.git dest=/srv/myapp version=HEAD"
 ```
 
-### サービス起動
+#### サービス起動
 
 ```bash
 ansible web -m service -a "name=httpd state=started"
 ```
 
-### 並列実行
+#### 並列実行
 
 リブート命令を10並列で実行する。
 
@@ -178,23 +176,23 @@ ansible web -m service -a "name=httpd state=started"
 ansible lb -a "/sbin/reboot" -f 10
 ```
 
-### リモートノード情報取得
+#### リモートノード情報取得
 
 ```bash
 ansible all -m setup
 ```
 
-# スクリプトによるサーバー管理
+## スクリプトによるサーバー管理
 
 重複な入力を避けるため、Ansibleをスクリプトの実行に対応する。AnsibleのスクリプトはPlaybookと読んで、YAML形式で、拡張子はymlである。Note: YAMLとJSONは似ていて、データを表示するフォーマットである。
 
-## Playbookの実行方法
+### Playbookの実行方法
 
 ```bash
 ansible-playbook deploy.yml
 ```
 
-### Playbookの例
+#### Playbookの例
 
 Playbook deploy.ymlを通して、webグループのリモートサーバに対しapacheをデプロイする。ステップとしては
 
@@ -212,7 +210,8 @@ Playbook deploy.ymlを通して、webグループのリモートサーバに対�
 | vars | 変数 ||
 | tasks[^1]| Playbookのコア部分、処理内容actionを順番通りに実行する。各actionはansible moduleを利用する。 | action の構文：module: module_parameter=module_value。|
 | handers | Playbookのイベントで、デフォルトでは実行されず、action内でトリガーの条件に満足したら実行する。複数のトリガー条件にマッチしても1回のみ実行する。||
-[^1]よく利用するモジュールはyum, copy, templateなど。Ansibleの中のmodule は、bash の中のyum, copyの命令に似ている。詳細は後程紹介する。
+
+[^1]よく利用するモジュールはyum, copy, templateなど。Ansibleの中のmodule は、bash の中のyum, copyの命令に似ている。詳細は後程紹介する
 
 以下はdeploy.ymlの内容を示す。
 
@@ -286,7 +285,7 @@ YAMLが分からなかったら、上記deploy.ymlをJSON形式に変換する�
 
 JSON と YAMLをお互いに変換するオンラインツール：[http://www.json2yaml.com/](http://www.json2yaml.com/)
 
-## Play vs. Playbook
+### Play vs. Playbook
 
 Playbookは Ansibleで実行可能な YAMLファイルである。一般的な構文を以下の例に示す。
 
@@ -320,9 +319,9 @@ Playbookは Ansibleで実行可能な YAMLファイルである。一般的な�
 
 上記の例では、一つのサーバに対する操作処理は、一つのPlayになる。一般的には一つのPlaybookでは一つのPlayしか実行しないため、その場合にはPlaybookとPlayは同じである。
 
-# Ansibleのモジュール
+## Ansibleのモジュール
 
-## Ansibleのモジュールとは
+### Ansibleのモジュールとは
 
 Bashを利用する時、コマンドラインでもスクリプト内でも、cd, ls, copy, yumなどの命令を実行する必要がある。AnsibleのモジュールはAnsibleの命令であり、Ansibleのコマンドラインやスクリプト上にて実行されている。よく使うモジュールとしてyum, copy, templateなどがある。
 
@@ -331,7 +330,7 @@ Bashでのコマンドを利用するときに、さまざまなオプション�
 モジュールの利用方法は以下のドキュメントを参照で
 [http://docs.ansible.com/ansible/modules_by_category.html](http://docs.ansible.com/ansible/modules_by_category.html)
 
-## コマンドラインにてAnsibleモジュールを利用
+### コマンドラインにてAnsibleモジュールを利用
 
 Ansible コマンドラインでは、以下の様にモジュールを利用できる。
 
@@ -350,7 +349,7 @@ ansible all -m copy -a "src=/etc/hosts dest=/tmp/hosts"
 ansible web -m yum -a "name=httpd state=present"
 ```
 
-## PlaybookにてAnsibleモジュールを利用
+### PlaybookにてAnsibleモジュールを利用
 
 Playbookスクリプトでは、task内一つのactionは一つのモジュールを実行している。各actionに対し、
 
@@ -369,7 +368,7 @@ Playbookスクリプトでは、task内一つのactionは一つのモジュー�
     service: name=httpd state=started
 ```
 
-## Ansibleモジュールの特性
+### Ansibleモジュールの特性
 
 * Linuxのコマンドのように、Ansibleのモジュールはコマンドライン上で実行することもできるし、Playbook内に書いて実行することもできる。
 * 各モジュールのパラメータや状態の判断は、このモジュールの仕様によって決められている。そのため、モジュールを利用する前に、このモジュールのドキュメントを参照することが必要である。
@@ -377,7 +376,7 @@ Playbookスクリプトでは、task内一つのactionは一つのモジュー�
   * ansible-doc コマンドからモジュールの仕様が確認できる。
 * Ansibleはよく利用するモジュールを多数公開していますが、APIを公開しているので、ユーザが自分のモジュールの開発もできる。AnsibleのモジュールはPythonで書かれている。
 
-## よく使うAnsibleモジュールの紹介
+### よく使うAnsibleモジュールの紹介
 
 Linuxを利用する時、コマンド命令が分からないとLinux 利用することはできない。これと同じようにAnsibleを利用するために基本のモジュールを理解することが大事である。
 
@@ -402,7 +401,7 @@ Linuxを利用する時、コマンド命令が分からないとLinux 利用す
   * shell: リモートノード上shell命令を実行、$HOMEや"<”, ”>”, "|”と“&”などは利用可能
   * command: リモートノード上shell命令を実行、$HOMEや"<”, ”>”, "|”と“&”などは利用不可
 
-### ping
+#### ping
 
 管理者ノードからリモートノードへの接続状態を確認するときに一番よく使われているモジュールである。ただShellのpingコマンドみたいにただリモートノードを"ping”するだけではなく、パスワードレスのSSHログインと、リモートノードのpythonのversionを確認し、両方問題なかったらpongを返す。
 
@@ -412,7 +411,7 @@ pingモジュールを使う時にパラメータが必要ない。リモート�
 ansible servers -m ping
 ```
 
-### debug
+#### debug
 
 Shellのechoコマンドに似ていて。メッセージを出力する。
 msgパラメータに出力したいメッセージ内容を設定する。下の例では、システム情報をメッセージ内容に含めて出力している。Ansibleが実行する前にシステム情報を集めて定数にしているため、playbook内に定義しなくても利用できる。
@@ -485,11 +484,11 @@ ok: [localhost] => {
   }
 ```
 
-### copy
+#### copy
 
 ローカルマシン上のファイルをリモートノードにコピーし、適切なファイルパーミッションを設定する。注意すべきなのは、ファイルをコピーする前に、コピー元とコピー先のファイルのchecksumを比較する。同一の場合はコピーせず、OK状態を返す。異なっている場合のみコピーを実行し、changed状態を返す。
 
-#### ファイルパーミッション設定
+##### ファイルパーミッション設定
 
 modeパラメータを使ってパーミッションを設定する。設定の方式は数字でも、符号形式"u=rw,g=r,o=r”, ”u+rw,g-wx,o-rwx” でも問題ない。
 
@@ -502,7 +501,7 @@ modeパラメータを使ってパーミッションを設定する。設定の�
     mode: 0644
 ```
 
-#### リモートノード上ファイルのバックアップ
+##### リモートノード上ファイルのバックアップ
 
 backupパラメータがyesになっている時に、コピーする前にリモートノード上のファイルのバックアップを取るようになる。もしコピー元＆先のファイルが同一であれば、コピー処理が実行されず、バックアップも実行されなくなる。
 
@@ -513,7 +512,7 @@ backupパラメータがyesになっている時に、コピーする前にリ�
     backup: yes
 ```
 
-#### コピー後の検証
+##### コピー後の検証
 
 validate パラメータに検証の為のコマンドを設定する。通常の場合、検証が必要なのはコピー後のファイルなので、%s で指定することができる。copyモジュールにvalidate変数が存在する場合は、コピー処理が正常に終了したことに加えて、validataの命令も正常と返す時のみ、copyモジュールの実行が成功になる。
 
@@ -526,13 +525,13 @@ validate パラメータに検証の為のコマンドを設定する。通常�
     validate: 'visudo -cf %s'
 ```
 
-### template
+#### template
 
 普通のファイルをコピーする場合は、copyモジュールで充分だが、コピー先ファイルの内容を動的に変更したい場合、templateモジュールを利用する必要がある。
 例えば、apacheをインストールした後、テストのためリモートノードにindex.htmlファイルをコピーし、リモートノードのホスト名とIPアドレスを表示させたい時、templateを利用したほうがいい。
 Index.html内、変更したい部分を変数として記入する。templateはpythonのj2テンプレートを利用している。j2を理解する必要がないが、変数の書き方は`\{\{` `\}\}`で囲むことを分かれば問題がない。
 
-#### templateファイルの構文
+##### templateファイルの構文
 
 Templateなので、可読性のため j2 拡張子をファイルにつける。下記の index.html.j2 ファイルに二つの変数ansible_hostname と ansible_default_ipv4.address が書かれている。
 
@@ -550,7 +549,7 @@ Templateなので、可読性のため j2 拡張子をファイルにつける�
 </html>
 ```
 
-#### facts変数を利用するtemplate
+##### facts変数を利用するtemplate
 
 index.html.j2で使われている変数ansible_hostnameとansible_default_ipv4.addressはfacts変数であり、ansibleはその内容を調べ、直接Playbookで利用することができるし、templateで利用することもできる。そのため、templateにこの変数を記入した場合は特にパラメータを入力する必要はない。
 
@@ -559,7 +558,7 @@ index.html.j2で使われている変数ansible_hostnameとansible_default_ipv4.
   template: src=templates/index.html.j2 dest=/var/www/html/index.html
 ```
 
-#### 一般変数を利用するtemplate
+##### 一般変数を利用するtemplate
 
 例えば、httpd.conf.j2をリモートノードにコピーした後、デフォルトのhttpポートを設定したい場合、templateの一般変数を利用して実現できる。templateファイル httpd.conf.j2の中での一般変数の利用方法は同じく`\{\{\}\}`:
 
@@ -596,11 +595,11 @@ templateモジュールはcopyモジュールと同じく、ファイルをリ�
     backup: yes
 ```
 
-### file
+#### file
 
 fileモジュールは、リモートノード上のファイル、シンボリック、フォルダの作成、削除、またはパーミションの設定を行う。
 
-#### ファイルのパーミッションの変更
+##### ファイルのパーミッションの変更
 
 mode変数には直接数字(頭1文字は 0)でも、パーミッション設定内容でも、パーミッションの追加/削除でも設定することができます。詳細については以下の例で示す。
 
@@ -614,7 +613,7 @@ mode変数には直接数字(頭1文字は 0)でも、パーミッション設�
     #mode: "u+rw,g-wx,o-rwx"
 ```
 
-#### シンボリックリンク作成
+##### シンボリックリンク作成
 
 ここで注意すべきところは、srcとdestパラメータの意味はcopyモジュールと異なり、fileモジュールの操作対象のファイルは全てリモートノード上にある。
 
@@ -627,7 +626,7 @@ mode変数には直接数字(頭1文字は 0)でも、パーミッション設�
     state: link
 ```
 
-#### 新しいファイル作成
+##### 新しいファイル作成
 
 Touchコマンドのように新しいファイルを作成
 
@@ -648,11 +647,11 @@ Touchコマンドのように新しいファイルを作成
     mode: 0755
 ```
 
-### user
+#### user
 
 ユーザモジュールはリモートノードのユーザアカウントを追加／削除／変更することができ、アカウントの属性を設定することもできる。
 
-#### アカウント追加
+##### アカウント追加
 
 ユーザアカウントjohndを追加、uid を 1040に、primary groupをadminに設定する。
 
@@ -674,7 +673,7 @@ Touchコマンドのように新しいファイルを作成
       append: yes
 ```
 
-#### アカウント削除
+##### アカウント削除
 
 ユーザアカウントjohndを削除する。
 
@@ -685,7 +684,7 @@ Touchコマンドのように新しいファイルを作成
     remove: yes
 ```
 
-#### アカウントの属性を変更
+##### アカウントの属性を変更
 
 アカウントjsmithに対し2048-bit のSSH keyを作成し、~jsmith/.ssh/id_rsaに保存する。
 
@@ -707,11 +706,11 @@ Touchコマンドのように新しいファイルを作成
       expires: 1422403387
 ```
 
-### yum
+#### yum
 
 yum モジュールはRed Hat系Linuxのパッケージを管理する。RHEL, CentOS, fedora 21以下のOSをサポートする。fedora 22以上からはdnfを利用するため、dnfモジュールの利用をお勧めする。
 
-#### パッケージのinstallとremove
+##### パッケージのinstallとremove
 
 最新のパッケージをインストール。もし古いパッケージが存在する場合、最新versionにアップデートする。
 
@@ -782,11 +781,11 @@ URLからパッケージをinstall
     state: present
 ```
 
-### service
+#### service
 
 リモートノード上のサービスを管理する。一般的によく利用されるサービスは、httpd, sshd, nfs, crondなどがある。
 
-#### 起動/停止/再起動
+##### 起動/停止/再起動
 
 httpdサービスを起動
 
@@ -837,11 +836,11 @@ httpdサービスをブート時自動起動に設定
     args: eth0
 ```
 
-### firewalld
+#### firewalld
 
 firewalldモジュールは、サービスやポートに対しfirewalldのルールを設定する。実行中のルールと、永久のルールの両方が設定できる。ただし、firewalldモジュールの条件として、リモートノードのfirewalldのversionは0.2.11以上である必要がある。
 
-#### サービスに対しfirewalldルールを追加
+##### サービスに対しfirewalldルールを追加
 
 ```YAML
 - firewalld:
@@ -856,7 +855,7 @@ firewalldモジュールは、サービスやポートに対しfirewalldのル�
     state: enabled
 ```
 
-#### ポートに対しfirewalldルールを追加
+##### ポートに対しfirewalldルールを追加
 
 ```YAML
 - firewalld:
@@ -870,7 +869,7 @@ firewalldモジュールは、サービスやポートに対しfirewalldのル�
     state: enabled
 ```
 
-#### その他のfirewalldルールの例
+##### その他のfirewalldルールの例
 
 ```YAML
 - firewalld:
@@ -896,7 +895,7 @@ firewalldモジュールは、サービスやポートに対しfirewalldのル�
     zone: dmz
 ```
 
-### shell
+#### shell
 
 shellモジュールは/bin/shを使ってリモートノードで命令を実行する。
 もし命令はyumやcopyモジュールで実現できるなら、shellまたはcommandのような命令モジュールが必要なくなる。
@@ -923,7 +922,7 @@ $home, $HOME, "<”,  ">”,  “|”, “;” と“&”が利用できる。
   - shell: echo foo >> /tmp/testfoo
 ```
 
-#### スクリプト実行
+##### スクリプト実行
 
 ```YAML
   - shell: somescript.sh >> somelog.txt
@@ -954,11 +953,11 @@ Bashを指定し命令を実行する
       executable: /bin/bash
 ```
 
-### Command
+#### Command
 
 Shellモジュールと似ていて、リモートノードで命令を実行する。しかし、commandモジュールは $HOME または "<", “>”, “|”, “;” and “&”を利用できない
 
-#### Shell と似た部分
+##### Shell と似た部分
 
 * 一つの命令を実行する
 
@@ -975,7 +974,7 @@ Shellモジュールと似ていて、リモートノードで命令を実行す
       creates: /path/to/database
 ```
 
-#### Shell と異る部分
+##### Shell と異る部分
 
 * パラメータを渡す方法はShellより一つ多い
 

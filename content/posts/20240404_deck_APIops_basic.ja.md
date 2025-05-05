@@ -4,7 +4,7 @@ date: 2024-04-04T23:49:19+09:00
 draft: false
 tags:
 - decK
-- kong
+- Kong Gateway
 - APIOps
 ---
 
@@ -14,7 +14,7 @@ decKはAPIライフサイクル自動化（APIOps）のために開発された�
 
 decKコマンドは以下の機能と特徴を持っている。
 
-- エクスポート(バックアップ) 
+- エクスポート(バックアップ)
   既存のKong構成をYAML形式の構成ファイルにエクスポートする
 
 - インポート（リストア）
@@ -47,7 +47,9 @@ decKコマンドは以下の機能と特徴を持っている。
 以下は、サブコマンド単位で例を載せる
 
 ## 事前準備
+
 以下のKong構成ファイルをベースにしています。ServiceとRouteがひとつずつ存在する状態
+
 ``` kong.yaml
 _format_version: "3.0"
 services:
@@ -65,6 +67,7 @@ services:
 ## deck gateway 関連
 
 ### deck gateway ping
+
 まずはpingで疎通確認
 
 ```bash
@@ -83,6 +86,7 @@ Kong version:  3.4.3.5
 ```
 
 ### deck gateway validate
+
 構成ファイルの文法などをチェック。問題がない場合は何も出力しないが、構文エラーがある場合ちゃんと行数とエラーの内容を出力する。
 このコマンドは、Kong Admin APIに接続して検証を行う。処理時間がかかりますが、重大なエラーなどを洗い出すことが可能。もしローカルのファイルのみを検証したい場合は、`deck file validate`を利用する。
 検証の時にKongのDBへの変更などはありません。
@@ -90,11 +94,13 @@ Kong version:  3.4.3.5
 ```bash
 deck gateway validate kong.yaml --headers Kong-Admin-Token:test
 Error: 1 errors occurred:
-	reading file kong.yaml: validating file content: unmarshaling file content: error converting YAML to JSON: yaml: line 7: could not find expected ':'
+  reading file kong.yaml: validating file content: unmarshaling file content: error converting YAML to JSON: yaml: line 7: could not find expected ':'
 ```
 
 ### deck gateway sync
+
 上記の構成ファイルをKong Gatewayに反映する。デフォルトは標準入力から構成内容を読み込む。
+
 ```bash
 $ cat kong.yaml | deck gateway sync --headers Kong-Admin-Token:test
 creating service uuid-generator
@@ -137,6 +143,7 @@ Summary:
 ファイル上の構成を反映したい場合はもう一度deck gateway syncを実行する。
 
 ### deck gateway dump
+
 逆にDB上の構成をファイルに反映したい場合、またはバックアップを取りたい場合は、dumpをする。
 その後もう一度diffをすれば、DB上の構成がファイルに反映したことがわかる。
 
@@ -152,6 +159,7 @@ Summary:
 ```
 
 ### deck gateway reset
+
 KongのDB上の構成を全て削除する。
 
 ```bash
@@ -170,17 +178,18 @@ Summary:
 
 deck fileは、主にKongの構成ファイルに関する処理を行う。
 
-### deck file validate 
+### deck file validate \
+
 `deck gateway validate`と似ているが、Kong Admin APIへの通信がなくローカルファイルの文法チェックだけのため実行速度が速い。
 
 ```bash
 deck file validate kong.yaml
 Error: 1 errors occurred:
-	reading file kong.yaml: validating file content: unmarshaling file content: error converting YAML to JSON: yaml: line 7: could not find expected ':'
+  reading file kong.yaml: validating file content: unmarshaling file content: error converting YAML to JSON: yaml: line 7: could not find expected ':'
 
 ```
 
-### deck file kong2kic 
+### deck file kong2kic
 
 Kongの構成ファイルをKubernetes用に変更する。
 例えば、以下のKong.yamlの構成ファイルを例にする。
@@ -215,10 +224,11 @@ services:
 ```
 
 #### HTTPRoute + Service (Default)
+
 HTTPRoute + Serviceのリソースを生成させるために以下のコマンドを実行する。
 
 ```bash
-$ deck file kong2kic -s kong.yaml
+deck file kong2kic -s kong.yaml
 ```
 
 ```yaml
@@ -260,10 +270,11 @@ spec:
 ```
 
 #### Ingress + Service
+
 Ingress + Serviceのリソースを生成させるために、--ingressオプションを追加してからコマンドを実行する。
 
 ```bash
-$ deck file kong2kic -s kong.yaml --ingress
+deck file kong2kic -s kong.yaml --ingress
 ```
 
 ```yaml
@@ -314,7 +325,7 @@ spec:
 ---
 ```
 
-### deck file openapi2kong 
+### deck file openapi2kong
 
 OpenAPI specifications（OAS）のソースからKong の構成ファイルに変換する
 例えば以下のOASのファイルを例にする。ServiceとRouteだけではなく、Pluginも入っています。
@@ -360,7 +371,7 @@ servers:
 以下のコマンドで一発変換するとこになります。ちゃんとプラグインの設定も変換されています。
 
 ```bash
-$ deck file openapi2kong -s openapi.yaml
+deck file openapi2kong -s openapi.yaml
 ```
 
 ```yaml
@@ -399,11 +410,13 @@ services:
   tags: []
 upstreams: []
 ```
-### deck file add-plugins 
+
+### deck file add-plugins
 
 Kongの構成ファイルにプラグインの定義を追加する。
 
 いつもの以下の構成に対し
+
 ```yaml
 _format_version: "3.0"
 services:
@@ -423,7 +436,7 @@ services:
 `--selector`の表現を`='route[*]'`に変更すると、すべてのRouteにプラグインを追加する。
 
 ```bash
-$ cat kong.yaml | deck file add-plugins --selector='services[*]' --config='{"plugins":[{"config":{"strategy":"memory"},"enabled":true,"name":"proxy-cache"}]}'
+cat kong.yaml | deck file add-plugins --selector='services[*]' --config='{"plugins":[{"config":{"strategy":"memory"},"enabled":true,"name":"proxy-cache"}]}'
 ```
 
 ```yaml
@@ -472,7 +485,7 @@ services:
 そして、このファイルをadd-pluginsの後ろに追加したら、STDINからの構成内容にプラグインが追記される。
 
 ```bash
-$ cat kong.yaml | deck file add-plugins proxy-cache.json
+cat kong.yaml | deck file add-plugins proxy-cache.json
 ```
 
 ```yaml

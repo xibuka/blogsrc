@@ -135,7 +135,8 @@ HTTP/1.1 200 OK
 現在このプラグインは、Kong内部のエラーにしか反応しなく、Upstreamからのエラーには対応していないです。
 :::
 
-#### Plugin設定
+#### exit transformerのPlugin設定
+
 まずはテスト用のサービスとルートを登録します。
 
 ```bash
@@ -185,7 +186,7 @@ curl -i -X POST http://localhost:8001/services/example.com/routes \
    --data "name=key-auth"
 ```
 
-#### 動作確認
+#### exit transformerの動作確認
 
 `/example`にリクエストを送信してカスタムエラーを取得します。この場合、リクエストが認証情報（APIキー）を提供しなかったため、メッセージボディ内に401レスポンスが返されますが、clientへのレスポンスが200になっています。
 

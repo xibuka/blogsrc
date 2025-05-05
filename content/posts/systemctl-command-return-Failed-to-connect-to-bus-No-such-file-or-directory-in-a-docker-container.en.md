@@ -12,16 +12,16 @@ tags:
 To enable and start a cron job and a httpd server in a docker container, I
 tried ` systemctl ` command but get an error output like this
 
-```
+```sh
 [root@5f1f0a5cde43 app]# systemctl status crond    
 Failed to connect to bus: No such file or directory
 [root@5f1f0a5cde43 app]# systemctl status httpd    
 Failed to connect to bus: No such file or directory
 ```
 
-Fix this issue by add `--privileged` parameter to `docker run ` command
+Fix this issue by add `--privileged` parameter to `docker run` command
 
-```
+```sh
 # docker images
 REPOSITORY                          TAG                 IMAGE ID            CREATED           SIZE
 freshcase                           v0.5                55acda97e409        4 minutes ago       707 MB
@@ -32,11 +32,9 @@ CONTAINER ID        IMAGE                      COMMAND                  CREATED 
 
 ```
 
-
-
 Then you can login to the container and use systemctl command as well
 
-```
+```bash
 # docker exec -ti 81 bash
 [root@81fbd5eb01cb app]# systemctl status httpd
 ● httpd.service - The Apache HTTP Server

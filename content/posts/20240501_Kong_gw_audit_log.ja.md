@@ -3,10 +3,12 @@ title: "Kong GatewayのAudit Log"
 date: 2024-05-01T23:49:19+09:00
 draft: false
 tags:
-- kong
+- Kong Gateway
+- Audit Log
 ---
 
 ## 概要
+
 KongのAudit Logは、Kongが行う各種操作を記録することで、システムの状態やセキュリティに関する洞察を提供します。これにより、システムの変更や問題のトラッキング、セキュリティ侵害の検出などが可能になります。
 
 KongのAudit Logには、一般的にJSON形式で、次のような情報が記録されます。
@@ -18,12 +20,13 @@ KongのAudit Logには、一般的にJSON形式で、次のような情報が記
 - エラーまたは警告メッセージ
 - システムイベントや構成変更
 
-https://docs.konghq.com/gateway/latest/kong-enterprise/audit-log/
+[https://docs.konghq.com/gateway/latest/kong-enterprise/audit-log/](https://docs.konghq.com/gateway/latest/kong-enterprise/audit-log/)
 
 ## 機能の有効化
+
 Kong Audit logは、Enterpriseの機能です。デフォルトではOffであって、`audit_log`の変更で有効無効が設定できます。
 
-```config
+```conf
 audit_log = on ## audit logging is enabled
 audit_log = off ## audit logging is disabled
 ```
@@ -33,7 +36,7 @@ audit_log = off ## audit logging is disabled
 例えば以下のようなアクセスがあった場合
 
 ```bash
-$ curl -i -X GET http://localhost:8001/status
+curl -i -X GET http://localhost:8001/status
 ```
 
 このアクセスはAudit logに記録され、以下のリクエストで取得できます。
@@ -99,8 +102,7 @@ X-Kong-Admin-Request-ID: VXgMG1Y3rZKbjrzVYlSdLNPw8asVwhET
 ```
 
 ### ログローテーション
+
 Audit Logは、KongのDBに、`audit_log_record_ttl`で定義して期間内に保存されます。`audit_log_record_ttl`を過ぎたログは自動で削除されます。このパラメータのデフォルトは30日です。
 
 PostgreSQLは、DBにinsertがあるときに、上記の自動削除が行われます。そのため、Audit Logのエントリは上記TTL設定より長い存在する可能性もあります。特に新しいAudit Logのエントリが入ってこない時にです。
-
-

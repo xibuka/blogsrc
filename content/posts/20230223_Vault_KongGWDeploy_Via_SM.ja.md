@@ -8,11 +8,14 @@ tags:
 - Secrets Management
 ---
 
-# 背景
+## 背景
+
 Kong Gateway 3.0 から、Secrets ManagementがGAとなりました。Kong Gateway は、データベースのパスワードからプラグインで使用される API キーまで、多くのSecretに依存して動作します。以前ではRBACを使って、Admin APIとKong Managerから機密情報へのアクセスを制限できましたが、Secretを平文で表示されずに管理できたら嬉しいですよね。これを実現できるのはSecrets Managementです。
 
-# サポートするVault
+## サポートするVault
+
 現時点で、サポートしているVaultは以下の４種類です。
+
 - AWS Secrets Manager
 - GCP Secrets Manager
 - HashiCorp Vault
@@ -20,23 +23,28 @@ Kong Gateway 3.0 から、Secrets ManagementがGAとなりました。Kong Gatew
 
 Kong は、上記の各システムを抽象化して、利用するときにVaultのキーワード(hcv、aws、gcpまたは env)を変更するだけで利用できます。たとえば、HashiCorp Vaultの Postgres Secretのpassword フィールドにアクセスするには、次のフォーマットで参照できます。
 
-    {vault://hcv/postgres/password}
+`{vault://hcv/postgres/password}`
 
 AWS Secrets Managerの場合
 
-    {vault://aws/postgres/password}
+`{vault://aws/postgres/password}`
 
 環境変数の場合
 
+```conf
     export POSTGRES='{"username":"user", "password":"pass"}'
     {vault://env/postgres/password}
+```
 
-# デモ
+## デモ
+
 では実際にSecrets Managementを使ってVaultのSecretsを参照し、Kongのデプロイを試してみよう
 
-## Vault環境を用意
+### Vault環境を用意
+
 ここで、TOKEN_IDをkongにします。この値は後の認証するときに使用されます。
-```
+
+```bash
 docker run -d --name vault.idp \
   --network=kong-net \
   -e "VAULT_DEV_ROOT_TOKEN_ID=kong" \
@@ -45,22 +53,24 @@ docker run -d --name vault.idp \
   vault:latest
 ```
 
-## Secretを作成
+### Secretを作成
 
 コンテナーに入って、Secretを作成しましょう
 
+```bash
     docker exec -it vault.idp sh
-    / # export VAULT_ADDR='http://127.0.0.1:8200'
-    / # export VAULT_TOKEN="kong"
-    / # vault kv put -mount secret kong pg_password=kongpass
+    / ## export VAULT_ADDR='http://127.0.0.1:8200'
+    / ## export VAULT_TOKEN="kong"
+    / ## vault kv put -mount secret kong pg_password=kongpass
+```
 
 VAULT_ADDRとVAULT_TOKENを設定しないと、`Get "https://127.0.0.1:8200/v1/sys/internal/ui/mounts/secret": http: server gave HTTP response to HTTPS client`のエラーが出ます。
 
-## Secretを利用しKong gatewayをデプロイ
+### Secretを利用しKong gatewayをデプロイ
 
 Vaultが無事起動している状態でしたら、Kong GatewayのDocker コンテナーも起動しに行きます。DBへの接続用のパラメータ`KONG_PG_PASSWORD`のところに、HashiCorp VaultからSecretを参照するように`{vault://hcv/kong/pg_password}`と書き換えています。Vaultへの接続情報は`KONG_VAULT_HCV_*`のパラメータで設定しています。
 
-```
+```bash
 docker run -d --name kong-gateway-sm \
   --network=kong-net \
   -e "KONG_DATABASE=postgres" \
@@ -94,11 +104,11 @@ docker run -d --name kong-gateway-sm \
 
 コンテナーが無事起動しているであれば、ちゃんとVaultからSecretが参照できましたね！
 
-## Secretを利用しプラグインをデプロイ
+### Secretを利用しプラグインをデプロイ
 
 Vaultへのアクセス情報を設定しているため、PluginをデプロイするときにもSecretを参照することができます。以下の例では、`Proxy Caching Advanced`プラグインをデプロイするときに、`config.redis.password`の設定はVaultからの参照にしています。
 
-```
+```bash
 curl localhost:8001/services/example-service/plugins \
 --data "name=proxy-cache-advanced"  \
 --data "config.response_code=200" \
@@ -111,5 +121,4 @@ curl localhost:8001/services/example-service/plugins \
 --data "config.redis.password={vault://hcv/redis/password}"
 ```
 
-以上！Kong GWで機密情報の管理や参照の方法をご紹介しました。現時点では、環境変数、HashiCorp Vault、 AWS Secrets Manager、およびGCP Secrets Managerのドライバはbuilt-inで入っているのですぐ利用できます。Azure Key Vaultファンの方には朗報です。近いうちにそちらもサポートするようになるのでもう少しお待ちください！
-
+以上！Kong GWで機密情報の管理や参照の方法をご紹介しました。現時点では、環境変数、HashiCorp Vault、AWS Secrets Manager、およびGCP Secrets Managerのドライバはbuilt-inで入っているのですぐ利用できます。Azure Key Vaultファンの方には朗報です。近いうちにそちらもサポートするようになるのでもう少しお待ちください！

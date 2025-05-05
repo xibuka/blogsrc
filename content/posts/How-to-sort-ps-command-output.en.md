@@ -7,7 +7,7 @@ tags:
 
 ps command has a `--sort` option which can help you to sort processes.
 
-```
+```bash
 --sort spec
        Specify sorting order.  Sorting syntax is
        [+|-]key[,[+|-]key[,...]].  Choose a multi-letter key from the
@@ -16,42 +16,48 @@ ps command has a `--sort` option which can help you to sort processes.
        order.  Identical to k.  For example: ps jax --sort=uid,-ppid,
        +pid
 ```
-# Sort ps output by memory
-## From high to low
+
+### Sort ps output by memory
+
+#### From high to low
+
 The highest is at the top of the command
 
+```bash
+ps aux --sort -rss
 ```
-# ps aux --sort -rss
-```
 
+#### From low to high
 
-
-## From low to high 
 The highest is at the bottom of the command
 
-```
-# ps aux --sort rss
+```bash
+ps aux --sort rss
 ```
 
-# Sort ps output by cpu usage
-## From high to low
+### Sort ps output by cpu usage
+
+#### From high to low
+
 The highest is at the top of the command
 
-```
-# ps aux --sort -pcpu
+```bash
+ps aux --sort -pcpu
 ```
 
-## From low to high 
+#### From low to high
+
 The highest is at the bottom of the command
 
-```
-# ps aux --sort rss
+```bash
+ps aux --sort rss
 ```
 
+### other sorting specifiers
 
-# other sorting specifiers
 Check the man page of ps command.
-```
+
+```man
 STANDARD FORMAT SPECIFIERS
        Here are the different keywords that may be used to control the output format (e.g.
        with option -o) or to sort the selected processes with the GNU-style --sort option.

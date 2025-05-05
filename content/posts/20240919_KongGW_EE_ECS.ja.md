@@ -3,8 +3,8 @@ title: "Kong GatewayをAWS ECS Fargate環境で構築"
 date: 2024-09-19T23:49:19+09:00
 draft: false
 tags:
-- kong
-- ecs
+- Kong Gateway
+- ECS
 ---
 
 ## AWSのElastic Container Service (ECS)の概要
@@ -223,7 +223,6 @@ ecs-cli compose \
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2679136/a66537f8-b299-1af8-ad0d-55ea30f76a29.png)
 
-
 タスクの`Networking`から外部向けのIPアドレスがアサインされ、このアドレスからKongのサービスにアクセスすることができます。
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2679136/6daefe66-83f9-4625-43d6-ff77f15b6437.png)
@@ -242,9 +241,8 @@ ecs-cli compose \
 ## 後書き
 
 残りの作業として、
+
 - このIPアドレスに指すようにTarget Groupを作って、ALBを作成
 - Route 53からDNS Entryを作成
 
 実は上記の作業をterraformやcloudformを使って、もっと自動化にすることはできますが、TBDにします。
-
-

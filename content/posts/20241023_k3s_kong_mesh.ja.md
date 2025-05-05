@@ -402,17 +402,17 @@ kong-gateway-proxy                   LoadBalancer   10.43.97.252    <pending>   
 
 ここからはKong Meshの本領を発揮するところです。Kong Meshのポリシーは、サービスメッシュ環境でセキュリティやアクセス管理、トラフィック制御を実現するためのルール設定をサポートするものです。これらのポリシーには、主に以下の要素が含まれます。
 
-1.	セキュリティポリシー: 通信の暗号化（mTLS）や認証・認可を通じて、マイクロサービス間のセキュリティを強化します。トラフィックが安全に通信されることを保証します
-2.	トラフィックポリシー: サービス間の通信ルールを定義します。リトライやタイムアウト設定、トラフィックシェーピング、ロードバランシングなどを管理することが可能です
-3.	認可ポリシー: RBAC（Role-Based Access Control）に基づき、どのサービスやユーザーがどのリソースにアクセスできるかを制御します
-4.	監査ポリシー: システム全体のアクティビティを記録し、監査ログを生成します。これにより、異常やセキュリティインシデントの早期検知が可能です
+1. セキュリティポリシー: 通信の暗号化（mTLS）や認証・認可を通じて、マイクロサービス間のセキュリティを強化します。トラフィックが安全に通信されることを保証します
+2. トラフィックポリシー: サービス間の通信ルールを定義します。リトライやタイムアウト設定、トラフィックシェーピング、ロードバランシングなどを管理することが可能です
+3. 認可ポリシー: RBAC（Role-Based Access Control）に基づき、どのサービスやユーザーがどのリソースにアクセスできるかを制御します
+4. 監査ポリシー: システム全体のアクティビティを記録し、監査ログを生成します。これにより、異常やセキュリティインシデントの早期検知が可能です
 
 Kong Meshのポリシーは、これらの機能を通じて、分散システム全体のセキュリティ、パフォーマンス、信頼性を向上させることを目的としています。
-https://docs.konghq.com/mesh/latest/policies/introduction/
+[https://docs.konghq.com/mesh/latest/policies/introduction/](https://docs.konghq.com/mesh/latest/policies/introduction/)
 
 ここでは、以下の二つのポリシーを適用して、Zero Trust networkを構築する方法を説明します。
-https://docs.konghq.com/mesh/latest/policies/meshpassthrough/
-https://docs.konghq.com/mesh/latest/policies/meshtrafficpermission/
+[https://docs.konghq.com/mesh/latest/policies/meshpassthrough/](https://docs.konghq.com/mesh/latest/policies/meshpassthrough/)
+[https://docs.konghq.com/mesh/latest/policies/meshtrafficpermission/](https://docs.konghq.com/mesh/latest/policies/meshtrafficpermission/)
 
 ### Zero-trust Networkの構築
 

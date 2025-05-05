@@ -25,11 +25,9 @@ tags:
 1. Playbookの上級な書き方
 1. Extraモジュールの利用
 
+## Ansible設定ファイル
 
-
-# Ansible設定ファイル
-
-## 設定内容
+### 設定内容
 
 * 基本の設定内容
 
@@ -56,7 +54,7 @@ tags:
 
 [http://docs.ansible.com/ansible/intro_configuration.html#explanation-of-values-by-section](http://docs.ansible.com/ansible/intro_configuration.html#explanation-of-values-by-section)
 
-## 優先順位
+### 優先順位
 
 設定ファイルのデフォルトのパスは/etc/ansible/ansible.cfg。Ansibleは以下の順番で設定ファイルを検索し、**最初に**見つけたファイルの設定内容を読み込む。
 
@@ -72,17 +70,17 @@ Ansible 1.5以前の順番は
 1. .ansible.cfg (in the home directory)
 1. /etc/ansible/ansible.cfg
 
-# Host Inventory(サーバーリスト)
+## Host Inventory(サーバーリスト)
 
 サーバーリストとは、管理対象のリモートノード情報と、カテゴリやグループなどの情報をAnsibleに教えるためのファイルである。カテゴリは自分のニーズ、ロケーション、役割などによって分類できる。
 
-## ファイルパス
+### ファイルパス
 
-### デフォルトのファイルパス
+#### デフォルトのファイルパス
 
 `/etc/ansible/hosts`
 
-### ファイルパスの変更
+#### ファイルパスの変更
 
 `/etc/ansible/ansible.cfg` の以下の部分を変更
 
@@ -92,7 +90,7 @@ inventory      = /etc/ansible/hosts
 ...
 ```
 
-### コマンドライン上で指定
+#### コマンドライン上で指定
 
 ```bash
 ansible-playbook -i hosts site.yml
@@ -104,7 +102,7 @@ ansible-playbook -i hosts site.yml
 ansible-playbook --inventory-file hosts site.yml
 ```
 
-## サーバーのカテゴリ化
+### サーバーのカテゴリ化
 
 `[]`内でグループ名を書く
 
@@ -149,9 +147,9 @@ southwest
 northwest
 ```
 
-## 接続パラメータと変数
+### 接続パラメータと変数
 
-### パラメータ
+#### パラメータ
 
 リモートノードに接続する方法とユーザを、パラメータに設定できる。
 
@@ -170,7 +168,7 @@ host2 http_port=303 maxRequestsPerChild=909
 指定可能なパラメータの一覧は以下を参照する。
 [http://docs.ansible.com/ansible/intro_inventory.html#list-of-behavioral-inventory-parameters](http://docs.ansible.com/ansible/intro_inventory.html#list-of-behavioral-inventory-parameters)
 
-### 変数
+#### 変数
 
 グループに対して変数を設定することができる。
 
@@ -184,7 +182,7 @@ ntp_server=ntp.atlanta.example.com
 proxy=proxy.atlanta.example.com
 ```
 
-## ディレクトリ構造での変数保存
+### ディレクトリ構造での変数保存
 
 例えば、inventoryファイルは`/etc/ansible/hosts`の場合、関連するhostsとgroup変数は以下のディレクトリに保存できる。
 
@@ -211,29 +209,29 @@ database_server: storage.example.org
 
 `group_vars/`と`host_vars/` は`inventory/`以下または`playbook/`以下に置くことができる。もし両方(`inventory/`または`playbook/`)の下にファイルがある場合、playbook以下の配置はinventoryより**優先的に**読み込まれる。
 
-# Ansibleのスクリプト(Playbook)
+## Ansibleのスクリプト(Playbook)
 
-## フォーマット
+### フォーマット
 
 AnsibleのスクリプトはYAML形式を利用している。Playbookを書く前に既存のPlaybookを参考したほうが効率良く作成することができる効率。
 
-### オフィシャルの例
+#### オフィシャルの例
 
 Ansibleの公式Githubリポジトリに存在するテスト済みのPlaybookをシェアしている。
 
 [https://github.com/ansible/ansible-examples](https://github.com/ansible/ansible-examples)
 
-### 他のユーザがシェアしたPlaybook
+#### 他のユーザがシェアしたPlaybook
 
 「Ansible Galaxy」というPlaybookをシェアするためのサイトがある。このサイトにある例はユーザが自分でアップロードしたもので、Playbookの勉強や参考にするとは良いが、実際に利用する前には必ずテストが必要である。
 
 [https://galaxy.ansible.com/](https://galaxy.ansible.com/)
 
-## Playbookの基本
+### Playbookの基本
 
 本節ではPlaybookを書くための基本を説明する。
 
-### Playbookの実行
+#### Playbookの実行
 
 ```bash
 ansible-playbook deploy.yml
@@ -257,7 +255,7 @@ ansible-playbook playbook.yml --list-hosts
 ansible-playbook playbook.yml -f 10
 ```
 
-### 簡単なPlaybookの例
+#### 簡単なPlaybookの例
 
 基本のplaybookのスクリプトの例では、以下三つの部分がある。
 
@@ -292,7 +290,7 @@ ansible-playbook playbook.yml -f 10
       service: name=httpd state=restarted
 ```
 
-#### 対象サーバと実行ユーザ（hostsとuser）
+##### 対象サーバと実行ユーザ（hostsとuser）
 
 | key | 意味 |
 | --- | --- |
@@ -308,13 +306,13 @@ ansible-playbook playbook.yml -f 10
 ansible-playbook deploy.yml --ask-become-pass
 ```
 
-### 実行するタスク(Tasks)
+#### 実行するタスク(Tasks)
 
 * タスクはPlaybookの上から下まで実行する。途中でエラーが発生した場合、Playbookの実行が中止される。スクリプトファイルを修正した後、再度スクリプトを実行する。
 * 各taskはモジュールの読み出しであり、パラメータと変数を適切に設定する。
 * 各taskはname 属性を持ったほうが、人間にとって理解しやすくなる。name属性は内容を出力するだけで、実行の進捗をユーザに提示することができる。
 
-#### 構文
+##### 構文
 
 Tasksの基本構文を以下に示す。
 
@@ -345,7 +343,7 @@ TASK: [service name=httpd state=running] **************************************
 changed: [yourhost]
 ```
 
-#### 変数の渡し方
+##### 変数の渡し方
 
 上記の構文の例では、モジュールに変数を渡す方法を示している：`key=value`
 
@@ -377,7 +375,7 @@ tasks:
       mode: 0644
 ```
 
-#### 実行状態
+##### 実行状態
 
 タスク内の各actionは一つのモジュールを実行し、最初にリモートノードの状態を確認し、実行が必要かどうかを判断する。
 
@@ -408,9 +406,9 @@ tasks:
 
 ![servers](/img/ansible/ansible_5.png)
 
-### イベントハンドラ(handler)
+#### イベントハンドラ(handler)
 
-#### 定義
+##### 定義
 
 一般的なプログラミング言語にevent処理があるように、handleとはplaybookスクリプトでのevent処理である。
 
@@ -418,7 +416,7 @@ tasksと似ていて、Handlers内の各handlerはモジュールを一回実行
 
 また、tasksが実行された後、changedまたはOKの状態になっていて、handlerはtasks実行後状態がchangedの時のみ実行される。
 
-#### 役割
+##### 役割
 
 もしtasksの中にapachの設定ファイルを変更した後、apacheを再起動する必要がある。そのほかにapache のプラグインをインストールした後にも、apacheを再起動する必要がある。この場合、「apacheを再起動する」ことは、handlerとして実行することができる。
 
@@ -510,7 +508,7 @@ handlersはnotifyされる順番ではなく、定義された順番で実行さ
     debug: msg="define the 3nd handler"
 ```
 
-## Playbookで利用可能な変数
+### Playbookで利用可能な変数
 
 本節では、よく使う幾つかの変数を紹介する。次の章からは、複雑な場面での変数の使い方などを紹介する。
 
@@ -522,7 +520,7 @@ handlersはnotifyされる順番ではなく、定義された順番で実行さ
 1. taskの実行結果を変数として使える。この変数は<register変数>となる
 1. Playbookをもっと汎用性高く、動的に使いやすくするために、ユーザが実行中に変数を入力することができる。この変数は<extra変数>となる
 
-### Playbook中で定義した変数
+#### Playbook中で定義した変数
 
 ユーザはPlaybook中に、varsキーワードで変数を定義することができる。使用する時は`\{\{\}\}`で囲んで利用する。下記の例では、ユーザがhttp_port変数を定義し、80と設定している。tasks firewalldの中で、`\{\{ http_port \}\}`で内容を読み込んでいる。
 
@@ -537,7 +535,7 @@ handlersはnotifyされる順番ではなく、定義された順番で実行さ
     firewalld: port=\{\{ http_port \}\}/tcp permanent=true state=enabled immediate=yes
 ```
 
-#### 変数を単独ファイルに置く
+##### 変数を単独ファイルに置く
 
 変数が多い時、または複数のPlaybook中に共用されたい時に、変数を単独の変数ファイルに置くことができる。var_filesパラメータに該当する変数ファイル名を設定すると、同じ使い方で変数を参照できる。
 
@@ -559,7 +557,7 @@ handlersはnotifyされる順番ではなく、定義された順番で実行さ
 http_port: 80
 ```
 
-#### 複雑変数の扱い方
+##### 複雑変数の扱い方
 
 利用したい変数は簡単な文字列や数字ではなく、一つのオブジェクトにしたい時がある。その時に以下のようなYAMLのハッシュ形式(または辞書形式)にオブジェクトの内容を設定する。
 
@@ -576,7 +574,7 @@ foo['field1']
 foo.field1
 ```
 
-#### YAMLの落とし穴
+##### YAMLの落とし穴
 
 YAMLの変数構文がAnsibleの変数構文と一緒に書くと構文エラーになる場合がある。詳細については、コロン(:)の後ろにすぐ大括弧 { を書くことはできなく、かならずダブルクォーテーション " で囲む必要がある。もしエラー内容が YAMLの構文エラーの場合、ダブルクォーテーション “ を追加して解決する。
 
@@ -596,7 +594,7 @@ YAMLの変数構文がAnsibleの変数構文と一緒に書くと構文エラー
        app_path: "\{\{ base_path \}\}/22"
 ```
 
-### システム変数(facts)
+#### システム変数(facts)
 
 Ansibleはsetup モジュールを通じてリモートノードのシステム情報を収集している。こちらのシステム情報はfactsと呼び、直接変数として利用することができる。
 コマンドラインからsetupモジュールを実行して利用可能な変数の一覧が確認できる。
@@ -622,7 +620,7 @@ Playbookの中では、facts変数を直接利用することができる。
     when: ansible_os_family == "RedHat"
 ```
 
-#### 複雑なfacts変数
+##### 複雑なfacts変数
 
 一般変数と同じく、以下のようなハッシュ変数形式のfacts変数も存在する。
 
@@ -671,7 +669,7 @@ Playbookの中では、facts変数を直接利用することができる。
 \{\{ ansible_ens3.ipv4.address \}\}
 ```
 
-#### factsの無効化
+##### factsの無効化
 
 Playbookでは、gather_factsパラメータがfacts変数の収集を設定できる。下記のように no と設定すると、上記のfacts変数はこのPlaybookでの利用ができなくなる。
 
@@ -680,11 +678,11 @@ Playbookでは、gather_factsパラメータがfacts変数の収集を設定で�
   gather_facts: no
 ```
 
-### テンプレートで定義した変数
+#### テンプレートで定義した変数
 
 テンプレートはAnsibleでよく使われているため、テンプレートファイルでの変数の使い方を説明する。
 
-#### 変数の定義
+##### 変数の定義
 
 Playbook内で定義した変数、factsシステム変数、inventory内で定義したhostとgroup変数は、直接テンプレートで利用できる。Playbook内で利用できる変数は、テンプレートファイルでも利用できる。
 
@@ -719,7 +717,7 @@ Playbook内で定義した変数、factsシステム変数、inventory内で定�
       service: name=httpd state=restarted
 ```
 
-#### 変数の利用
+##### 変数の利用
 
 Ansibleのテンプレートファイルが利用する構文はPython のテンプレート言語Jinja2。下記のテンプレートの例index.html.j2の中で、変数を直接利用している。
 
@@ -742,7 +740,7 @@ Index.html.j2ファイルの内容
 </html>
 ```
 
-### タスクの実行結果を変数に設定
+#### タスクの実行結果を変数に設定
 
 taskの実行結果は変数の値に代入できる。この場合はregisterキーワードを利用し、taskの実行結果を変数に設定し、その後にあるactionに利用される。
 
@@ -765,11 +763,11 @@ taskの実行結果は変数の値に代入できる。この場合はregister�
 
 Register変数はよくdebug モジュールと一緒に利用され、actionの実行の詳細情報を得てトラブルシュッティングに役立つ。
 
-### コマンドラインで変数を渡す
+#### コマンドラインで変数を渡す
 
 汎用性と便利性のため、コマンドラインでPlaybookに変数の値を渡すことができる。この場合はansible-playbookの--extra-varsオプションを利用する。
 
-#### コマンドライン変数の定義
+##### コマンドライン変数の定義
 
 下記のように、release.ymlファイルでは、hostsとuserは変数として定義され、コマンドラインから値を設定する必要がある。
 
@@ -783,7 +781,7 @@ Register変数はよくdebug モジュールと一緒に利用され、actionの
      - ...
 ```
 
-#### コマンドライン変数の利用
+##### コマンドライン変数の利用
 
 以下のようにコマンドラインから変数の値を設定する。
 
@@ -803,13 +801,13 @@ ansible-playbook e33_var_in_command.yml --extra-vars "{'hosts':'vm-rhel7-1', 'us
 ansible-playbook e33_var_in_command.yml --extra-vars "@vars.json"
 ```
 
-## 条件判断、ループとブロック
+### 条件判断、ループとブロック
 
 * when： 条件判断のキーワード。ifに似ている
 * loop：循環処理（ループ）のキーワード。forに似ている
 * block：複数のtasksを一つのブロックにまとめて、異常処理の対応などに利用できる。
 
-### 条件判断(when)
+#### 条件判断(when)
 
 例えば、特定のversionのシステム上にパッケージをインストールや、ディスク空き容量がない時にファイルを削除するなど、特定の条件に満足している時のみ、特定のtaskを実行したい場合、Playbook内のwhenを利用する。
 サーバーがDebian Linuxの場合すぐシャットダウンする
@@ -846,7 +844,7 @@ tasks:
       when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int >= 6
 ```
 
-#### 条件式
+##### 条件式
 
 真偽（True/False）判断の条件式
 
@@ -898,9 +896,9 @@ Roleと一緒に利用
      - { role: debian_stock_config, when: ansible_os_family == 'Debian' }
 ```
 
-### 循環処理(loop)
+#### 循環処理(loop)
 
-#### 標準のループ(with_items)
+##### 標準のループ(with_items)
 
 コードの読み易さと簡潔のため、重複のタスク内容を以下のように書くことができる。
 
@@ -935,7 +933,7 @@ with_itemsキーワードで操作できるのは簡単なデータだけでは�
 
 注意：whenとwith_items（または他のループ）を同時に使用する場合、ループの各実行項目に対してwhenが条件判断を行う。
 
-#### ネストループ(with_nested)
+##### ネストループ(with_nested)
 
 階層形式のデータもループすることができる。
 
@@ -957,7 +955,7 @@ with_itemsキーワードで操作できるのは簡単なデータだけでは�
     - [ 'clientdb', 'employeedb', 'providerd']
 ```
 
-#### ハッシュループ(with_dict)
+##### ハッシュループ(with_dict)
 
 ```YAML
 ---
@@ -975,7 +973,7 @@ tasks:
     with_dict: "\{\{users\}\}"
 ```
 
-#### ファイルリストループ(with_fileglob)
+##### ファイルリストループ(with_fileglob)
 
 with_fileglobを利用し、フォルダ以下のファイルをループに代入することができる。
 
@@ -991,7 +989,7 @@ tasks:
         - /playbooks/files/fooapp/*
 ```
 
-### ブロック(block)
+#### ブロック(block)
 
 複数actionをブロックに纏めて、設定した条件に合致した場合、全actionが一括に実行される。
 
@@ -1028,7 +1026,7 @@ tasks:
       - debug: msg="this always executes"
 ```
 
-## 既存Playbook の読み込む
+### 既存Playbook の読み込む
 
 既存のPlaybookを利用することで、開発時間が節約できるし、メンテナンスもしやすくなる。他のPlaybookファイルを読み込むために、以下二つが方法がある。
 
@@ -1037,18 +1035,18 @@ tasks:
 * role:
   * Playbookの"函数”みたいで、使い方はちょっと複雑ですが、includeより強力でいろんなことができる。Ansible Galaxyはrole方式でPlaybookをシェアしている。
 
-### Playbookファイルの include
+#### Playbookファイルの include
 
 他のPlaybookファイルを include することで、そのファイル内のtasksが利用できる。また、includeでtasksを複数のファイルに分割することで、Playbookの肥大化を防ぐことができる。
 
-#### 基本の使い方
+##### 基本の使い方
 
 直接yamlファイルをincludeする。
 tasks/firewall_httpd_default.yml
 
 ```YAML
 ---
-# possibly saved as tasks/firewall_httpd_default.yml
+## possibly saved as tasks/firewall_httpd_default.yml
 
   - name: insert firewalld rule for httpd
     firewalld: port=80/tcp permanent=true state=enabled immediate=yes
@@ -1061,7 +1059,7 @@ tasks:
     - include: tasks/firewall_httpd_default.yml
 ```
 
-#### 高度な使い方
+##### 高度な使い方
 
 includeされるPlaybookの中で変数を定義することができる。下記の例では、includeされたtasks/firewall_httpd_default.ymlの中に\{\{ port \}\}でport変数を定義した。
 
@@ -1073,7 +1071,7 @@ includeされるPlaybookの中で変数を定義することができる。下�
 
 変数の値をincludeされるPlaybookに渡すために、以下の方法がある。
 
-#### includeされるPlaybookの後ろに、変数名と値を指定
+##### includeされるPlaybookの後ろに、変数名と値を指定
 
 ```YAML
  tasks:
@@ -1082,7 +1080,7 @@ includeされるPlaybookの中で変数を定義することができる。下�
     - include: tasks/firewall.yml port=423
 ```
 
-#### YAMLのハッシュ形式で変数と値を渡す
+##### YAMLのハッシュ形式で変数と値を渡す
 
 ```YAML
  tasks:
@@ -1095,14 +1093,14 @@ includeされるPlaybookの中で変数を定義することができる。下�
             - keys/two.txt
 ```
 
-#### taskをJSON形式に書いて、変数と値を設定する
+##### taskをJSON形式に書いて、変数と値を設定する
 
 ```YAML
  tasks:
    - { include: wordpress.yml, wp_user: timmy, ssh_keys: [ 'keys/one.txt', 'keys/two.txt' ] }
 ```
 
-#### Playbook中で定義済みの変数は、特に渡す必要がなく、そのままりようされる。
+##### Playbook中で定義済みの変数は、特に渡す必要がなく、そのままりようされる
 
 ```YAML
  ---
@@ -1114,7 +1112,7 @@ includeされるPlaybookの中で変数を定義することができる。下�
       - include: tasks/firewall.yml
 ```
 
-#### Includeの落とし穴
+##### Includeの落とし穴
 
 * handlers内でPlaybook を include する。
 
@@ -1173,13 +1171,13 @@ includeされるPlaybookの中で変数を定義することができる。下�
   - include: dbservers.yml
 ```
 
-### Playbookの"Package”(role)
+#### Playbookの"Package”(role)
 
 Roleはincludeよりもっと柔軟で強力なコードシェア方法を提供する。includeは他のプログラミング言語の"include”と似たような使い方で、1つのファイルした利用できない。それに対し、roleは”Package”みたいな使い方で、複数のファイルを同時参照によって1つの機能を利用できる。例えば、apacheのインストールと設定をする時、tasksでパッケージのインストール、テンプレートファイルと設定ファイルのコピー、handlerでのサービス再起動など、こちらの処理を1つのroleに纏めることによって、他のPlaybookに参照し利用されることができる。
 
 Ansibleではroleの利用を推奨していて、roleをシェアするためのプラットフォーム Ansible Galaxy [https://galaxy.ansible.com/](https://galaxy.ansible.com/) を提供している。そこでは他の人が書いたroleを参照し利用することができる。
 
-#### roleのディレクトリ構造
+##### roleのディレクトリ構造
 
 Ansibleでは、決まったディレクトリ構造でroleを定義する。具体的な例を以下に示す。
 
@@ -1229,7 +1227,7 @@ roleを作成する時に上記すべてのディレクトリとファイルが�
 
 以下では、具体の例を通してroleの書き方と使い方を紹介する。
 
-#### Roleで変数を使う
+##### Roleで変数を使う
 
 変数付きのmyroleのディレクトリ構造を以下に示す。
 
@@ -1273,7 +1271,7 @@ YAMLの辞書型に書くと
       param: 'Call some_role for the 2nd time'
 ```
 
-#### 変数のデフォルト値
+##### 変数のデフォルト値
 
 変数のデフォルト値が設定された場合、roleを読み込むときにもし変数に対し新しい値が渡された場合、その新しい値を利用する。もし変数に新しい値を渡していない場合、変数はデフォルト値を利用する。
 
@@ -1307,7 +1305,7 @@ param: "I am the default value"
 
 他の例については [https://github.com/shijingjing1221/ansible-first-book-examples/blob/master/role_vars.yml](https://github.com/shijingjing1221/ansible-first-book-examples/blob/master/role_vars.yml)を参照する
 
-#### roleとwhenと一緒に実行
+##### roleとwhenと一緒に実行
 
 下記の例では、my_roleはRedHat系のサーバー上しか有効にならない。
 
@@ -1329,7 +1327,7 @@ YAML辞書型で書くと以下になる。
       when: "ansible_os_family == 'RedHat'"
 ```
 
-#### roleとtaskの実行順番
+##### roleとtaskの実行順番
 
 Playbookでは、roleとtasksが同時にある時に、どちらが先に実行になる？答えが以下のようになる。
 
@@ -1386,11 +1384,11 @@ PLAY RECAP *********************************************************************
 rhel7u3                    : ok=5    changed=3    unreachable=0    failed=0
 ```
 
-## tagsで一部のtasksを実行
+### tagsで一部のtasksを実行
 
 Playbookの内容が多い時、一部しか実行したくない場合、Playbookのtagsを使って一部のtasksを実行できる。
 
-### tagsの基本の使い方
+#### tagsの基本の使い方
 
 以下の例では、example.ymlの中にpackagesとconfiguration 二つのtagが書かれている。
 
@@ -1432,7 +1430,7 @@ configurationの部分を実行しない場合、skip-tagsでconfigurationを指
 ansible-playbook example.yml --skip-tags "configuration"
 ```
 
-### 特殊の意味を持つtags
+#### 特殊の意味を持つtags
 
 * always
 
@@ -1486,7 +1484,7 @@ ansible-playbook tags_always.yml --tags "packages"
  ansible-playbook tags_tagged_untagged_all.yml --tags all
 ```
 
-### includeとroleでtagsを利用
+#### includeとroleでtagsを利用
 
 下記のようにincludeの中にtagsを設定することができる。
 
@@ -1502,7 +1500,7 @@ roles:
   - { role: webserver, port: 5000, tags: [ 'web', 'foo' ] }
 ```
 
-# Ansible の拡張モジュール (Extra Modules)
+## Ansible の拡張モジュール (Extra Modules)
 
 Ansibleのモジュールドキュメント([http://docs.ansible.com/ansible/latest/modules/modules_by_category.html](http://docs.ansible.com/ansible/latest/modules/modules_by_category.html))を参照する時に、各ページの一番下に、このモジュールは"Core module”または”Extra Module”であることを示している。例えば、yumはcore moduleが、yum_repositoryはextra moduleである。
 
@@ -1515,12 +1513,12 @@ Ansibleのモジュールドキュメント([http://docs.ansible.com/ansible/lat
   * 比較的に使用頻度が低い
   * bugが存在している可能性がある。
 
-## Extra Moduleの使い方
+### Extra Moduleの使い方
 
 以下の手順でExtra moduleをのインストールと設定を行うと、コマンドラインとPlaybookで利用できる。Extra Module は Core Module と同じ使い方で利用できる。
 注意：Extra moduleがテストされ問題ない場合はCore Moduleに移動される。
 
-### Ansible module extraをダウンロード
+#### Ansible module extraをダウンロード
 
 ```bash
 git clone https://github.com/ansible/ansible-modules-extras.git
@@ -1528,7 +1526,7 @@ git clone https://github.com/ansible/ansible-modules-extras.git
 
 例として、ダウンロード先は/home/jshi/software/になっている。このパスは後で利用する。
 
-### extraモジュールが使えるように設定内容を修正
+#### extraモジュールが使えるように設定内容を修正
 
 * 方法1：デフォルトのAnsible設定ファイルを変更
 
@@ -1575,7 +1573,7 @@ EOF
 $ source ~/.bashrc
 ```
 
-## コマンドラインでモジュールの使い方を参照
+### コマンドラインでモジュールの使い方を参照
 
 Bashのman命令みたいに、ansibleはコマンドラインでmoduleの使い方が参照できる。コマンド名は ansible-doc である。
 
@@ -1595,7 +1593,7 @@ Extra Moduleに対しては、extra moduleの利用を設定したディレク�
 ansible-doc yum_repository
 ```
 
-## より良いPlaybookの書き方
+### より良いPlaybookの書き方
 
 * Includeとroleを使って、重複がないコードを書く
 * 大きいファイルを小さいファイルに分割して書く
@@ -1643,7 +1641,7 @@ roles/
     fooapp/               # ""
 ```
 
-## 参考資料
+### 参考資料
 
 Ansibleのビデオセッション(英文) [https://sysadmincasts.com/episodes/43-19-minutes-with-ansible-part-1-4](https://sysadmincasts.com/episodes/43-19-minutes-with-ansible-part-1-4)
 
@@ -1661,7 +1659,7 @@ Ansible Tower紹介
 
 [https://www.ansible.com/tower](https://www.ansible.com/tower)
 
-# CopyRight
+## CopyRight
 
 此书电子版免费供大家下载阅读，如果您已为此副本付费，请立即申请退款并联系作者举报此行为。请注意，虽然此书电子版免费供大家阅读，但这并不代表作者放弃了版权，您在未经授权的情况下依然不得以任何方式复制或抄袭本书内容。此书的电子版目前仅授权图灵社区和gitbook.com两个平台发布，如果您通过其他渠道获取到了此副本，则是侵权行为，请到上述两个平台下载合法授权的副本。获取合法授权副本的好处是可以及时得到此书的最新版本，早期版本中的错误会被及时纠正。感谢您对版权保护工作所做出的贡献。
 
@@ -1669,6 +1667,6 @@ Ansible Tower紹介
 
 作者Github: [https://github.com/shijingjing1221/](https://github.com/shijingjing1221/)
 
-# Demo
+## Demo
 
 [https://www.youtube.com/watch?v=vOa4_1fgNPU](https://www.youtube.com/watch?v=vOa4_1fgNPU)

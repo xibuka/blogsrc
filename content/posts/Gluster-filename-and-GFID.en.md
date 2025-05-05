@@ -5,23 +5,24 @@ tags:
 - Gluster
 ---
 
-# create test file
+## create test file
 
-Mount gluster volume and create a file 
+Mount gluster volume and create a file
 
-```
+```bash
 [root@client-1 ~]# mount -t glusterfs gluster-node-1:/vol /mnt
 [root@client-1 ~]# mkdir -p /mnt/hoge/hello-gluster/
 [root@client-1 ~]# touch /mnt/hoge/hello-gluster/file
 [root@client-1 ~]# umount /mnt/
 ```
 
-# Get GFID of a file in Gluster volume
-## From brick directory
+## Get GFID of a file in Gluster volume
+
+### From brick directory
 
 Login to gluster node and locate file in brick directory.
 
-```
+```bash
 [root@gluster-node-1 ~]# gluster volume info vol
 
 Volume Name: vol
@@ -43,7 +44,7 @@ cluster.server-quorum-ratio: 51%
 
 confirm the file path in the brick, GFID can be checked by "trusted.gfid"
 
-```
+```bash
 [root@gluster-node-1 ~]# ls /gluster/brick-vol/hoge/hello-gluster/file
 /gluster/brick-vol/hoge/hello-gluster/file
 [root@gluster-node-1 ~]# getfattr -d -m . -e hex /gluster/brick-vol/hoge/hello-gluster/file
@@ -53,32 +54,31 @@ security.selinux=0x73797374656d5f753a6f626a6563745f723a756e6c6162656c65645f743a7
 trusted.gfid=0xd8efc4c4d6204170ad293eda97d3d2e4
 ```
 
-
-
-## From client side
+### From client side
 
 Mount gluster volume with `-o aux-gfid-mount` option
-```
+
+```bash
 [root@gluster-node-1 ~]# mount -t glusterfs -o aux-gfid-mount gluster-node-1:/vol /mnt
 ```
 
 confirm the file path in the mount point, GFID can be checked by `glusterfs.gfid.string`
 
-```
+```bash
 [root@gluster-node-1 ~]# getfattr -n glusterfs.gfid.string /mnt/hoge/hello-gluster/file
 getfattr: Removing leading '/' from absolute path names
 # file: mnt/hoge/hello-gluster/file
 glusterfs.gfid.string="d8efc4c4-d620-4170-ad29-3eda97d3d2e4"
 ```
 
+## Convert GFID to path name
 
-# Convert GFID to path name
+### By tool
 
-## By tool
-Use https://gist.github.com/semiosis/4392640.
+Use [https://gist.github.com/semiosis/4392640](https://gist.github.com/semiosis/4392640).
 NOTE, GFID must be the format of XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
-```
+```bash
 bash gfid-resolver.sh -h
 Glusterfs GFID resolver -- turns a GFID into a real file path
  

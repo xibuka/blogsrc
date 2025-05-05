@@ -9,7 +9,7 @@ tags:
 I hit an error when running `yum update` on my centOS 7, the command failed
 to update my OS!
 
-```
+```bash
 # yum update
 Loaded plugins: fastestmirror
 Determining fastest mirrors
@@ -45,16 +45,16 @@ Exiting on user cancel
 
 Looks like something is wrong with the system. After some research, I notice
 the root cause is the missmatch of python version. 'yum' command need python 2.7
-on /usr/bin/python symbol link, which I changed to python 3.6 before. 
+on /usr/bin/python symbol link, which I changed to python 3.6 before.
 
-```
+```bash
 # head /usr/bin/yum
 #!/usr/bin/python
 import sys
 try:
     import yum
 except ImportError:
-    print >> sys.stderr, """\
+    print >> sys.stderr, """
 There was a problem importing one of the Python modules
 required to run yum. The error leading to this problem was:
 
@@ -68,8 +68,8 @@ lrwxrwxrwx. 1 root root     9 Jul 26  2017 python2 -> python2.7
 -rwxr-xr-x. 2 root root 11312 Apr  7  2017 python3.6m
 ```
 
-The workaround is to change the first line of `/usr/bin/yum` to use python2 
+The workaround is to change the first line of `/usr/bin/yum` to use python2
 
-```
+```bash
 #!/usr/bin/python2
 ```

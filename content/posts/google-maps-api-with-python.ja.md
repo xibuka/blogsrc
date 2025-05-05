@@ -11,9 +11,9 @@ PythonでGoogle mapsのAPI を利用しルート検索をやってみた。
 
 環境構築は以下のコマンドでOK, ついでにipythonもインストールする。
 
-```
-$ pip install googlemaps
-$ pip install ipython
+```bash
+pip install googlemaps
+pip install ipython
 ```
 
 あと、GoogleのAPIキーの申請が必要なので、[Google APIs](https://console.developers.google.com/apis/dashboard)で申請＆有効にする。
@@ -21,9 +21,7 @@ $ pip install ipython
 ここまで問題なかったら、早速使ってみよう。
 戸塚駅から踊場駅まで、車のルート情報を取得
 
-
-
-```
+```bash
 $ ipython
 Python 3.5.1 (default, Sep  1 2016, 00:20:33) 
 Type "copyright", "credits" or "license" for more information.
@@ -107,4 +105,3 @@ Out[4]:
 
 情報の取得ができた。
 次回は、ルート情報から、標高を出して表示する予定です。
-

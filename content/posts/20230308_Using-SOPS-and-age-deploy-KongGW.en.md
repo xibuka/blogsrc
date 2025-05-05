@@ -116,7 +116,7 @@ The workflow is as follows.
 
 All steps 1-3 can be done in the local environment. The point is 4-2, Private Key acquisition. If you register the Private Key in advance using the Secrets function of Github Action, you can refer to it directly in the CI/CD workflow. That means you do not have to worry about it being displayed in plain text. Also, please remember that if the Public/Private you use is not a pair, you will get an error when decrypting.
 
-The CI/CD workflow you were writing can be found in [main.yml](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/.github/workflows/main. yaml). After committing the encrypted configuration file, you can successfully install Kong Gateway, so please give it a try.
+The CI/CD workflow you were writing can be found in [main.yml](https://raw.githubusercontent.com/robincher/kong-mozilla-sops-demo/master/.github/workflows/main.yaml). After committing the encrypted configuration file, you can successfully install Kong Gateway, so please give it a try.
 
 ## Summary
 

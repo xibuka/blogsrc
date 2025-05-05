@@ -3,10 +3,9 @@ title: "KongのCanary Release pluginを使ってみる"
 date: 2022-05-31T13:58:39+09:00
 draft: false
 tags: 
-- Kong
 - Kong Gateway
 - Canary
-- Api Gateway
+- Plugin
 ---
 ## 紹介
 

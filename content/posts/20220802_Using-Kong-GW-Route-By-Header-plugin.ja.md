@@ -2,6 +2,9 @@
 title: "Kong Gatewayの Route By Header Pluginを使ってみる"
 date: 2022-08-03T01:19:02+09:00
 draft: false
+tags: 
+- Kong Gateway
+- Plugin
 ---
 
 ## 紹介

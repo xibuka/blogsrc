@@ -5,21 +5,21 @@ tags:
 - Docker
 ---
 
-Base on CentOS 7, Docker 1.12.6 
+Base on CentOS 7, Docker 1.12.6
 
-# Install Docker
+## Install Docker
 
 Some pre-requirment to install Docker to a Linux OS.
 
-  - Docker only can be installed on a 64 bit OS.
-  - Kernel version over 3.10 is recommended. recommend
-  - Need to enable cgroup and namespace.
+- Docker only can be installed on a 64 bit OS.
+- Kernel version over 3.10 is recommended. recommend
+- Need to enable cgroup and namespace.
 
 Now it is easier to install Docker in CentOS or Fedora, it can be searched by
 `yum` command like below:
 
-```
-# yum search docker | grep ^docker
+```bash
+$ yum search docker | grep ^docker
 docker-client.x86_64 : Client side files for Docker
 docker-client-latest.x86_64 : Client side files for Docker
 docker-common.x86_64 : Common files for docker and docker-latest
@@ -40,10 +40,10 @@ docker-novolume-plugin.x86_64 : Block container starts with local volumes
 docker-unit-test.x86_64 : Automates deployment of containerized applications -
 ```
 
-Running `yum -y install docker` to install docker to your system. 
+Running `yum -y install docker` to install docker to your system.
 
-```
-# yum -y install docker
+```bash
+$ yum -y install docker
 
 ...snip...
 
@@ -53,12 +53,13 @@ Installed:
 Complete!
 
 ```
+
 After the installation, start docker service and run `docker version` to confirm your setup.
 
-```
-# systemctl start docker
+```bash
+$ systemctl start docker
 
-# docker version
+$ docker version
 Client:
  Version:         1.12.6
  API version:     1.24
@@ -78,15 +79,16 @@ Server:
  OS/Arch:         linux/amd64
 ```
 
-# Basic docker command
-Here will introduce some basic command to use docker, for more detail please refer (Docker Documentation)[https://docs.docker.com/engine/reference/commandline/docker/].
+## Basic docker command
+
+Here will introduce some basic command to use docker, for more detail please refer [Docker Documentation](https://docs.docker.com/engine/reference/commandline/docker/).
 
 Docker command will help you to communicate with docker daemon. The docker
 daemon will listen and execute docker command. run `docker` or `docker --help` to
 get the command list.
 
-```
-# docker --help
+```bash
+$ docker --help
 ...
 Commands:
     attach    Attach to a running container

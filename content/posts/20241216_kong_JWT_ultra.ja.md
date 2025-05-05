@@ -7,7 +7,7 @@ tags:
 - JWT
 ---
 
-(https://tech.aufomm.com/the-ultimate-guide-of-using-jwt-with-kong/ より翻訳)
+(`https://tech.aufomm.com/the-ultimate-guide-of-using-jwt-with-kong/` より翻訳)
 
 :::note
 この記事は「究極の」ガイドとまでは言えないかもしれませんが、JWT 検証に使える公式の Kong プラグインを徹底的に解説することを目指しています。読み終えるころには、利用可能なオプションを全体的に理解し、それぞれのユースケースに最適なプラグインを選べるようになるはずです。
@@ -218,7 +218,7 @@ nix develop -c $SHELL
 
 ```
 
-#### JWT 生成
+#### JWT生成
 
 次に、以下の内容をjwt.pyとして保存します。その後、`python jwt.py`を実行することで、トークンを作成できるようになります。
 
@@ -251,7 +251,7 @@ if __name__ == "__main__":
   main()
 ```
 
-#### JWT 検証
+#### JWT検証
 
 `jwcrypto`ライブラリを使用した検証は非常に簡単です。以下に使用できるサンプルを示します。
 
@@ -425,7 +425,7 @@ curl --request POST \
   -F config=@/tmp/kong.yaml
 ```
 
-### JWT 検証
+### JWT検証
 
 これで準備が整いましたので、セットアップをテストしてみましょう。最初に上記の手順に従ってJWTを生成してください。簡単に参照できるように、以下のコマンドでJWTを`token`変数に格納します。
 

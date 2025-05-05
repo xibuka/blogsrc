@@ -13,4 +13,3 @@ The slide(Japanese) can be found as below.
 [speakerdeck.com](https://speakerdeck.com/xibuka/toaru30miao-dedekirukubernetes-plus-gpu-kai-fa-huan-jing)
 
 Enjoy!
-

@@ -5,18 +5,18 @@ tags:
 - OpenStack
 - Cloud
 ---
-# OpenStack frequently used command
+## OpenStack frequently used command
 
-## OpenStack Compute - Nova
+### OpenStack Compute - Nova
 
 * list instances
-`nova list` 
-`openstack server list` 
+`nova list`
+`openstack server list`
 * list/check flavor
 `nova flavor-list`
 `nova flavor-show <name or ID>`
 `openstack flavor list`
-`openstack flavor show <name or ID>` 
+`openstack flavor show <name or ID>`
 * create flavor
 `openstack flavor create --ram <ram> --vcpus <cpu number> --disk <size> --id <id> <name>`
 `nova flavor-create <name> <id> <ram> <disk> <vcpus>`
@@ -30,16 +30,15 @@ tags:
 `openstack server create --flavor <flavor> --image <image> <name>`
 * access instance via router
 `ip netns list`
-`sudo ip netns exec <qrouter-id> ssh -i <key> user@ip` 
+`sudo ip netns exec <qrouter-id> ssh -i <key> user@ip`
 * launch an instance with custom port
 `nova boot --image <image> --flavor <flavor> --nic port-id=<port-id> <instance name>`
 * delete an instance
 `nova delete <ID>`
 `openstack server delete <ID or name>`
 
+### Openstack Network - Neutron
 
-
-## Openstack Network - Neutron
 * list network
 `openstack network list`
 * list subnetwork
@@ -47,12 +46,12 @@ tags:
 * create a network
 `openstack network create <net name>`
 * create a subnetwork
-`openstack subnet create <subnet name> --network <net name> --subnet-range <ip address>/<prefix> --gateway <gw ip> --allocation-pool start=IP_ADDR,end=IP_ADDR` 
-e.g. 
+`openstack subnet create <subnet name> --network <net name> --subnet-range <ip address>/<prefix> --gateway <gw ip> --allocation-pool start=IP_ADDR,end=IP_ADDR`
+e.g.
 `openstack subnet create practicesubnet --network practice --subnet-range 10.2.0.224/27 --gateway 10.2.0.225 --allocation-pool start=10.2.0.240,end=10.2.0.245`
 * create port with specify IP address
 `openstack subnet list --long` to confirm avaiable address range
-`openstack port create --network=<network> 
+`openstack port create --network=<network>
   --fixed-ip subnet=private-subnet,ip-address=<ip_address> <port name>`
 * create port without specify IP address
 `openstack port create <port name> --network <network>`
@@ -72,17 +71,18 @@ system will allocate one IP address for this port
 * create external network
 `openstack network create public --external --provider-network-type flat --provider-physical-network external`
 * manage floating IP
-`neutron floatingip-create      `   
-`neutron floatingip-delete      `
-`neutron floatingip-associate   `
+`neutron floatingip-create`
+`neutron floatingip-delete`
+`neutron floatingip-associate`
 `neutron floatingip-disassociate`
-`neutron floatingip-list        `
+`neutron floatingip-list`
 
 e.g.
 `neutron floatingip-create public`
 `neutron floatingip-associate <fip ID> <port ID of instance's internal ip>`
 
-## OpenStack Image - Glance
+### OpenStack Image - Glance
+
 * image list and show detail
 `glance image-list`
 `glance image-show <ID>`
@@ -98,7 +98,8 @@ e.g.
 `glance image-delete <ID>`
 `openstack image delete <ID>`
 
-## OpenStack block Storage - Cinder
+### OpenStack block Storage - Cinder
+
 * volume list and show detail
 `cinder list`
 `cinder show <ID>`
@@ -107,7 +108,7 @@ e.g.
 * create new empty volume
 `cinder create --name <vol name> <size in GiBs>`
 * create new volume from image
-`cinder create --name <vol name> <size in GiBs> --image <ID or Name>` 
+`cinder create --name <vol name> <size in GiBs> --image <ID or Name>`
 * attach volume to an instance
 `openstack server add volume <instance> <volume>`
 `nova volume-attach <instance> <volume ID> <device>`
@@ -118,13 +119,14 @@ e.g.
 `cinder delete <volume>`
 `openstack volume delete <volume>`
 
-## OpenStack Identity - Keystone
+### OpenStack Identity - Keystone
+
 * issue a token
 `openstack token issue`
 * check auth info
 `source credrc.sh` which the file looks like
 
-```
+```sh
 export OS_AUTH_TYPE=password
 export OS_AUTH_URL=http://127.0.0.1:5000/v3
 export OS_IDENTITY_API_VERSION="3"
@@ -137,8 +139,8 @@ export OS_REGION_NAME="RegionOne"
 alias osc="openstack --os-cloud"
 ```
 
-* check auth info with 
-`export | grep OS_` 
+* check auth info with
+`export | grep OS_`
 * create new project
 `openstack project create --description "text" <project name>`
 * create and delete user
@@ -156,7 +158,7 @@ alias osc="openstack --os-cloud"
 `nova quota-update --<key> <value> <project id>`
 * change policy
 
-```
+```sh
 vim /etc/glance/policy.json
 ...
     "add_image": "role:admin",
@@ -175,27 +177,28 @@ vim /etc/glance/policy.json
 `openstack security group list`
 `openstack security group rule list`
 
+### OpenStack Object Storage - Swift
 
-## OpenStack Object Storage - Swift
 The account is not the user account, but more like a namespace/project in swift.
 The container is like the directory.
 
 |Task|Command|
 |---|---|
 |Get account info   |`swift stat`|
-|create a container	|`swift post <container>`|
+|create a container|`swift post <container>`|
 |list all containers in an account|`swift list`|
 |get the info of a container |`swift stat <container>`|
-|upload files/directory to a container|`swift upload --object-name <object> <containe> <file/firectory path> `|
+|upload files/directory to a container|`swift upload --object-name <object> <containe> <file/firectory path>`|
 |list files in a container |`swift list <containe>`|
 |download file | `swift download <container> <object>`|
 |update meta data to container |`swift post --meta <color>:<value> <container>`|
-|delete object|	`swift delete <container> <object>`|
+|delete object|`swift delete <container> <object>`|
 |upload files in specify segments| `swift upload <container> <object> --segment-size <size>`|
 |delete container| `swift delete <container>`|
 
 e.g.
 `swift upload uploads files/puppies.jpg --object-name picture`
+
 1. adding a read ACL on the uploads container allowing anyone to read it except for people from gadget.example.com.
 `swift post -r .r:*,-gadget.example.com uploads`
 1. adding a write ACL to the uploads container allowing anyone in the phone project to write to it.

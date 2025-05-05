@@ -10,7 +10,8 @@ In this article we will show you how to install OpenShift in mutliple nodes
 using a quick install command, atomic-openshift-installer, which is powered by
 ansible.
 
-# Host preparation
+## Host preparation
+
 I use under virtual machines for OpenShift nodes to deploy
 
 |Type    | CPU | Mem  | HDD   | hostname            | OS     |
@@ -19,7 +20,8 @@ I use under virtual machines for OpenShift nodes to deploy
 | node   | 1   | 2 GB | 20 GB | node1.example.com   | RHEL 7 |
 | node   | 1   | 2 GB | 20 GB | node2.example.com   | RHEL 7 |
 
-# Host Registration
+## Host Registration
+
 Note: If you are using other OS but not RHEL, Please go to [# Install necessary packages](# Install necessary packages) to install the
 packages. If you can not install some of them, try to add some repos or get the rpm file.
 
@@ -28,26 +30,26 @@ required packages.
 
 1. Register with RHSM for each host:
 
-   ```
+   ```bash
    # subscription-manager register --username=<user_name> --password=<password>
    ```
 
 2. List the available OpenShift subscriptions:
 
-   ```
+   ```bash
    # subscription-manager list --available --matches '*OpenShift*'
    ```
 
 3. Find pool ID for an OpenShift Container Platform subscription and attach it.
 
-   ```
+   ```bash
    # subscription-manager attach --pool=<pool_id>
    ```
 
 4. Disable all repositories and enable only the repositories required by
    OpenShift Container Platform 3.5
 
-   ```
+   ```bash
    # subscription-manager repos --disable="*"
    # yum-config-manager --disable \*
    # subscription-manager repos \
@@ -57,37 +59,38 @@ required packages.
        --enable="rhel-7-fast-datapath-rpms"
    ```
 
-# Install necessary packages
+## Install necessary packages
+
 Install the following packages.
 
-   ```
+   ```bash
    # yum -y install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec sos psacct
    # yum update
    # yum -y install atomic-openshift-utils atomic-openshift-excluder atomic-openshift-docker-excluder
    # atomic-openshift-excluder unexclude
    ```
 
-# Install and configure docker
+## Install and configure docker
 
-## Install docker
+### Install docker
 
-   ```
+   ```bash
    # yum -y install docker
    ```
 
-## Add parameter to docker configuration file
+### Add parameter to docker configuration file
 
-Edit `/etc/sysconfig/docker` file and add `--insecure-registry 172.30.0.0/16` to the `OPTIONS` parameter. 
+Edit `/etc/sysconfig/docker` file and add `--insecure-registry 172.30.0.0/16` to the `OPTIONS` parameter.
 
-   ```
+   ```bash
    OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0/16'
    ```
 
-## Configure Docker Storage
+### Configure Docker Storage
 
 Here we use an additional block device for docker storage. In `/etc/sysconfig/docker-storage-setup` , set `DEVS` to the path of the disk device. Set `VG` to the volume group name you wish to create.
 
-   ```
+   ```bash
    # cat <<EOF > /etc/sysconfig/docker-storage-setup
    DEVS=/dev/vdc
    VG=docker-vg
@@ -96,7 +99,7 @@ Here we use an additional block device for docker storage. In `/etc/sysconfig/do
 
 Then run `docker-storage-setup` and check to make sure the `docker-vg` was created.
 
-   ```
+   ```bash
    # docker-storage-setup                                                                                                                                                                                                                                [5/1868]
    0
    Checking that no-one is using this disk right now ...
@@ -138,24 +141,25 @@ Then run `docker-storage-setup` and check to make sure the `docker-vg` was creat
      Logical volume "docker-pool" changed.
    ```
 
-## Enable and start docker service.
+### Enable and start docker service
 
-   ```
+   ```bash
    # systemctl enable docker
    # systemctl start docker
    # systemctl is-active docker
    ```
 
-# Ensure Host Access
+## Ensure Host Access
+
 On each hosts, generate an SSH key WITHOUT a password
 
-   ```
+   ```bash
    # ssh-keygen
    ```
-   
+
 Copy the `id_rsa.pub` to each host:
-   
-   ```
+
+   ```bash
    # for host in master.example.com \
        node1.example.com \
        node2.example.com; \
@@ -163,13 +167,14 @@ Copy the `id_rsa.pub` to each host:
        done
    ```
 
-# Quick Installation
+## Quick Installation
 
-## Running an Interactive Installation
+### Running an Interactive Installation
+
 Start the interactive installation by running under command, and follow the
 on-screen instructions to install a new OpenShift Continer Platform cluster.
 
-   ```
+   ```bash
    $ atomic-openshift-installer install
    *** Installation Summary ***
    
@@ -269,14 +274,16 @@ on-screen instructions to install a new OpenShift Continer Platform cluster.
    http://docs.openshift.com/enterprise/latest/admin_guide/overview.html
    ```
 
-## Running an unattended Installation 
+### Running an unattended Installation
+
 Unattended installation allow you to run the installation with a pre-defined
 configuration file. The default installation configure file path is *~/.config/openshift/installer.cfg.yml*. Define the configuration file and
 run the install command with the `-u` option.
 
+   ```bash
+   atomic-openshift-installer -u install
    ```
-   $ atomic-openshift-installer -u install
-   ```
+
 Here is a simple example of the *install.cfg.yml* file. For further
 information, please follow [Defining an Installation Configuration File](https://docs.openshift.com/container-platform/3.5/install_config/install/quick_install.html#defining-an-installation-configuration-file)
 
@@ -331,16 +338,18 @@ information, please follow [Defining an Installation Configuration File](https:/
 
 Also you can specify a different path of the configuration file with the `-c` option.
 
-   ```
-   $ atomic-openshift-installer -u -c </path/to/file> install
+   ```bash
+   atomic-openshift-installer -u -c </path/to/file> install
    ```
 
-## Verifying the installation
+### Verifying the installation
+
 After the installation is completed.
+
 1. Verify the master and nodes are started in Ready status. On the master host,
    run the following as root
 
-   ```
+   ```bash
    # oc get nodes
    
    NAME                        STATUS                     AGE
@@ -349,23 +358,23 @@ After the installation is completed.
    node2.example.com           Ready                      165d
    ```
 
-2. The web console use the master host name with a default port number 8443. In 
+2. The web console use the master host name with a default port number 8443. In
    this test environment, you can find the web console at [https://master.openshift.com:8443/console](https://master.openshift.com:8443/console)
 
-3. Now that the install has been verified, run the following command on each master 
-   and node host to add the atomic-openshift packages back to the list of yum 
+3. Now that the install has been verified, run the following command on each master
+   and node host to add the atomic-openshift packages back to the list of yum
    excludes on the host:
 
-   ```
+   ```bash
    # atomic-openshift-excluder exclude
    ```
 
-# Uninstallation
+## Uninstallation
 
 You can uninstall OpenShift Container Platform from all hosts using the follow
 commands
 
-   ```
+   ```sh
    $ atomic-openshift-installer uninstall
    OpenShift will be uninstalled from the following hosts:
    
@@ -396,6 +405,6 @@ commands
 
 If you are using a configuration file, specify the file path for the uninstallation:
 
-   ```
-   $ atomic-openshift-installer -c </path/to/file> uninstall
+   ```bash
+   atomic-openshift-installer -c </path/to/file> uninstall
    ```

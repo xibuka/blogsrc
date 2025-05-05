@@ -2,22 +2,28 @@
 title: "Kong GatewayのWebhook/event hookを試した"
 date: 2022-11-22T22:57:09+09:00
 draft: false 
+tags: 
+- Kong Gateway
+- WebHook
 ---
 Event Hooks機能を利用することで、Kong Gatewayで特定のイベントが発生したときに通知を受け取ることができます。新しい管理者やサービスを作成したり、プラグインによる制限が有効になったりすることを監視したい場合に役に立ちます。
 
-## どのような機能? 
+## どのような機能?
+
 Event Hooksには以下の４種類があります。
-- webhook: 定義されたフォーマットのPOSTリクエストを送信 
+
+- webhook: 定義されたフォーマットのPOSTリクエストを送信
 - webhook-custom: カスタムしたHTTPリクエストを送信
-- log: Eventの内容をKong Gatewayのエラーログに記録 
+- log: Eventの内容をKong Gatewayのエラーログに記録
 - lambda: 事前に用意したLua関数を起動
 
 ここでは、`Webhook-custom`と`log`を試していきます。
 
 ## 利用可能なEventを確認
+
 Kong Gateway は adminAPIの`/event-hooks/sources` エンドポイントを提供します。ここから利用できるソース、Eventとパラメータを確認することができます。データが大量にあるので、一部抜粋で説明します。
 
-```
+```json
 ...
     "rate-limiting-advanced": {
       "rate-limit-exceeded": {
@@ -41,9 +47,10 @@ Kong Gateway は adminAPIの`/event-hooks/sources` エンドポイントを提�
 ```
 
 ## Event Hookの登録と検証
+
 上記の例では、ソースが`rate-limiting-advanced`、Eventは`rate-limit-exceeded`、パラメータに`consumer`や`ip`などが利用できます。こちらの情報を使って、まずはwebhook-customのEvent Hookを作成します。
 
-```
+```bash
 curl -k -X POST 'http://localhost:31001/event-hooks' \
     -H 'Kong-Admin-Token: kong' \
     --data "source=rate-limiting-advanced" \
@@ -56,13 +63,14 @@ curl -k -X POST 'http://localhost:31001/event-hooks' \
 ```
 
 これでRate LimitのEventが発生するときに、以下のようなメッセージがSlackチャンネルに送信されます。
-```
+
+```bash
 Rate limit exceeded by username 'Joe' on service 'test' (on server owned by ubuntu)
 ```
 
 `log`タイプのEvent Hooksの登録も簡単で、handlerの部分をlogに変更するだけです。
 
-```
+```sh
 curl -k -X POST 'http://localhost:31001/event-hooks' \
     -H 'Kong-Admin-Token: kong' \
     --data "source=rate-limiting-advanced" \
@@ -73,7 +81,7 @@ curl -k -X POST 'http://localhost:31001/event-hooks' \
 これによって、イベントが発生したら、以下みたいなログが出力されます。
 ログレベルをDEBUGに変更する必要があります。
 
-```
+```log
 2022/11/21 04:27:36 [debug] 2120#0: *1338 [kong] event_hooks.lua:?:452 [core]--------------------------------------------------------------------------------------+
 2022/11/21 04:27:36 [debug] 2120#0: *1338 |"log callback: " { "rate-limit-exceeded", "rate-limiting-advanced", {                                                   |
 2022/11/21 04:27:36 [debug] 2120#0: *1338 |    consumer = {},                                                                                                      |

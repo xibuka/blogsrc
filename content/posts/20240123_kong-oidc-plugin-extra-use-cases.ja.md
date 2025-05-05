@@ -3,20 +3,21 @@ title: "Kong OpenID Connectプラグインのその他の使用例"
 date: 2024-01-23T22:55:37+09:00
 draft: false
 tags:
-- Kong
 - Kong Gateway
+- plugin
 - OpenID
 ---
 
-(https://tech.aufomm.com/kong-oidc-plugin-extra-use-cases/ より翻訳)
+([https://tech.aufomm.com/kong-oidc-plugin-extra-use-cases/](https://tech.aufomm.com/kong-oidc-plugin-extra-use-cases/) より翻訳)
 
 KongのOIDCプラグインはとてもパワフルで複雑なので（200近くのパラメーターがある...）、ユーザーがどのような設定の組み合わせが必要かを知っていれば、より多くのことができるようになる。今日の投稿では、このプラグインをよりうまく使うためのいくつかの使用例を紹介しよう。
 
 なお、私はKong Gateway (Enterprise)の最新バージョン2.4.1.1を使用しています。
 
-> 前提条件  
-> - Kong Gateway (Enterprise)  
-> - OIDCサーバーが稼動していること。(私の例ではKeycloak) もしKeycloakの使い方がわからない場合は、以前の投稿をご覧ください。  
+> 前提条件
+>
+> - Kong Gateway (Enterprise)
+> - OIDCサーバーが稼動していること。(私の例ではKeycloak) もしKeycloakの使い方がわからない場合は、以前の投稿をご覧ください
 
 ## IDPトークンからデータを抽出しヘッダへの追加
 
@@ -34,7 +35,7 @@ IDPトークンからアップストリームヘッダーに値をマッピン�
 
 目的は、ヘッダー`kong-test`に`to-upstream`の値をマッピングし、アップストリームサーバーに送信することである。OIDCプラグインは以下のように設定できる。これはパスワードフローを使っている。
 
-```
+```bash
 curl --request POST \
   --url http://kong.li.lan:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -49,13 +50,13 @@ curl --request POST \
 
 ユーザー名とパスワードを指定してapiエンドポイントを呼び出すと、アップストリームサーバーに送信されるリクエストに以下のヘッダーが表示されるはずです。
 
-```
+```json
 "Test-Kong": "to-upstream",
 ```
 
 値がオブジェクトの場合。例えば、従業員の情報をヘッダーで上流に渡したい場合、それはbase64エンコードされる。
 
-```
+```json
 {
   "payload": {
     "employee": {
@@ -74,7 +75,7 @@ curl --request POST \
 
 プラグインを有効にしてみましょう、
 
-```
+```bash
 curl --request POST \
   --url http://kong.li.lan:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -89,7 +90,7 @@ curl --request POST \
 
 これで認証されると、アップストリームには以下のようなヘッダーが付くはずだ。
 
-```
+```bash
 "X-Employee-Info": [
   "eyJuYW1lIjoibGkiLCJmYXZvdXJpdGVzIjp7ImJldmVyYWdlIjoiY29mZmVlIn0sImdyb3VwcyI6WyJkZWZhdWx0IiwiaXQiXX0="
 ]
@@ -104,7 +105,8 @@ curl --request POST \
 例えば
 
 1. `authorization_code flow`でOIDCプラグインを有効にする。
-    ```
+
+    ```bash
     curl --request POST \
     --url http://kong.li.lan:8001/plugins \
     --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -116,6 +118,7 @@ curl --request POST \
     --data config.login_action=response \
     --data config.login_tokens=tokens
     ```
+
 1. ブラウザを使って `https://<kong_proxy>/<oidc_protected_route>` にアクセスする。
 1. ログインすると、IDPからのトークンが表示されます。
 
@@ -136,7 +139,7 @@ curl --request POST \
 
 例えば、私がJWTトークンで以下の`employee` claimsを取得するとしよう。
 
-```
+```json
 "employee": {
   "name": "li",
   "groups": [
@@ -150,9 +153,10 @@ curl --request POST \
 ```
 
 ### claim配列全確認
+
 好きな飲み物がコーヒーの従業員だけにアクセス権を与えたい場合、以下のようにOIDCプラグインを有効にすることができる。
 
-```
+```bash
 curl --request POST \
   --url http://kong.li.lan:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -174,7 +178,7 @@ curl --request POST \
 - AND
 `default`と`it`グループの両方に属しているユーザーにアクセス権を与えたい場合は、以下のようにOIDCプラグインを有効にします。
 
-```
+```bash
 curl --request POST \
   --url http://kong.li.lan:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -191,7 +195,7 @@ curl --request POST \
 - OR
 `default`と`it`グループのどっちかに属しているユーザーにアクセス権を与えたい場合は、以下のようにOIDCプラグインを有効にします。
 
-```
+```bash
 curl --request POST \
 --url http://kong.li.lan:8001/plugins \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -216,7 +220,7 @@ curl --request POST \
 
 idpにクエリー引数を渡して、誰がサーバーにアクセスしているかを指定したいとします。例えば、`config.authorization_query_args_client`を設定することで、IDPにユーザ名や電子メールを渡すことができます。
 
-```
+```bash
 curl --request POST \
   --url http://kong.li.lan:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -234,7 +238,7 @@ curl --request POST \
 
 固定値を追加したい場合は、`config.authorization_query_args_names`と`config.authorization_query_args_values`を使用して、複数の値のペアを追加することができます。
 
-```
+```bash
 curl --request POST \
   --url http://kong.li.lan:8001/plugins \
   --header 'Content-Type: application/x-www-form-urlencoded' \
