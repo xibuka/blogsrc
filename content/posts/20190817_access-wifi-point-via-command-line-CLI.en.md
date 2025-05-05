@@ -9,14 +9,14 @@ I will use `nmcli` to do this task.
 
 First you need to install `network-manager` package, and start the Daemon
 
-```
-$ sudo apt install network-manager
-$ sudo systemctl start NetworkManager
+```sh
+sudo apt install network-manager
+sudo systemctl start NetworkManager
 ```
 
 Then let's check the network interface status by below command
 
-```
+```sh
 $ nmcli dev status
 DEVICE          TYPE      STATE         CONNECTION
 wlp2s0          wifi      connected     xibuka-wifi-5G
@@ -28,7 +28,7 @@ lo              loopback  unmanaged     --
 
 Next step is to check the available Wifi access points.
 
-```
+```sh
 $ nmcli dev wifi list 
 SSID            MODE   CHAN  RATE        SIGNAL  BARS  SECURITY  
 aterm-55ebc5-g  Infra  11    405 Mbit/s  77      ▂▄▆_  WPA1 WPA2 
@@ -44,21 +44,21 @@ MNG6300-F560-G  Infra  11    130 Mbit/s  30      ▂___  WPA1 WPA2
 If you can not see the SSID you want to use, you can do a re-scan by below
 command
 
-```
+```sh
 nmcli dev wifi rescan
 ```
 
 OK, let's try to connect to Wifi using below nmcli command
 
-```
+```sh
 $ sudo nmcli dev wifi connect xibuka-wifi-5G password 'xxxxxxxxxx'
 Device 'wlp2s0' successfully activated with 'f1cc419e-7b51-4d99-8cff-2894dc054f19'.
 ```
 
 Or you can use `--ask` option to input your password interactively and don't
-display it. 
+display it.
 
-```
+```sh
 $ sudo nmcli --ask dev wifi connect xibuka-wifi-5G 
 Password:
 Device 'wlp2s0' successfully activated with 'f1cc419e-7b51-4d99-8cff-2894dc054f19'.
@@ -66,7 +66,7 @@ Device 'wlp2s0' successfully activated with 'f1cc419e-7b51-4d99-8cff-2894dc054f1
 
 Delete the established connections
 
-```
+```sh
 sudo nmcli con del xibuka-wifi-5G
 ```
 

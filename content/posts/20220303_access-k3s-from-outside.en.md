@@ -4,7 +4,7 @@ date: 2022-03-03T23:49:19+09:00
 draft: false
 ---
 
-# Access k3s cluster from outside
+## Access k3s cluster from outside
 
 When you have created a k3s cluster with the default settings, it only can be access inside the node where you're using.
 Bring the kubeconfig file `/etc/rancher/k3s/k3s.yaml` outside the node and import it to another host, you will get below issue when trying to access.
@@ -25,7 +25,6 @@ for details of this parameter refers to <https://rancher.com/docs/k3s/latest/en/
 So the install command should like this.
 
 ```bash
-
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--tls-san <your node public ip address>" sh -
 ```
 
@@ -38,4 +37,3 @@ Try to fetch the cluster's info and all went well this time.
 NAME         STATUS   ROLES                  AGE   VERSION
 wenhan-dev   Ready    control-plane,master   61s   v1.22.7+k3s1
 ```
-

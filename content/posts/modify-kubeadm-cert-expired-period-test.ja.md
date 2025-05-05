@@ -7,8 +7,6 @@ draft: false
 仕事の関係で、期限切れのkubernetesクラスタの証明書更新の手順を検証することになった。
 今まで特にやったことないので記録しておきます。
 
-
-
 ## kubeadmのソースを変更しビルド
 
 0. ビルド環境にgoとgitをインストールし、goの実行パスをPATHに追加
@@ -19,7 +17,7 @@ draft: false
 
 2. 以下の通りでファイルを修正するし、証明書の有効期限を10分にする
 
-   ```
+   ```sh
    diff --git a/cmd/kubeadm/app/constants/constants.go b/cmd/kubeadm/app/constants/constants.go
    index b56891ca908..eed934280e7 100644
    --- a/cmd/kubeadm/app/constants/constants.go
@@ -62,16 +60,16 @@ draft: false
 
 3. 以下のコマンドでkubeadmだけをビルドします。
 
-   ```  make WHAT=cmd/kubeadm GOFLAGS=-v```
+   ```make WHAT=cmd/kubeadm GOFLAGS=-v```
 
    ビルドが完了したら、_outputフォルダが生成され、さらにそのbinの下にkubeadmのバイナリが格納されます。
    このバイナリを利用しクラスタをデプロイすれば、有効期間が１０分になります。
 
-   ## 証明書の確認＆更新
+## 証明書の確認＆更新
 
 1. 3 nodeのクラスタを構築し、証明書の有効期間が残り４分になっている
 
-   ````
+   ````bash
    root@wenhan-adm-cp:~# ./kubeadm alpha certs check-expiration
    [check-expiration] Reading configuration from the cluster...
    [check-expiration] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
@@ -102,9 +100,7 @@ draft: false
 
 2. 期限が切れた後、kubectl get nodeが失敗になりました。
 
-   ```
-   期限が切れた後、kubectl get nodeが失敗になりました。
-   
+   ```bash
    root@wenhan-adm-cp:~# ./kubeadm alpha certs check-expiration
    [check-expiration] Reading configuration from the cluster...
    [check-expiration] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
@@ -134,7 +130,7 @@ draft: false
 
 3. 証明書を更新し、新しい有効期限を確認
 
-   ```
+   ```bash
    root@wenhan-adm-cp:~# ./kubeadm alpha certs renew all --config=kubeadm.yaml
    W0624 06:04:00.447612   2860 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
    certificate embedded in the kubeconfig file for the admin to use and for kubeadm itself renewed
@@ -151,7 +147,7 @@ draft: false
 
    証明書の更新が終わったら、各証明書の期限が更新された
 
-   ```
+   ```bash
    root@wenhan-adm-cp:~# ./kubeadm alpha certs check-expiration
    [check-expiration] Reading configuration from the cluster...
    [check-expiration] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
@@ -178,19 +174,15 @@ draft: false
 
 4. 証明書が更新されたら、Control planeの再起動を行う
 
-   ```
+   ```bash
    root@wenhan-adm-cp:~# reboot
    ```
-
-   
-
-   
 
    これで証明書の更新が完了しました。
 
    再起動後、新しい認証ファイルでクラスタにアクセスすることができました。
 
-   ```
+   ```bash
    root@wenhan-adm-cp:~# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
    cp: overwrite '/root/.kube/config'? yes
    
@@ -200,8 +192,3 @@ draft: false
    wenhan-adm-wk1  Ready   <none>  13m  v1.18.18
    wenhan-adm-wk2  Ready   <none>  13m  v1.18.18
    ```
-
-   
-
-   
-

@@ -9,7 +9,7 @@ tags:
 Apart of `date`, awk also has below built-in time functions which will help you
 to resolve time convert problem
 
-# systime()
+## systime()
 
 This will return the current time as the number of seconds since the Epoch (1970-01-01 00:00:00).
 
@@ -20,23 +20,23 @@ $ awk 'BEGIN {
 Number of seconds since the Epoch = 1511480989
 ```
 
-# mktime(YYYY MM DD HH MM SS)
+## mktime(YYYY MM DD HH MM SS)
 
 This will convert date string "YYYY MM DD HH MM SS"b to the numbaer of secondss
 since the Epoch. It is the hsame output with systime.
 
-```
+```bash
 $ awk 'BEGIN {
    print "Number of seconds since the Epoch = " mktime("2017 11 24 08 52 10")
 }'
 Number of seconds since the Epoch = 1511481130
 ```
 
-# strftime()
+## strftime()
 
 This will formats timestamps according to the specfification in format.
 
-```
+```bash
 $ awk 'BEGIN {
 >    print strftime("Time = %m/%d/%Y %H:%M:%S", systime())
 > }'
@@ -45,7 +45,7 @@ Time = 11/24/2017 08:54:15
 
 Below time formats are supported by AWK:
 
-```text
+```AWK
 %a
 The locale’s abbreviated weekday name.
 

@@ -9,18 +9,20 @@ Vimのプラグインを管理する人気のツール、Vundleの利用メモ
 本家のサイト：[https://github.com/VundleVim/Vundle.vim]
 
 Vundleを利用するメリット
+
 - プラグインを`.vimrc`でインストール/更新/削除できる
 - 名前だけ書けば自動で探してくれる
 
-# インストール
+## インストール
+
 以下のコマンドで、ファイルをコピーするだけでインストール完了
 
 ```Bash
-$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ```
 
+## 設定
 
-# 設定
 以下の設定内容を`.vimrc`のトップに記入する。
 説明のためいくつかの行がイメージになっている。
 実際利用するときにコメントアウトする必要がある。
@@ -71,7 +73,8 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 ```
 
-# Vimのプラグインをインストールする
+## Vimのプラグインをインストールする
+
 例として、ファイルエクスプローラーの機能を提供するプラグイン「NERDTree」を入れてみよう
 `call vundle#end()`の前に、NERDTreeのgitのリンクを記入
 
@@ -89,7 +92,7 @@ Vimを起動し、`:PluginInstall`を実行
 
 そして画面に以下のログが出るはず
 
-```
+```log
   " Installing plugins to /Users/shiwenhan/.vim/bundle     
 . Plugin 'VundleVim/Vundle.vim'                            
 . Plugin 'git@github.com:scrooloose/nerdtree.git'          
@@ -97,7 +100,8 @@ Vimを起動し、`:PluginInstall`を実行
 ```
 
 `l`を押してログを確認
-```
+
+```log
 [2016-11-21 00:56:51]                                       
 [2016-11-21 00:56:51] Plugin git@github.com:scrooloose/nerdtree.git
 [2016-11-21 00:56:51] $ git clone --recursive 'git@github.com:scrooloose/nerdtree.git' '/Users/shiwenhan/.vim/bundle/nerdtree'

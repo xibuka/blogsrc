@@ -11,4 +11,4 @@ Then I found below and upgrade my bios firmware to 3.53, and everything works
 just fine!
 You can find the v3.53 on below link.
 
-http://forum.asrock.com/forum_posts.asp?TID=12059&title=fatal1ty-b450-gamingitx-restore-on-ac-power-loss
+[http://forum.asrock.com/forum_posts.asp?TID=12059&title=fatal1ty-b450-gamingitx-restore-on-ac-power-loss](http://forum.asrock.com/forum_posts.asp?TID=12059&title=fatal1ty-b450-gamingitx-restore-on-ac-power-loss)
