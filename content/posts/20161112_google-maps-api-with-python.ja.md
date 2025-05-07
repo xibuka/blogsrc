@@ -33,7 +33,7 @@ object?   -> Details about 'object', use 'object??' for extra details.
 
 In [1]: import googlemaps
 
-In [2]: gmaps = googlemaps.Client(key='AIzaSyCuxTpu4wHcCz1M9S3GNLMfbCYmrc-b-dg')
+In [2]: gmaps = googlemaps.Client(key='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-b-dg')
 
 In [3]: directions_result = gmaps.directions('戸塚駅','踊場駅',mode="driving",alternatives=False,language="ja")
 
