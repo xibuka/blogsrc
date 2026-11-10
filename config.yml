@@ -43,7 +43,8 @@ params:
   tocopen: true
   disqusShortname: xibuka
 
-  # assets:
+  assets:
+    favicon: "/favicon.svg"
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
     # favicon: "https://github.com/xibuka/blogsrc/blob/master/static/img/me.jpg"
