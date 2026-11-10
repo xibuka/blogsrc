@@ -1,8 +1,7 @@
 ---
-title: "Search" # in any language you want
+title: "検索"
 layout: "search" # is necessary
-url: "/search"
-description: "Description for Search"
-summary: "search"
-placeholder: "placeholder text in search input box"
+description: "記事を検索"
+summary: "検索"
+placeholder: "検索キーワードを入力"
 ---

@@ -56,4 +56,10 @@ check_page "/" "Wenhan blog"
 check_page "/posts/" "SonarQube"
 check_page "/en/" "Wenhan blog"
 check_page "/zh/" "Wenhan blog"
+check_page "/en/search/" "Search"
+check_page "/zh/search/" "搜索"
+check_page "/en/archives/" "Archives"
+check_page "/zh/archives/" "归档"
+check_page "/en/index.json" '"content"'
+check_page "/zh/index.json" '"content"'
 check_sitemap
