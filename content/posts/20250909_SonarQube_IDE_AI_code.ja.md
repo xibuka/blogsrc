@@ -1,5 +1,6 @@
 ---
 title: "AI生成コードの品質を高めるSonarQube IDEの活用"
+description: "SonarQube IDEでAI生成コードをIDE上でリアルタイム解析し、問題の発見と修正を開発フローに取り入れる方法を紹介します。"
 date: 2025-09-09T23:49:19+09:00
 draft: false
 tags:

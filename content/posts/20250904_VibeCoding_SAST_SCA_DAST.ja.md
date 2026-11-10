@@ -1,5 +1,6 @@
 ---
 title: "Vibe Codingを強くする基礎知識：SAST、SCA、DASTとは"
+description: "Vibe Codingで押さえておきたいSAST、SCA、DASTの違いを解説し、コード・依存関係・実行中アプリの各リスクを整理します。"
 date: 2025-09-04T23:49:19+09:00
 draft: false
 tags:

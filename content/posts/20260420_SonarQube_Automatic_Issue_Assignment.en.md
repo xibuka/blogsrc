@@ -1,5 +1,6 @@
 ---
 title: "Streamlining Technical Debt Management with SonarQube Automatic Issue Assignment"
+description: "Learn how SonarQube automatically assigns issues to the developers who introduced them, helping teams make code-quality ownership clearer."
 date: 2026-04-20T23:49:19+09:00
 draft: false
 tags:

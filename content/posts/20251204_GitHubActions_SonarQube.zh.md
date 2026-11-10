@@ -1,5 +1,6 @@
 ---
 title: "集成 GitHub Actions，自动分析 Pull Request"
+description: "构建 GitHub Actions 工作流，自动运行 SonarQube 分析并检查每个 Pull Request 的代码质量。"
 date: 2025-12-04T23:49:19+09:00
 draft: false
 tags:

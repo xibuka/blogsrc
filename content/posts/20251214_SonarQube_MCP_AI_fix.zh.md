@@ -1,5 +1,6 @@
 ---
 title: "SonarQube × MCP 实战：让 AI 根据静态分析结果修复代码"
+description: "将 SonarQube MCP 与 AI 编码工具连接，获取静态分析 Issue、修复代码并重新分析验证。"
 date: 2025-12-14T23:49:19+09:00
 draft: false
 tags:

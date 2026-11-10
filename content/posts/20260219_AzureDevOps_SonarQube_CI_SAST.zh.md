@@ -1,5 +1,6 @@
 ---
 title: "使用 Azure DevOps 和 SonarQube 实现 CI SAST 扫描"
+description: "演示如何将 SonarQube SAST 集成到 Azure DevOps Pipeline，在 Pull Request 中查看 Quality Gate 和代码问题。"
 date: 2026-02-19T23:49:19+09:00
 draft: false
 tags:

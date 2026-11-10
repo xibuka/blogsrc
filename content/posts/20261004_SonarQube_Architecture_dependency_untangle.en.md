@@ -1,5 +1,6 @@
 ---
 title: "Visualizing Tangled Module Dependencies with SonarQube"
+description: "Learn how SonarQube Architecture visualizes module dependencies and cycles, and how Request Removal turns unwanted dependencies into trackable issues."
 date: 2026-10-04T23:49:19+09:00
 draft: false
 tags:

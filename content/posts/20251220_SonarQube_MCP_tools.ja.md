@@ -1,5 +1,6 @@
 ---
 title: "SonarQube MCP Serverで利用可能なツール一覧"
+description: "SonarQube MCP Serverで利用できるツールを機能別に整理し、Issue検索、Quality Gate確認、メトリクス取得などの用途を紹介します。"
 date: 2025-12-20T23:49:19+09:00
 draft: false
 tags:

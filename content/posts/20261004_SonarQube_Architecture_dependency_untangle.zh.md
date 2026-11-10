@@ -1,5 +1,6 @@
 ---
 title: "模块内依赖纠缠，SonarQube 如何将其可视化？"
+description: "介绍如何用 SonarQube Architecture 可视化模块依赖与循环依赖，并通过 Request Removal 将不合理依赖转为可跟踪的 Issue。"
 date: 2026-10-04T23:49:19+09:00
 draft: false
 tags:

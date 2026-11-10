@@ -1,5 +1,6 @@
 ---
 title: "Available Tools in the SonarQube MCP Server"
+description: "A categorized reference to SonarQube MCP Server tools for searching issues, checking Quality Gates, retrieving metrics, and more."
 date: 2025-12-20T23:49:19+09:00
 draft: false
 tags:

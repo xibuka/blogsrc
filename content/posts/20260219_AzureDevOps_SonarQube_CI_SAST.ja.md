@@ -1,5 +1,6 @@
 ---
 title: "Azure DevOpsとSonarQubeで実現するCI SASTスキャン"
+description: "Azure DevOps PipelineとSonarQubeを連携し、CIでSAST解析を実行してPull RequestにQuality GateとIssueを表示する手順を解説します。"
 date: 2026-02-19T23:49:19+09:00
 draft: false
 tags:

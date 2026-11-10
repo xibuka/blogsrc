@@ -1,5 +1,6 @@
 ---
 title: "Automatically Analyze Pull Requests with GitHub Actions and SonarQube"
+description: "Build a GitHub Actions workflow that runs SonarQube analysis and automatically checks code quality for every pull request."
 date: 2025-12-04T23:49:19+09:00
 draft: false
 tags:

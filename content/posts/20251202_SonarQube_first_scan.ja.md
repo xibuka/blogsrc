@@ -1,5 +1,6 @@
 ---
 title: "Hello World！初めてのコードスキャンを実行してみよう"
+description: "SonarQubeでプロジェクトを作成し、初めてのコードスキャンを実行するまでを画面付きで解説する入門ガイドです。"
 date: 2025-12-02T23:49:19+09:00
 draft: false
 tags:

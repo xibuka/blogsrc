@@ -1,5 +1,6 @@
 ---
 title: "SonarQube MCP Serverの機能一覧：静的コード解析"
+description: "SonarQube MCP Serverの機能と設定方法を紹介し、AIアシスタントから静的解析のIssueやQuality Gateを確認する流れを解説します。"
 date: 2025-12-16T23:49:19+09:00
 draft: false
 tags:

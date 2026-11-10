@@ -1,5 +1,6 @@
 ---
 title: "Hello World！运行第一次代码扫描"
+description: "通过分步截图介绍如何在 SonarQube 中创建项目并运行第一次代码扫描。"
 date: 2025-12-02T23:49:19+09:00
 draft: false
 tags:

@@ -1,5 +1,6 @@
 ---
 title: "Essential Security Basics for Vibe Coding: SAST, SCA, and DAST"
+description: "Understand SAST, SCA, and DAST for Vibe Coding, and learn how each approach detects risks in source code, dependencies, and running apps."
 date: 2025-09-04T23:49:19+09:00
 draft: false
 tags:

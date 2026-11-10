@@ -1,5 +1,6 @@
 ---
 title: "SonarQubeの自動Issue割り当てで、コードの負債管理をスムーズにする"
+description: "SonarQubeの自動Issue割り当てを設定し、コード変更者に課題を割り当てて修正責任を明確にする方法を紹介します。"
 date: 2026-04-20T23:49:19+09:00
 draft: false
 tags:

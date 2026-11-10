@@ -1,5 +1,6 @@
 ---
 title: "Improving AI-Generated Code Quality with SonarQube IDE"
+description: "Use SonarQube IDE to analyze AI-generated code in real time, catch issues while coding, and bring fixes into your development workflow."
 date: 2025-09-09T23:49:19+09:00
 draft: false
 tags:

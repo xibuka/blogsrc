@@ -1,5 +1,6 @@
 ---
 title: "SonarQube MCP Server 可用工具一览"
+description: "按功能整理 SonarQube MCP Server 的工具，涵盖 Issue 搜索、Quality Gate 检查、指标查询等用途。"
 date: 2025-12-20T23:49:19+09:00
 draft: false
 tags:

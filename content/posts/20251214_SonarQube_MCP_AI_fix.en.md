@@ -1,5 +1,6 @@
 ---
 title: "SonarQube × MCP: Fixing Static Analysis Issues with AI Coding"
+description: "Connect SonarQube MCP to an AI coding assistant to retrieve static-analysis issues, fix the code, and verify the result with a new analysis."
 date: 2025-12-14T23:49:19+09:00
 draft: false
 tags:

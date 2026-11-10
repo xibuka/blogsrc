@@ -1,5 +1,6 @@
 ---
 title: "SonarQube MCP Server Features: Static Code Analysis"
+description: "Explore SonarQube MCP Server capabilities and setup, then see how an AI assistant can inspect static-analysis issues and Quality Gates."
 date: 2025-12-16T23:49:19+09:00
 draft: false
 tags:

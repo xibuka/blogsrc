@@ -1,5 +1,6 @@
 ---
 title: "モジュール内の依存もつれ、SonarQubeはどう見える化してくれるのか?"
+description: "SonarQube Architectureでモジュール間の依存関係や循環依存を可視化し、Request Removalを使って依存のもつれをIssueとして管理する方法を紹介します。"
 date: 2026-10-04T23:49:19+09:00
 draft: false
 tags:

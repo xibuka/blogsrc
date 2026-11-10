@@ -1,5 +1,6 @@
 ---
 title: "使用 SonarQube IDE 提升 AI 生成代码的质量"
+description: "介绍如何用 SonarQube IDE 实时分析 AI 生成代码，在开发过程中发现并修复问题。"
 date: 2025-09-09T23:49:19+09:00
 draft: false
 tags:

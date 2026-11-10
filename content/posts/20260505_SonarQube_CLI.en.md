@@ -1,5 +1,6 @@
 ---
 title: "Trying the SonarQube CLI: Simpler, Smarter Static Analysis"
+description: "Learn how to install and use the SonarQube CLI to analyze a project locally or in CI, with a simpler workflow for static code analysis."
 date: 2026-05-05T23:49:19+09:00
 draft: false
 tags:

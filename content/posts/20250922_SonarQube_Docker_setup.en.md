@@ -1,5 +1,6 @@
 ---
 title: "Start SonarQube Quickly with Docker Compose"
+description: "A practical guide to running SonarQube with Docker, from starting the container to signing in for the first time."
 date: 2025-09-22T23:49:19+09:00
 draft: false
 tags:

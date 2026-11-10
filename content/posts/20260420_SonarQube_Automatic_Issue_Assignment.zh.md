@@ -1,5 +1,6 @@
 ---
 title: "使用 SonarQube 自动分配 Issue，简化代码债务管理"
+description: "介绍如何配置 SonarQube 自动分配 Issue，将问题分配给引入代码变更的开发者，明确质量问题的跟进责任。"
 date: 2026-04-20T23:49:19+09:00
 draft: false
 tags:

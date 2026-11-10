@@ -1,5 +1,6 @@
 ---
 title: "SonarQube CLI を使ってみた。静的解析をよりシンプル＆スマートに"
+description: "SonarQube CLIの基本的な使い方を紹介します。CLIの導入からプロジェクト解析まで、ローカルやCIで静的解析を実行する手順を解説します。"
 date: 2026-05-05T23:49:19+09:00
 draft: false
 tags:

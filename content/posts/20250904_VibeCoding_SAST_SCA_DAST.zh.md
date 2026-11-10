@@ -1,5 +1,6 @@
 ---
 title: "让 Vibe Coding 更稳健的基础知识：SAST、SCA 与 DAST"
+description: "讲解 Vibe Coding 中的 SAST、SCA、DAST，梳理它们如何分别检查源代码、依赖组件和运行中的应用。"
 date: 2025-09-04T23:49:19+09:00
 draft: false
 tags:

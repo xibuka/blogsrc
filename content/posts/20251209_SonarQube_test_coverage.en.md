@@ -1,5 +1,6 @@
 ---
 title: "Visualizing Test Coverage with SonarQube: A Practical Guide"
+description: "Measure Maven test coverage with JaCoCo, import the report into SonarQube, and inspect coverage in dashboards and source code."
 date: 2025-12-09T23:49:19+09:00
 draft: false
 tags:

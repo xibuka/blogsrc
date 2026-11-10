@@ -1,5 +1,6 @@
 ---
 title: "Hello World! Run Your First Code Scan"
+description: "A beginner-friendly walkthrough for creating a SonarQube project and running your first code scan, with step-by-step screenshots."
 date: 2025-12-02T23:49:19+09:00
 draft: false
 tags:

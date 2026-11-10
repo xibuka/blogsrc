@@ -1,5 +1,6 @@
 ---
 title: "使用 SonarQube 可视化测试覆盖率：实践指南"
+description: "使用 JaCoCo 测量 Maven 项目的测试覆盖率，将报告导入 SonarQube，并在仪表板和源码中查看结果。"
 date: 2025-12-09T23:49:19+09:00
 draft: false
 tags:

@@ -1,5 +1,6 @@
 ---
 title: "GitHub Actionsと連携してPRを自動解析する"
+description: "GitHub ActionsからSonarQube解析を実行し、Pull Requestごとにコード品質を自動チェックするワークフローを構築します。"
 date: 2025-12-04T23:49:19+09:00
 draft: false
 tags:

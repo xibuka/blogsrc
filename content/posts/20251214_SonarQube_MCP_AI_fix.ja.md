@@ -1,5 +1,6 @@
 ---
 title: "SonarQube × MCP完全ガイド：静的解析結果をAIコーディングで修正する"
+description: "SonarQube MCPとAIコーディングツールを連携し、静的解析Issueを取得してコード修正、再解析する実践手順を紹介します。"
 date: 2025-12-14T23:49:19+09:00
 draft: false
 tags:

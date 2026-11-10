@@ -1,5 +1,6 @@
 ---
 title: "使用 Docker Compose 快速启动 SonarQube"
+description: "介绍使用 Docker 启动 SonarQube 的步骤，涵盖容器运行和首次登录。"
 date: 2025-09-22T23:49:19+09:00
 draft: false
 tags:

@@ -1,5 +1,6 @@
 ---
 title: "Docker ComposeでSonarQubeを手軽に起動する"
+description: "Dockerを使ってSonarQubeを起動する手順を、コンテナーの準備から初回ログインまで分かりやすく紹介します。"
 date: 2025-09-22T23:49:19+09:00
 draft: false
 tags:

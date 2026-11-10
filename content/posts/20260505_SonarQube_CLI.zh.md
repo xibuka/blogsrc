@@ -1,5 +1,6 @@
 ---
 title: "体验 SonarQube CLI：让静态分析更简单、更智能"
+description: "介绍 SonarQube CLI 的安装与基本用法，演示如何在本地或 CI 中分析项目，让静态代码分析更简单。"
 date: 2026-05-05T23:49:19+09:00
 draft: false
 tags:

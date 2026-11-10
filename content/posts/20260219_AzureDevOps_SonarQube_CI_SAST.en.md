@@ -1,5 +1,6 @@
 ---
 title: "CI SAST Scanning with Azure DevOps and SonarQube"
+description: "Set up SonarQube SAST analysis in an Azure DevOps Pipeline and show Quality Gate results and issues directly on pull requests."
 date: 2026-02-19T23:49:19+09:00
 draft: false
 tags:

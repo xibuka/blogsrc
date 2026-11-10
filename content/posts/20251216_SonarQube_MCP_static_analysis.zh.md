@@ -1,5 +1,6 @@
 ---
 title: "SonarQube MCP Server 功能介绍：静态代码分析"
+description: "介绍 SonarQube MCP Server 的功能与配置，并说明如何让 AI 助手查询静态分析 Issue 和 Quality Gate。"
 date: 2025-12-16T23:49:19+09:00
 draft: false
 tags:

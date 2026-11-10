@@ -1,5 +1,6 @@
 ---
 title: "SonarQubeでテストカバレッジを可視化する：実践ガイド"
+description: "MavenプロジェクトのテストカバレッジをJaCoCoで計測し、SonarQubeに取り込んでダッシュボードやソースコード上で可視化します。"
 date: 2025-12-09T23:49:19+09:00
 draft: false
 tags:
