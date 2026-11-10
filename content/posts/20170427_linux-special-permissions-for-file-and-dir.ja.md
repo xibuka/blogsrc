@@ -1,6 +1,8 @@
 ---
 title: ファイルとディレクトリへの特殊パーミッション
 date: 2017-04-27 23:59:20
+aliases:
+- /posts/20170427_linux-special-permissions-for-file-and-dir.jp/
 tags:
 - Linux
 ---

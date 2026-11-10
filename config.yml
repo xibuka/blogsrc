@@ -119,20 +119,6 @@ params:
     threshold: 0.4
     minMatchCharLength: 0
     keys: ["title", "summary", "content"]
-menu:
-  main:
-    - identifier: archives
-      name: Archives
-      url: /archives/
-      weight: 10
-    - identifier: tags
-      name: Tags
-      url: /tags/
-      weight: 20
-    - identifier: search
-      name: Search
-      url: /search/
-      weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
@@ -165,6 +151,20 @@ languages:
     languageDirection: ltr
     languageName: English
     weight: 2
+    menu:
+      main:
+        - identifier: archives
+          name: Archives
+          url: /archives/
+          weight: 10
+        - identifier: tags
+          name: Tags
+          url: /tags/
+          weight: 20
+        - identifier: search
+          name: Search
+          url: /search/
+          weight: 30
 
   ja:
     disabled: false
@@ -172,6 +172,20 @@ languages:
     languageDirection: ltr
     languageName: 日本語
     weight: 1
+    menu:
+      main:
+        - identifier: archives
+          name: アーカイブ
+          url: /archives/
+          weight: 10
+        - identifier: tags
+          name: タグ
+          url: /tags/
+          weight: 20
+        - identifier: search
+          name: 検索
+          url: /search/
+          weight: 30
 
   zh:
     disabled: false
@@ -179,3 +193,17 @@ languages:
     languageDirection: ltr
     languageName: 中文
     weight: 3
+    menu:
+      main:
+        - identifier: archives
+          name: 归档
+          url: /archives/
+          weight: 10
+        - identifier: tags
+          name: 标签
+          url: /tags/
+          weight: 20
+        - identifier: search
+          name: 搜索
+          url: /search/
+          weight: 30

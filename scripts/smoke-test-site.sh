@@ -52,10 +52,10 @@ check_sitemap() {
   echo "OK: ${url} returned a sitemap (HTTP ${status})"
 }
 
-check_page "/" "Wenhan blog"
+check_page "/" "アーカイブ"
 check_page "/posts/" "SonarQube"
-check_page "/en/" "Wenhan blog"
-check_page "/zh/" "Wenhan blog"
+check_page "/en/" "Archives"
+check_page "/zh/" "归档"
 check_page "/en/search/" "Search"
 check_page "/zh/search/" "搜索"
 check_page "/en/archives/" "Archives"

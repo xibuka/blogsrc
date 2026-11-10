@@ -1,6 +1,8 @@
 ---
 title: Linux ユーザパスワードの有効期限の管理 
 date: 2017-04-27 23:15:00
+aliases:
+- /posts/20170427_linux-password-aging.jp/
 tags:
 - Linux
 ---
