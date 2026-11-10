@@ -1,33 +1,45 @@
-name: Deploy Hugo Site to Github Pages on Master Branch
+name: Build, deploy, and verify Hugo site
 
 on:
   push:
     branches:
       - master
 
+permissions:
+  contents: read
+
+concurrency:
+  group: hugo-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build-deploy:
-    runs-on: ubuntu-20.04
+  build-deploy-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository and submodules
+        uses: actions/checkout@v7
         with:
           submodules: true
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: '0.93.1'
-          # extended: true
 
-      - name: Build
-        run: hugo --minify
+      - name: Build site
+        run: hugo --minify --destination /tmp/blogsrc-public
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy site
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }} # 这里的 ACTIONS_DEPLOY_KEY 则是上面设置 Private Key的变量名
-          external_repository: xibuka/xibuka.github.io # Pages 远程仓库 
-          publish_dir: "public"
-          keep_files: false # remove existing files
-          publish_branch: master  # deploying branch
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: xibuka/xibuka.github.io
+          publish_dir: /tmp/blogsrc-public
+          keep_files: false
+          publish_branch: master
           commit_message: ${{ github.event.head_commit.message }}
+
+      - name: Check deployed website
+        run: bash scripts/smoke-test-site.sh https://wenhan.blog
